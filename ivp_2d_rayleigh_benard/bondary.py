@@ -55,7 +55,7 @@ tau_b1 = dist.Field(name='tau_b1', bases=xbasis)
 tau_b2 = dist.Field(name='tau_b2', bases=xbasis)
 tau_u1 = dist.VectorField(coords, name='tau_u1', bases=xbasis)
 tau_u2 = dist.VectorField(coords, name='tau_u2', bases=xbasis)
-
+tau_c= dist.Field(name='tau_c')
 # Substitutions
 kappa = (Rayleigh * Prandtl)**(-1/2)
 nu = (Rayleigh / Prandtl)**(-1/2)
@@ -68,16 +68,18 @@ grad_b = d3.grad(b) + ez*lift(tau_b1) # First-order reduction
 dz= lambda A: d3.Differentiate(A, coords['z'])
 dx= lambda A: d3.Differentiate(A, coords['x'])
 
+
 # Problem
 # First-order form: "div(f)" becomes "trace(grad_f)"
 # First-order form: "lap(f)" becomes "div(grad_f)"
 problem = d3.IVP([p, b, u, tau_p, tau_b1, tau_b2, tau_u1, tau_u2], namespace=locals())
-problem.add_equation("trace(grad_u) + tau_p = 0")
+problem.add_equation("trace(grad_u) + tau_p= 0")
 problem.add_equation("dt(b) - kappa*div(grad_b) + lift(tau_b2) = - u@grad(b)")
 problem.add_equation("dt(u) - nu*div(grad_u) + grad(p) - b*ez + lift(tau_u2) = - u@grad(u)")
 problem.add_equation("b(z=0) = Lz")
 problem.add_equation("u(z=0) = 0")
 problem.add_equation("b(z=Lz) = 0")
+problem.add_equation("u(z=Lz)@ez(z=Lz) +tau_c= 0")
 problem.add_equation("dz(u)(z=Lz) = 0")
 problem.add_equation("integ(p) = 0") # Pressure gauge
 
