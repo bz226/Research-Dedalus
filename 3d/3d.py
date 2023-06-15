@@ -56,6 +56,7 @@ zbasis = d3.ChebyshevT(coords['z'], size=Nz, bounds=(0, Lz), dealias=dealias)
 p = dist.Field(name='p', bases=(xbasis,ybasis,zbasis))
 b = dist.Field(name='b', bases=(xbasis,ybasis,zbasis))
 u = dist.VectorField(coords, name='u', bases=(xbasis,ybasis,zbasis))
+avgb = dist.Field(name='avgb',bases=(xbasis,zbasis))
 tau_p = dist.Field(name='tau_p')
 tau_b1 = dist.Field(name='tau_b1', bases=(xbasis,ybasis))
 tau_b2 = dist.Field(name='tau_b2', bases=(xbasis,ybasis))
@@ -100,8 +101,10 @@ b['g'] += Lz - z # Add linear background
 
 # %%
 # Analysis
+
 snapshots = solver.evaluator.add_file_handler('snapshots', sim_dt=0.25, max_writes=50)
-snapshots.add_task(d3.Average(u,'y'), name='average buoyancy')
+snapshots.add_task(b,name='buoyancy')
+snapshots.add_task(d3.Average(b,'y'), name='average buoyancy')
 
 # %%
 # CFL
@@ -118,6 +121,7 @@ flow.add_property(np.sqrt(u@u)/nu, name='Re')
 # %%
 # Main loop
 startup_iter = 10
+solver.stop_iteration=6000
 try:
     logger.info('Starting main loop')
     while solver.proceed:

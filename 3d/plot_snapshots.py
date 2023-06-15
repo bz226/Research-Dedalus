@@ -21,7 +21,7 @@ def main(filename, start, count, output):
     """Save plot of specified tasks for given range of analysis writes."""
 
     # Plot settings
-    tasks = ['buoyancy']
+    tasks = ['average buoyancy','buoyancy']
     scale = 1.5
     dpi = 200
     title_func = lambda sim_time: 't = {:.3f}'.format(sim_time)
@@ -33,20 +33,23 @@ def main(filename, start, count, output):
     pad = plot_tools.Frame(0.3, 0, 0, 0)
     margin = plot_tools.Frame(0.2, 0.1, 0, 0)
 
-    # Create multifigure
-    mfig = plot_tools.MultiFigure(nrows, ncols, image, pad, margin, scale)
-    fig = mfig.figure
 
     # Plot writes
     with h5py.File(filename, mode='r') as file:
+        
         for index in range(start, start+count):
-            for n, task in enumerate(tasks):
-                # Build subfigure axes
-                i, j = divmod(n, ncols)
-                axes = mfig.add_axes(i, j, [0, 0, 1, 1])
-                # Call 3D plotting helper, slicing in time
-                dset = file['tasks'][task]
-                plot_tools.plot_bot_3d(dset, 0, index, axes=axes, title=task, even_scale=True, visible_axes=False)
+            avgb = file['tasks']['average buoyancy']
+            t = avgb.dims[0]['sim_time']
+            x = avgb.dims[1]
+            z = avgb.dims[2]
+            # Plot data
+            avb_phase=avgb[:,0,:]
+            plt.figure(figsize=(6,7), dpi=100)
+            plt.pcolormesh(x[:], z[:], avb_phase, shading='nearest', cmap='twilight_shifted')
+            plt.colorbar(label='average buoyancy')
+            plt.xlabel('x')
+            plt.ylabel('z')
+            plt.title('Average buoyancy')
             # Add time title
             title = title_func(file['scales/sim_time'][index])
             title_height = 1 - 0.5 * mfig.margin.top / mfig.fig.y
