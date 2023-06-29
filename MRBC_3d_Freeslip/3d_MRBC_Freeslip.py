@@ -164,7 +164,7 @@ M['g'] += Lz - z # Add linear background
 
 # %%
 # Analysis
-snapshots = solver.evaluator.add_file_handler('snapshots', sim_dt=0.25, max_writes=50)
+snapshots = solver.evaluator.add_file_handler('snapshots', sim_dt=0.25, max_writes=5)
 snapshots.add_task(M, name='moist buoyancy')
 snapshots.add_task(D, name='dry buoyancy')
 snapshots.add_task(u, name='velocity')

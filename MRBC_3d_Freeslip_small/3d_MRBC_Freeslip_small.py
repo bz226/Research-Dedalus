@@ -56,7 +56,7 @@ M_0 = 0
 M_H = -1
 
 dealias = 3/2
-stop_sim_time = 25
+stop_sim_time = 50
 timestepper = d3.RK222
 max_timestep = 0.125
 dtype = np.float64
