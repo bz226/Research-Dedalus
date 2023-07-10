@@ -1,4 +1,3 @@
 *.png
 *.h5
-*.SBATCH
-*.out
+.out
