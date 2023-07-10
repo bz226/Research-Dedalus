@@ -157,10 +157,10 @@ solver.stop_sim_time = stop_sim_time
 # Initial condition
 D.fill_random('g', seed=42, distribution='normal', scale=1e-3) # Random noise
 D['g'] *= z * (Lz - z) # Damp noise at walls
-D['g'] += Lz - z # Add linear background
-M.fill_random('g', seed=42, distribution='normal', scale=1e-3) # Random noise
+D['g'] += (D_H-D_0)*z # Add linear background
+M.fill_random('g', seed=28, distribution='normal', scale=1e-3) # Random noise
 M['g'] *= z * (Lz - z) # Damp noise at walls
-M['g'] += Lz - z # Add linear background
+M['g'] += (M_H-M_0)*z # Add linear background
 
 # %%
 # Analysis
