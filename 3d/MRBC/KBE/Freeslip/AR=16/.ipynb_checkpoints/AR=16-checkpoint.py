@@ -40,8 +40,8 @@ from os import listdir
 
 # %%
 # Parameters
-Lx, Ly, Lz = 32,32,1
-Nx, Ny, Nz = 1024, 1024, 32
+Lx, Ly, Lz = 16,16,1
+Nx, Ny, Nz = 512, 512, 32
 
 Ra_D = -1.24e5
 Prandtl = 0.7
@@ -161,7 +161,7 @@ M['g'] += (M_H-M_0)*z # Add linear background
 
 # %%
 # Analysis
-snapshots = solver.evaluator.add_file_handler('snapshots', sim_dt=0.25, max_writes=5)
+snapshots = solver.evaluator.add_file_handler('snapshots', sim_dt=0.25, max_writes=50)
 snapshots.add_task(M, name='moist buoyancy')
 snapshots.add_task(D, name='dry buoyancy')
 snapshots.add_task(u, name='velocity')

@@ -1,0 +1,6 @@
+2023-07-08 00:34:06,213 matplotlib.animation 0/64 INFO :: Animation.save using <class 'matplotlib.animation.FFMpegWriter'>
+2023-07-08 00:34:06,214 matplotlib.animation 0/64 INFO :: MovieWriter._run: running command: ffmpeg -f rawvideo -vcodec rawvideo -s 3200x800 -pix_fmt rgba -r 4.0 -i pipe: -filter_complex 'split [a][b];[a] palettegen [p];[b][p] paletteuse' -y buoyancygraph.gif
+2023-07-08 00:35:00,388 matplotlib.animation 0/64 INFO :: Animation.save using <class 'matplotlib.animation.FFMpegWriter'>
+2023-07-08 00:35:00,389 matplotlib.animation 0/64 INFO :: MovieWriter._run: running command: ffmpeg -f rawvideo -vcodec rawvideo -s 3200x800 -pix_fmt rgba -r 4.0 -i pipe: -filter_complex 'split [a][b];[a] palettegen [p];[b][p] paletteuse' -y 'liquidwater z=25.gif'
+2023-07-08 00:35:53,113 matplotlib.animation 0/64 INFO :: Animation.save using <class 'matplotlib.animation.FFMpegWriter'>
+2023-07-08 00:35:53,114 matplotlib.animation 0/64 INFO :: MovieWriter._run: running command: ffmpeg -f rawvideo -vcodec rawvideo -s 3200x800 -pix_fmt rgba -r 4.0 -i pipe: -filter_complex 'split [a][b];[a] palettegen [p];[b][p] paletteuse' -y 'liquidwater y=25.gif'
