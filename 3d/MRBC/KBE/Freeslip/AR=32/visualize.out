@@ -1,0 +1,296 @@
+No protocol specified
+No protocol specified
+No protocol specified
+No protocol specified
+2023-07-13 12:41:15,230 matplotlib.animation 0/64 INFO :: Animation.save using <class 'matplotlib.animation.FFMpegWriter'>
+2023-07-13 12:41:15,231 matplotlib.animation 0/64 INFO :: MovieWriter._run: running command: ffmpeg -f rawvideo -vcodec rawvideo -s 3200x800 -pix_fmt rgba -r 4.0 -i pipe: -filter_complex 'split [a][b];[a] palettegen [p];[b][p] paletteuse' -y buoyancygraph.gif
+2023-07-13 12:42:04,390 matplotlib.animation 0/64 INFO :: Animation.save using <class 'matplotlib.animation.FFMpegWriter'>
+2023-07-13 12:42:04,391 matplotlib.animation 0/64 INFO :: MovieWriter._run: running command: ffmpeg -f rawvideo -vcodec rawvideo -s 3200x800 -pix_fmt rgba -r 4.0 -i pipe: -filter_complex 'split [a][b];[a] palettegen [p];[b][p] paletteuse' -y 'liquidwater z=25.gif'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+Traceback (most recent call last):
+  File "/scratch/zb2113/Research-Dedalus/3d/MRBC/KBE/Freeslip/AR=32/visualize.py", line 61, in <module>
+    file_paths = [os.path.join(folder_dir, f) for f in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, f)) and f.endswith('.png')]
+FileNotFoundError: [Errno 2] No such file or directory: 'liquid water z=15'
+srun: error: cm023: tasks 25-27: Exited with exit code 1
+srun: launch/slurm: _step_signal: Terminating StepId=35366268.0
+slurmstepd: error: *** STEP 35366268.0 ON cm001 CANCELLED AT 2023-07-13T12:42:49 ***
+srun: error: cm023: task 24: Exited with exit code 1
+srun: error: cm007: tasks 12,15: Terminated
+srun: error: cm007: tasks 13-14: Exited with exit code 1
+srun: error: cm046: tasks 56,59: Terminated
+srun: error: cm046: tasks 57-58: Exited with exit code 1
+srun: error: cm031: tasks 36-39: Exited with exit code 1
+srun: error: cm005: tasks 8-11: Exited with exit code 1
+srun: error: cm029: tasks 28,31: Terminated
+srun: error: cm029: tasks 29-30: Exited with exit code 1
+srun: error: cm043: tasks 48,51: Terminated
+srun: error: cm043: tasks 49-50: Exited with exit code 1
+srun: error: cm016: tasks 20,23: Terminated
+srun: error: cm016: tasks 21-22: Exited with exit code 1
+srun: error: cm045: tasks 52,55: Terminated
+srun: error: cm045: tasks 53-54: Exited with exit code 1
+srun: error: cm030: tasks 32,35: Terminated
+srun: error: cm030: tasks 33-34: Exited with exit code 1
+srun: error: cm013: tasks 16,19: Terminated
+srun: error: cm013: tasks 17-18: Exited with exit code 1
+srun: error: cm001: tasks 0-3: Exited with exit code 1
+srun: error: cm002: task 4: Terminated
+srun: error: cm002: tasks 5-7: Exited with exit code 1
+srun: error: cm039: task 44: Terminated
+srun: error: cm039: tasks 45-47: Exited with exit code 1
+srun: error: cm038: task 40: Terminated
+srun: error: cm038: tasks 41-43: Exited with exit code 1
+srun: error: cm047: tasks 60,63: Terminated
+srun: error: cm047: tasks 61-62: Exited with exit code 1
+srun: Force Terminated StepId=35366268.0
