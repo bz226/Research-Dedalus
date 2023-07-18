@@ -58,7 +58,7 @@ N_s2=3*D_H
 dealias = 3/2
 stop_sim_time = 200
 timestepper = d3.RK222
-max_timestep = 0.125
+max_timestep = 0.005
 dtype = np.float64
 
 # %%
@@ -171,7 +171,7 @@ snapshots.add_tasks(solver.state, layout='g')
 # %%
 # CFL
 CFL = d3.CFL(solver, initial_dt=max_timestep, cadence=10, safety=0.5, threshold=0.05,
-             max_change=1.5, min_change=0.5, max_dt=max_timestep)
+             max_change=1.1, min_change=0.9, max_dt=max_timestep)
 CFL.add_velocity(u)
 
 # %%

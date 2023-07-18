@@ -1,24 +1,4 @@
 # %%
-"""
-Dedalus script simulating 2D horizontally-periodic Rayleigh-Benard convection.
-This script demonstrates solving a 2D Cartesian initial value problem. It can
-be ran serially or in parallel, and uses the built-in analysis framework to save
-data snapshots to HDF5 files. The `plot_snapshots.py` script can be used to
-produce plots from the saved data. It should take about 5 cpu-minutes to run.
-
-For incompressible hydro with two boundaries, we need two tau terms for each the
-velocity and buoyancy. Here we choose to use a first-order formulation, putting
-one tau term each on auxiliary first-order gradient variables and the others in
-the PDE, and lifting them all to the first derivative basis. This formulation puts
-a tau term in the divergence constraint, as required for this geometry.
-
-To run and plot using e.g. 4 processes:
-    $ mpiexec -n 4 python3 rayleigh_benard.py
-    $ mpiexec -n 4 python3 plot_snapshots.py snapshots/*.h5
-"""
-
-
-# %%
 import numpy as np
 import dedalus.public as d3
 import logging
@@ -27,6 +7,7 @@ import copy
 import h5py
 import numpy as np
 import matplotlib
+import re
 
 import matplotlib.pyplot as plt
 from dedalus.extras import plot_tools
@@ -38,32 +19,27 @@ import os
 from os import listdir
 
 
+# %%
 # Parameters
 Lx, Ly, Lz = 20,20,1
 Nx, Ny, Nz = 640, 640, 32
 
-Ra_D = -1.24e5
-Prandtl = 0.7
-N_s2 = 3
+nu=0.001
+kappa=0.0014
 
 D_0 = 0
-D_H = 1
+D_H = 2.1
 M_0 = 0
-M_H = -2
-f=0.013
+M_H = -3*D_H
+f=0.025
+
+N_s2 = 4*D_H
 
 dealias = 3/2
 stop_sim_time = 200
 timestepper = d3.RK222
 max_timestep = 0.125
 dtype = np.float64
-
-dealias = 3/2
-stop_sim_time = 200
-timestepper = d3.RK222
-max_timestep = 0.125
-dtype = np.float64
-
 # %%
 # Bases
 coords = d3.CartesianCoordinates('x','y', 'z')
@@ -89,20 +65,21 @@ tau_M2 = dist.Field(name='tau_M2', bases=(xbasis,ybasis))
 tau_u1 = dist.VectorField(coords, name='tau_u1', bases=(xbasis,ybasis))
 tau_u2 = dist.VectorField(coords, name='tau_u2', bases=(xbasis,ybasis))
 
+Prandtl = nu/kappa
 # Substitutions
-kappa = (Ra_D * Prandtl/((D_0-D_H)*Lz**3))**(-1/2)
-nu = (Ra_D / (Prandtl*(D_0-D_H)*Lz**3))**(-1/2)
+Ra_D = (D_0-D_H)*Lz**3/(nu*kappa)
+Ra_M = (M_0-M_H)*Lz**3/(nu*kappa)
+print('Ra_D', Ra_D)
+print('Ra_M', Ra_M)
+print('Prandtl', Prandtl)
 
-      
-#Kuo_Bretherton Equilibrium
-
-#Ra_M
-Ra_M = Ra_D*(M_0-M_H)/(D_0-D_H)
 G_D=(D_0-D_H)/Lz
 G_M=(M_0-M_H)/Lz
-Ra_BV=N_s2*Lz**4/(nu*kappa)
-print(Ra_M)
-print(Ra_BV)
+Td=Lz**2/(nu*kappa)**(1/2)
+Tc=(Lz/(M_0-M_H))**(1/2)
+Tr=1/f
+R_0=Tr/Tc
+print(R_0)
 
 x,y,z = dist.local_grids(xbasis,ybasis,zbasis)
 Z['g']=z
@@ -119,7 +96,7 @@ eva = lambda A: A.evaluate()
 
 dz= lambda A: d3.Differentiate(A, coords['z'])
 dx= lambda A: d3.Differentiate(A, coords['x'])
-dy= lambda A: d3.Differentiate(A, Coords['y'])
+dy= lambda A: d3.Differentiate(A, coords['y'])
 
 ux=u@ex
 uy=u@ey
@@ -128,7 +105,6 @@ uz=u@ez
 grad_u = d3.grad(u) + ez*lift(tau_u1) # First-order reduction
 grad_M = d3.grad(M) + ez*lift(tau_M1) # First-order reduction
 grad_D = d3.grad(D) + ez*lift(tau_D1) # First-order reduction
-
 # %%
 # Problem
 # First-order form: "div(f)" becomes "trace(grad_f)"
@@ -140,30 +116,24 @@ problem.add_equation("dt(D) - kappa*div(grad_D) + lift(tau_D2) - G_D*uz= - u@gra
 problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2)+ CrossProduct(f*ez,u)= - u@grad(u)+ B_op*ez")
 problem.add_equation("M(z=0) = M_0")
 problem.add_equation("D(z=0) = D_0")
+problem.add_equation("M(z=Lz) = M_H")
+problem.add_equation("D(z=Lz) = D_H")
 problem.add_equation("u(z=0)= 0")
 problem.add_equation("uz(z=Lz)= 0")
 problem.add_equation("dz(ux)(z=Lz)=0")
 problem.add_equation("dz(uy)(z=Lz)=0")
-problem.add_equation("M(z=Lz) = M_H")
-problem.add_equation("D(z=Lz) = D_H")
 problem.add_equation("integ(p) = 0") # Pressure gauge
 
 # %%
 # Solver
 solver = problem.build_solver(timestepper)
 solver.stop_sim_time = stop_sim_time
+write,dt=solver.load_state('snapshots/snapshots_s37.h5')
 
-# %%
-D.fill_random('g', seed=42, distribution='normal', scale=1e-3) # Random noise
-D['g'] *= z * (Lz - z) # Damp noise at walls
-D['g'] += (D_H-D_0)*z # Add linear background
-M.fill_random('g', seed=28, distribution='normal', scale=1e-3) # Random noise
-M['g'] *= z * (Lz - z) # Damp noise at walls
-M['g'] += (M_H-M_0)*z # Add linear background
 
 # %%
 # Analysis
-snapshots = solver.evaluator.add_file_handler('snapshots', sim_dt=0.25, max_writes=1)
+snapshots = solver.evaluator.add_file_handler('snapshots', sim_dt=0.25, max_writes=1,mode='append')
 snapshots.add_task(M, name='moist buoyancy')
 snapshots.add_task(D, name='dry buoyancy')
 snapshots.add_task(u, name='velocity')
@@ -171,7 +141,7 @@ snapshots.add_tasks(solver.state, layout='g')
 
 # %%
 # CFL
-CFL = d3.CFL(solver, initial_dt=max_timestep, cadence=10, safety=0.5, threshold=0.05,
+CFL = d3.CFL(solver, initial_dt=dt, cadence=10, safety=0.5, threshold=0.05,
              max_change=1.5, min_change=0.5, max_dt=max_timestep)
 CFL.add_velocity(u)
 
@@ -197,6 +167,5 @@ except:
     raise
 finally:
     solver.log_stats()
-
 
 
