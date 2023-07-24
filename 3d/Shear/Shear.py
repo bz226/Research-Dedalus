@@ -59,7 +59,7 @@ N_s2 = 4*D_H
 dealias = 3/2
 stop_sim_time = 200
 timestepper = d3.RK222
-max_timestep = 0.001
+max_timestep = 0.125
 dtype = np.float64
 
 # %%
@@ -157,7 +157,7 @@ D['g'] += (D_H-D_0)*z # Add linear background
 M.fill_random('g', seed=28, distribution='normal', scale=1e-3) # Random noise
 M['g'] *= z * (Lz - z) # Damp noise at walls
 M['g'] += (M_H-M_0)*z # Add linear background
-u['g'] += (ux_0 + w*z)*ex
+ux['g'] += ux_0 + w*z
 
 # %%
 # Analysis
@@ -169,13 +169,13 @@ snapshots.add_tasks(solver.state, layout='g')
 
 # %%
 # CFL
-CFL = d3.CFL(solver, initial_dt=0.00001, cadence=10, safety=0.5, threshold=0.05,
-             max_change=1.1, min_change=0.9, max_dt=max_timestep)
+CFL = d3.CFL(solver, initial_dt=0.001, cadence=1, safety=0.5, threshold=0.05,
+             max_change=1.1, min_change=0., max_dt=max_timestep)
 CFL.add_velocity(u)
 
 # %%
 # Flow properties
-flow = d3.GlobalFlowProperty(solver, cadence=10)
+flow = d3.GlobalFlowProperty(solver, cadence=1)
 flow.add_property(np.sqrt(u@u)/nu, name='Re')
 
 
