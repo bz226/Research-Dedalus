@@ -1,1042 +1,116 @@
-No protocol specified
-No protocol specified
-No protocol specified
-No protocol specified
 kappa 0.003394221166510653
 nu 0.002375954816557457
 248000.0
 372000.00000000006
 R_0 108.78565864408422
-2023-07-14 22:25:55,581 subsystems 0/48 INFO :: Building subproblem matrices 1/2240 (~0%) Elapsed: 0s, Remaining: 13m 27s, Rate: 2.8e+00/s
-2023-07-14 22:26:05,361 subsystems 0/48 INFO :: Building subproblem matrices 63/2240 (~3%) Elapsed: 10s, Remaining: 5m 50s, Rate: 6.2e+00/s
-2023-07-14 22:26:15,326 subsystems 0/48 INFO :: Building subproblem matrices 126/2240 (~6%) Elapsed: 20s, Remaining: 5m 37s, Rate: 6.3e+00/s
-2023-07-14 22:26:25,260 subsystems 0/48 INFO :: Building subproblem matrices 189/2240 (~8%) Elapsed: 30s, Remaining: 5m 26s, Rate: 6.3e+00/s
-2023-07-14 22:26:30,729 subsystems 0/48 INFO :: Building subproblem matrices 224/2240 (~10%) Elapsed: 36s, Remaining: 5m 20s, Rate: 6.3e+00/s
-2023-07-14 22:26:35,371 subsystems 0/48 INFO :: Building subproblem matrices 253/2240 (~11%) Elapsed: 40s, Remaining: 5m 15s, Rate: 6.3e+00/s
-2023-07-14 22:26:45,371 subsystems 0/48 INFO :: Building subproblem matrices 317/2240 (~14%) Elapsed: 50s, Remaining: 5m 04s, Rate: 6.3e+00/s
-2023-07-14 22:26:55,333 subsystems 0/48 INFO :: Building subproblem matrices 379/2240 (~17%) Elapsed: 1m 00s, Remaining: 4m 55s, Rate: 6.3e+00/s
-2023-07-14 22:27:05,329 subsystems 0/48 INFO :: Building subproblem matrices 441/2240 (~20%) Elapsed: 1m 10s, Remaining: 4m 46s, Rate: 6.3e+00/s
-2023-07-14 22:27:06,440 subsystems 0/48 INFO :: Building subproblem matrices 448/2240 (~20%) Elapsed: 1m 11s, Remaining: 4m 45s, Rate: 6.3e+00/s
-2023-07-14 22:27:15,316 subsystems 0/48 INFO :: Building subproblem matrices 504/2240 (~22%) Elapsed: 1m 20s, Remaining: 4m 36s, Rate: 6.3e+00/s
-2023-07-14 22:27:25,306 subsystems 0/48 INFO :: Building subproblem matrices 567/2240 (~25%) Elapsed: 1m 30s, Remaining: 4m 26s, Rate: 6.3e+00/s
-2023-07-14 22:27:35,361 subsystems 0/48 INFO :: Building subproblem matrices 629/2240 (~28%) Elapsed: 1m 40s, Remaining: 4m 16s, Rate: 6.3e+00/s
-2023-07-14 22:27:42,165 subsystems 0/48 INFO :: Building subproblem matrices 672/2240 (~30%) Elapsed: 1m 47s, Remaining: 4m 10s, Rate: 6.3e+00/s
-2023-07-14 22:27:45,337 subsystems 0/48 INFO :: Building subproblem matrices 692/2240 (~31%) Elapsed: 1m 50s, Remaining: 4m 06s, Rate: 6.3e+00/s
-2023-07-14 22:27:55,284 subsystems 0/48 INFO :: Building subproblem matrices 753/2240 (~34%) Elapsed: 2m 00s, Remaining: 3m 57s, Rate: 6.3e+00/s
-2023-07-14 22:28:05,284 subsystems 0/48 INFO :: Building subproblem matrices 816/2240 (~36%) Elapsed: 2m 10s, Remaining: 3m 47s, Rate: 6.3e+00/s
-2023-07-14 22:28:15,295 subsystems 0/48 INFO :: Building subproblem matrices 879/2240 (~39%) Elapsed: 2m 20s, Remaining: 3m 37s, Rate: 6.3e+00/s
-2023-07-14 22:28:17,992 subsystems 0/48 INFO :: Building subproblem matrices 896/2240 (~40%) Elapsed: 2m 23s, Remaining: 3m 34s, Rate: 6.3e+00/s
-2023-07-14 22:28:25,293 subsystems 0/48 INFO :: Building subproblem matrices 942/2240 (~42%) Elapsed: 2m 30s, Remaining: 3m 27s, Rate: 6.3e+00/s
-2023-07-14 22:28:35,303 subsystems 0/48 INFO :: Building subproblem matrices 1003/2240 (~45%) Elapsed: 2m 40s, Remaining: 3m 17s, Rate: 6.3e+00/s
-2023-07-14 22:28:45,286 subsystems 0/48 INFO :: Building subproblem matrices 1066/2240 (~48%) Elapsed: 2m 50s, Remaining: 3m 07s, Rate: 6.3e+00/s
-2023-07-14 22:28:53,859 subsystems 0/48 INFO :: Building subproblem matrices 1120/2240 (~50%) Elapsed: 2m 59s, Remaining: 2m 59s, Rate: 6.3e+00/s
-2023-07-14 22:28:55,285 subsystems 0/48 INFO :: Building subproblem matrices 1129/2240 (~50%) Elapsed: 3m 00s, Remaining: 2m 57s, Rate: 6.3e+00/s
-2023-07-14 22:29:05,265 subsystems 0/48 INFO :: Building subproblem matrices 1192/2240 (~53%) Elapsed: 3m 10s, Remaining: 2m 47s, Rate: 6.3e+00/s
-2023-07-14 22:29:15,354 subsystems 0/48 INFO :: Building subproblem matrices 1253/2240 (~56%) Elapsed: 3m 20s, Remaining: 2m 38s, Rate: 6.3e+00/s
-2023-07-14 22:29:25,341 subsystems 0/48 INFO :: Building subproblem matrices 1316/2240 (~59%) Elapsed: 3m 30s, Remaining: 2m 28s, Rate: 6.3e+00/s
-2023-07-14 22:29:29,779 subsystems 0/48 INFO :: Building subproblem matrices 1344/2240 (~60%) Elapsed: 3m 35s, Remaining: 2m 23s, Rate: 6.3e+00/s
-2023-07-14 22:29:35,339 subsystems 0/48 INFO :: Building subproblem matrices 1379/2240 (~62%) Elapsed: 3m 40s, Remaining: 2m 17s, Rate: 6.3e+00/s
-2023-07-14 22:29:45,313 subsystems 0/48 INFO :: Building subproblem matrices 1442/2240 (~64%) Elapsed: 3m 50s, Remaining: 2m 07s, Rate: 6.3e+00/s
-2023-07-14 22:29:55,308 subsystems 0/48 INFO :: Building subproblem matrices 1505/2240 (~67%) Elapsed: 4m 00s, Remaining: 1m 57s, Rate: 6.3e+00/s
-2023-07-14 22:30:05,496 subsystems 0/48 INFO :: Building subproblem matrices 1566/2240 (~70%) Elapsed: 4m 10s, Remaining: 1m 48s, Rate: 6.3e+00/s
-2023-07-14 22:30:05,814 subsystems 0/48 INFO :: Building subproblem matrices 1568/2240 (~70%) Elapsed: 4m 11s, Remaining: 1m 47s, Rate: 6.3e+00/s
-2023-07-14 22:30:15,314 subsystems 0/48 INFO :: Building subproblem matrices 1628/2240 (~73%) Elapsed: 4m 20s, Remaining: 1m 38s, Rate: 6.3e+00/s
-2023-07-14 22:30:25,311 subsystems 0/48 INFO :: Building subproblem matrices 1691/2240 (~75%) Elapsed: 4m 30s, Remaining: 1m 28s, Rate: 6.3e+00/s
-2023-07-14 22:30:35,284 subsystems 0/48 INFO :: Building subproblem matrices 1754/2240 (~78%) Elapsed: 4m 40s, Remaining: 1m 18s, Rate: 6.3e+00/s
-2023-07-14 22:30:41,309 subsystems 0/48 INFO :: Building subproblem matrices 1792/2240 (~80%) Elapsed: 4m 46s, Remaining: 1m 12s, Rate: 6.3e+00/s
-2023-07-14 22:30:45,270 subsystems 0/48 INFO :: Building subproblem matrices 1817/2240 (~81%) Elapsed: 4m 50s, Remaining: 1m 08s, Rate: 6.3e+00/s
-2023-07-14 22:30:55,249 subsystems 0/48 INFO :: Building subproblem matrices 1880/2240 (~84%) Elapsed: 5m 00s, Remaining: 57s, Rate: 6.3e+00/s
-2023-07-14 22:31:05,223 subsystems 0/48 INFO :: Building subproblem matrices 1943/2240 (~87%) Elapsed: 5m 10s, Remaining: 47s, Rate: 6.3e+00/s
-2023-07-14 22:31:15,372 subsystems 0/48 INFO :: Building subproblem matrices 2003/2240 (~89%) Elapsed: 5m 20s, Remaining: 38s, Rate: 6.3e+00/s
-2023-07-14 22:31:17,433 subsystems 0/48 INFO :: Building subproblem matrices 2016/2240 (~90%) Elapsed: 5m 22s, Remaining: 36s, Rate: 6.3e+00/s
-2023-07-14 22:31:25,348 subsystems 0/48 INFO :: Building subproblem matrices 2066/2240 (~92%) Elapsed: 5m 30s, Remaining: 28s, Rate: 6.3e+00/s
-2023-07-14 22:31:35,335 subsystems 0/48 INFO :: Building subproblem matrices 2129/2240 (~95%) Elapsed: 5m 40s, Remaining: 18s, Rate: 6.3e+00/s
-2023-07-14 22:31:45,331 subsystems 0/48 INFO :: Building subproblem matrices 2192/2240 (~98%) Elapsed: 5m 50s, Remaining: 8s, Rate: 6.3e+00/s
-2023-07-14 22:31:52,933 subsystems 0/48 INFO :: Building subproblem matrices 2240/2240 (~100%) Elapsed: 5m 58s, Remaining: 0s, Rate: 6.3e+00/s
-2023-07-14 22:33:01,386 solvers 0/48 INFO :: Loading solver state from: snapshots/snapshots_s16.h5
+2023-07-21 22:36:55,843 subsystems 0/48 INFO :: Building subproblem matrices 1/2240 (~0%) Elapsed: 0s, Remaining: 14m 38s, Rate: 2.6e+00/s
+2023-07-21 22:37:05,611 subsystems 0/48 INFO :: Building subproblem matrices 62/2240 (~3%) Elapsed: 10s, Remaining: 5m 57s, Rate: 6.1e+00/s
+2023-07-21 22:37:15,547 subsystems 0/48 INFO :: Building subproblem matrices 124/2240 (~6%) Elapsed: 20s, Remaining: 5m 43s, Rate: 6.2e+00/s
+2023-07-21 22:37:25,458 subsystems 0/48 INFO :: Building subproblem matrices 186/2240 (~8%) Elapsed: 30s, Remaining: 5m 31s, Rate: 6.2e+00/s
+2023-07-21 22:37:31,334 subsystems 0/48 INFO :: Building subproblem matrices 224/2240 (~10%) Elapsed: 36s, Remaining: 5m 23s, Rate: 6.2e+00/s
+2023-07-21 22:37:35,579 subsystems 0/48 INFO :: Building subproblem matrices 249/2240 (~11%) Elapsed: 40s, Remaining: 5m 21s, Rate: 6.2e+00/s
+2023-07-21 22:37:45,601 subsystems 0/48 INFO :: Building subproblem matrices 313/2240 (~14%) Elapsed: 50s, Remaining: 5m 09s, Rate: 6.2e+00/s
+2023-07-21 22:37:55,583 subsystems 0/48 INFO :: Building subproblem matrices 374/2240 (~17%) Elapsed: 1m 00s, Remaining: 5m 00s, Rate: 6.2e+00/s
+2023-07-21 22:38:05,489 subsystems 0/48 INFO :: Building subproblem matrices 436/2240 (~19%) Elapsed: 1m 10s, Remaining: 4m 50s, Rate: 6.2e+00/s
+2023-07-21 22:38:07,827 subsystems 0/48 INFO :: Building subproblem matrices 448/2240 (~20%) Elapsed: 1m 12s, Remaining: 4m 50s, Rate: 6.2e+00/s
+2023-07-21 22:38:15,600 subsystems 0/48 INFO :: Building subproblem matrices 497/2240 (~22%) Elapsed: 1m 20s, Remaining: 4m 41s, Rate: 6.2e+00/s
+2023-07-21 22:38:25,505 subsystems 0/48 INFO :: Building subproblem matrices 559/2240 (~25%) Elapsed: 1m 30s, Remaining: 4m 31s, Rate: 6.2e+00/s
+2023-07-21 22:38:35,607 subsystems 0/48 INFO :: Building subproblem matrices 620/2240 (~28%) Elapsed: 1m 40s, Remaining: 4m 22s, Rate: 6.2e+00/s
+2023-07-21 22:38:43,891 subsystems 0/48 INFO :: Building subproblem matrices 672/2240 (~30%) Elapsed: 1m 48s, Remaining: 4m 13s, Rate: 6.2e+00/s
+2023-07-21 22:38:45,476 subsystems 0/48 INFO :: Building subproblem matrices 682/2240 (~30%) Elapsed: 1m 50s, Remaining: 4m 11s, Rate: 6.2e+00/s
+2023-07-21 22:38:55,456 subsystems 0/48 INFO :: Building subproblem matrices 745/2240 (~33%) Elapsed: 2m 00s, Remaining: 4m 01s, Rate: 6.2e+00/s
+2023-07-21 22:39:05,588 subsystems 0/48 INFO :: Building subproblem matrices 806/2240 (~36%) Elapsed: 2m 10s, Remaining: 3m 52s, Rate: 6.2e+00/s
+2023-07-21 22:39:15,485 subsystems 0/48 INFO :: Building subproblem matrices 868/2240 (~39%) Elapsed: 2m 20s, Remaining: 3m 41s, Rate: 6.2e+00/s
+2023-07-21 22:39:20,080 subsystems 0/48 INFO :: Building subproblem matrices 896/2240 (~40%) Elapsed: 2m 25s, Remaining: 3m 37s, Rate: 6.2e+00/s
+2023-07-21 22:39:25,554 subsystems 0/48 INFO :: Building subproblem matrices 931/2240 (~42%) Elapsed: 2m 30s, Remaining: 3m 31s, Rate: 6.2e+00/s
+2023-07-21 22:39:35,516 subsystems 0/48 INFO :: Building subproblem matrices 990/2240 (~44%) Elapsed: 2m 40s, Remaining: 3m 22s, Rate: 6.2e+00/s
+2023-07-21 22:39:45,593 subsystems 0/48 INFO :: Building subproblem matrices 1053/2240 (~47%) Elapsed: 2m 50s, Remaining: 3m 12s, Rate: 6.2e+00/s
+2023-07-21 22:39:55,469 subsystems 0/48 INFO :: Building subproblem matrices 1115/2240 (~50%) Elapsed: 3m 00s, Remaining: 3m 02s, Rate: 6.2e+00/s
+2023-07-21 22:39:56,253 subsystems 0/48 INFO :: Building subproblem matrices 1120/2240 (~50%) Elapsed: 3m 01s, Remaining: 3m 01s, Rate: 6.2e+00/s
+2023-07-21 22:40:05,476 subsystems 0/48 INFO :: Building subproblem matrices 1178/2240 (~53%) Elapsed: 3m 10s, Remaining: 2m 51s, Rate: 6.2e+00/s
+2023-07-21 22:40:15,465 subsystems 0/48 INFO :: Building subproblem matrices 1237/2240 (~55%) Elapsed: 3m 20s, Remaining: 2m 42s, Rate: 6.2e+00/s
+2023-07-21 22:40:25,598 subsystems 0/48 INFO :: Building subproblem matrices 1301/2240 (~58%) Elapsed: 3m 30s, Remaining: 2m 32s, Rate: 6.2e+00/s
+2023-07-21 22:40:32,519 subsystems 0/48 INFO :: Building subproblem matrices 1344/2240 (~60%) Elapsed: 3m 37s, Remaining: 2m 25s, Rate: 6.2e+00/s
+2023-07-21 22:40:35,473 subsystems 0/48 INFO :: Building subproblem matrices 1363/2240 (~61%) Elapsed: 3m 40s, Remaining: 2m 22s, Rate: 6.2e+00/s
+2023-07-21 22:40:45,534 subsystems 0/48 INFO :: Building subproblem matrices 1426/2240 (~64%) Elapsed: 3m 50s, Remaining: 2m 11s, Rate: 6.2e+00/s
+2023-07-21 22:40:55,599 subsystems 0/48 INFO :: Building subproblem matrices 1489/2240 (~66%) Elapsed: 4m 00s, Remaining: 2m 01s, Rate: 6.2e+00/s
+2023-07-21 22:41:05,487 subsystems 0/48 INFO :: Building subproblem matrices 1551/2240 (~69%) Elapsed: 4m 10s, Remaining: 1m 51s, Rate: 6.2e+00/s
+2023-07-21 22:41:08,923 subsystems 0/48 INFO :: Building subproblem matrices 1568/2240 (~70%) Elapsed: 4m 13s, Remaining: 1m 49s, Rate: 6.2e+00/s
+2023-07-21 22:41:15,524 subsystems 0/48 INFO :: Building subproblem matrices 1609/2240 (~72%) Elapsed: 4m 20s, Remaining: 1m 42s, Rate: 6.2e+00/s
+2023-07-21 22:41:25,525 subsystems 0/48 INFO :: Building subproblem matrices 1672/2240 (~75%) Elapsed: 4m 30s, Remaining: 1m 32s, Rate: 6.2e+00/s
+2023-07-21 22:41:35,484 subsystems 0/48 INFO :: Building subproblem matrices 1735/2240 (~77%) Elapsed: 4m 40s, Remaining: 1m 22s, Rate: 6.2e+00/s
+2023-07-21 22:41:44,563 subsystems 0/48 INFO :: Building subproblem matrices 1792/2240 (~80%) Elapsed: 4m 49s, Remaining: 1m 12s, Rate: 6.2e+00/s
+2023-07-21 22:41:45,493 subsystems 0/48 INFO :: Building subproblem matrices 1798/2240 (~80%) Elapsed: 4m 50s, Remaining: 1m 11s, Rate: 6.2e+00/s
+2023-07-21 22:41:55,505 subsystems 0/48 INFO :: Building subproblem matrices 1861/2240 (~83%) Elapsed: 5m 00s, Remaining: 1m 01s, Rate: 6.2e+00/s
+2023-07-21 22:42:05,557 subsystems 0/48 INFO :: Building subproblem matrices 1924/2240 (~86%) Elapsed: 5m 10s, Remaining: 51s, Rate: 6.2e+00/s
+2023-07-21 22:42:15,524 subsystems 0/48 INFO :: Building subproblem matrices 1978/2240 (~88%) Elapsed: 5m 20s, Remaining: 42s, Rate: 6.2e+00/s
+2023-07-21 22:42:21,464 subsystems 0/48 INFO :: Building subproblem matrices 2016/2240 (~90%) Elapsed: 5m 26s, Remaining: 36s, Rate: 6.2e+00/s
+2023-07-21 22:42:25,512 subsystems 0/48 INFO :: Building subproblem matrices 2041/2240 (~91%) Elapsed: 5m 30s, Remaining: 32s, Rate: 6.2e+00/s
+2023-07-21 22:42:35,505 subsystems 0/48 INFO :: Building subproblem matrices 2104/2240 (~94%) Elapsed: 5m 40s, Remaining: 22s, Rate: 6.2e+00/s
+2023-07-21 22:42:45,521 subsystems 0/48 INFO :: Building subproblem matrices 2167/2240 (~97%) Elapsed: 5m 50s, Remaining: 12s, Rate: 6.2e+00/s
+2023-07-21 22:42:55,478 subsystems 0/48 INFO :: Building subproblem matrices 2230/2240 (~100%) Elapsed: 6m 00s, Remaining: 2s, Rate: 6.2e+00/s
+2023-07-21 22:42:57,047 subsystems 0/48 INFO :: Building subproblem matrices 2240/2240 (~100%) Elapsed: 6m 02s, Remaining: 0s, Rate: 6.2e+00/s
+2023-07-21 22:43:10,059 solvers 0/48 INFO :: Loading solver state from: snapshots/snapshots_s304.h5
+2023-07-21 22:43:10,082 solvers 0/48 INFO :: Loading iteration: 1766
+2023-07-21 22:43:10,082 solvers 0/48 INFO :: Loading write: 304
+2023-07-21 22:43:10,082 solvers 0/48 INFO :: Loading sim time: 75.59882411854123
+2023-07-21 22:43:10,082 solvers 0/48 INFO :: Loading timestep: 0.125
+2023-07-21 22:43:17,834 __main__ 0/48 INFO :: Starting main loop
 kappa 0.003394221166510653
 nu 0.002375954816557457
 248000.0
 372000.00000000006
 R_0 108.78565864408422
+2023-07-21 22:43:33,144 __main__ 21/48 ERROR :: Exception raised, triggering end of main loop.
 kappa 0.003394221166510653
 nu 0.002375954816557457
 248000.0
 372000.00000000006
 R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-2023-07-14 22:33:01,411 solvers 0/48 INFO :: Loading iteration: 2692
-2023-07-14 22:33:01,411 solvers 0/48 INFO :: Loading write: 800
-2023-07-14 22:33:01,411 solvers 0/48 INFO :: Loading sim time: 199.80508791497226
-2023-07-14 22:33:01,411 solvers 0/48 INFO :: Loading timestep: 0.125
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
+2023-07-21 22:43:33,145 __main__ 22/48 ERROR :: Exception raised, triggering end of main loop.
 kappa 0.003394221166510653
 nu 0.002375954816557457
 248000.0
 372000.00000000006
 R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
+2023-07-21 22:43:33,144 __main__ 8/48 ERROR :: Exception raised, triggering end of main loop.
 kappa 0.003394221166510653
 nu 0.002375954816557457
 248000.0
 372000.00000000006
 R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
+2023-07-21 22:43:33,145 __main__ 11/48 ERROR :: Exception raised, triggering end of main loop.
 kappa 0.003394221166510653
 nu 0.002375954816557457
 248000.0
 372000.00000000006
 R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
+2023-07-21 22:43:33,145 __main__ 9/48 ERROR :: Exception raised, triggering end of main loop.
 kappa 0.003394221166510653
 nu 0.002375954816557457
 248000.0
 372000.00000000006
 R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
+2023-07-21 22:43:33,145 __main__ 10/48 ERROR :: Exception raised, triggering end of main loop.
+2023-07-21 22:43:33,147 __main__ 0/48 ERROR :: Exception raised, triggering end of main loop.
 kappa 0.003394221166510653
 nu 0.002375954816557457
 248000.0
 372000.00000000006
 R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
+2023-07-21 22:43:33,147 __main__ 2/48 ERROR :: Exception raised, triggering end of main loop.
 kappa 0.003394221166510653
 nu 0.002375954816557457
 248000.0
 372000.00000000006
 R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
+2023-07-21 22:43:33,147 __main__ 3/48 ERROR :: Exception raised, triggering end of main loop.
 kappa 0.003394221166510653
 nu 0.002375954816557457
 248000.0
 372000.00000000006
 R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-kappa 0.003394221166510653
-nu 0.002375954816557457
-248000.0
-372000.00000000006
-R_0 108.78565864408422
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-Traceback (most recent call last):
-  File "/scratch/zb2113/Research-Dedalus/3d/RMRBC/KBE/TopFreeslipBotNoslip/AR=20 diffpara/restart.py", line 136, in <module>
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    write,dt=solver.load_state('snapshots/snapshots_s16.h5')
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/solvers.py", line 591, in load_state
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-    field.load_from_hdf5(file, index)
-  File "/ext3/miniconda3/lib/python3.10/site-packages/dedalus/core/field.py", line 755, in load_from_hdf5
-    dset = file['tasks'][task]
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "/ext3/miniconda3/lib/python3.10/site-packages/h5py/_hl/group.py", line 357, in __getitem__
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-    oid = h5o.open(self.id, self._e(name), lapl=self._lapl)
-  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
-  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
-  File "h5py/h5o.pyx", line 190, in h5py.h5o.open
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-KeyError: "Unable to open object (object 'p' doesn't exist)"
-srun: error: cm021: tasks 1-3: Exited with exit code 1
-srun: launch/slurm: _step_signal: Terminating StepId=35405045.0
-slurmstepd: error: *** STEP 35405045.0 ON cm021 CANCELLED AT 2023-07-14T22:33:06 ***
-srun: error: cm050: tasks 45-46: Exited with exit code 1
-srun: error: cm022: tasks 4,7: Terminated
-srun: error: cm022: tasks 5-6: Exited with exit code 1
-srun: error: cm047: tasks 32,35: Terminated
-srun: error: cm047: tasks 33-34: Exited with exit code 1
-srun: error: cm023: task 8: Terminated
-srun: error: cm023: tasks 9-11: Exited with exit code 1
-srun: error: cm043: tasks 16,18-19: Terminated
-srun: error: cm043: task 17: Exited with exit code 1
-srun: error: cm050: tasks 44,47: Terminated
-srun: error: cm021: task 0: Terminated
-srun: error: cm049: tasks 40,42-43: Terminated
-srun: error: cm049: task 41: Exited with exit code 1
-srun: error: cm044: tasks 20,23: Terminated
-srun: error: cm044: tasks 21-22: Exited with exit code 1
-srun: error: cm045: tasks 24,27: Terminated
-srun: error: cm045: tasks 25-26: Exited with exit code 1
-srun: error: cm042: tasks 12,14-15: Terminated
-srun: error: cm042: task 13: Exited with exit code 1
-srun: error: cm048: tasks 36,38-39: Terminated
-srun: error: cm048: task 37: Exited with exit code 1
-srun: error: cm046: tasks 28,30-31: Terminated
-srun: error: cm046: task 29: Exited with exit code 1
-srun: Force Terminated StepId=35405045.0
+2023-07-21 22:43:33,147 __main__ 1/48 ERROR :: Exception raised, triggering end of main loop.
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 35622293 ON ga027 CANCELLED AT 2023-07-21T23:47:11 ***
+slurmstepd: error: *** STEP 35622293.0 ON ga027 CANCELLED AT 2023-07-21T23:47:11 ***

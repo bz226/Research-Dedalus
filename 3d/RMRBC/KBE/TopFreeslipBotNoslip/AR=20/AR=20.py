@@ -170,8 +170,8 @@ snapshots.add_tasks(solver.state, layout='g')
 
 # %%
 # CFL
-CFL = d3.CFL(solver, initial_dt=0.0001, cadence=10, safety=0.5, threshold=0.05,
-             max_change=1.1, min_change=0.9, max_dt=max_timestep)
+CFL = d3.CFL(solver, initial_dt=0.0001, cadence=1, safety=0.5, threshold=0.05,
+             max_change=1.5, min_change=0, max_dt=max_timestep)
 CFL.add_velocity(u)
 
 # %%

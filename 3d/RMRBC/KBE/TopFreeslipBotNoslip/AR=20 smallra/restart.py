@@ -36,7 +36,7 @@ f=0.013
 N_s2 = 2*D_H
 
 dealias = 3/2
-stop_sim_time = 500
+stop_sim_time = 600
 timestepper = d3.RK222
 max_timestep = 0.125
 dtype = np.float64
@@ -130,7 +130,7 @@ problem.add_equation("integ(p) = 0") # Pressure gauge
 # Solver
 solver = problem.build_solver(timestepper)
 solver.stop_sim_time = stop_sim_time
-write,dt=solver.load_state('snapshots/snapshots_s800.h5')
+write,dt=solver.load_state('snapshots/snapshots_s1683.h5')
 
 
 # %%

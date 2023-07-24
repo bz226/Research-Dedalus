@@ -58,12 +58,6 @@ timestepper = d3.RK222
 max_timestep = 0.125
 dtype = np.float64
 
-dealias = 3/2
-stop_sim_time = 200
-timestepper = d3.RK222
-max_timestep = 0.125
-dtype = np.float64
-
 # %%
 # Bases
 coords = d3.CartesianCoordinates('x','y', 'z')
@@ -171,8 +165,8 @@ snapshots.add_tasks(solver.state, layout='g')
 
 # %%
 # CFL
-CFL = d3.CFL(solver, initial_dt=max_timestep, cadence=10, safety=0.5, threshold=0.05,
-             max_change=1.5, min_change=0.5, max_dt=max_timestep)
+CFL = d3.CFL(solver, initial_dt=0.01, cadence=10, safety=0.5, threshold=0.05,
+             max_change=1.5, min_dt=1e-6, max_dt=max_timestep)
 CFL.add_velocity(u)
 
 # %%

@@ -36,7 +36,7 @@ f=0.025
 N_s2 = 4*D_H
 
 dealias = 3/2
-stop_sim_time = 200
+stop_sim_time = 600
 timestepper = d3.RK222
 max_timestep = 0.125
 dtype = np.float64
@@ -128,7 +128,7 @@ problem.add_equation("integ(p) = 0") # Pressure gauge
 # Solver
 solver = problem.build_solver(timestepper)
 solver.stop_sim_time = stop_sim_time
-write,dt=solver.load_state('snapshots/snapshots_s37.h5')
+write,dt=solver.load_state('snapshots/snapshots_s1886.h5')
 
 
 # %%
@@ -141,13 +141,13 @@ snapshots.add_tasks(solver.state, layout='g')
 
 # %%
 # CFL
-CFL = d3.CFL(solver, initial_dt=dt, cadence=10, safety=0.5, threshold=0.05,
-             max_change=1.5, min_change=0.5, max_dt=max_timestep)
+CFL = d3.CFL(solver, initial_dt=dt, cadence=1, safety=0.5, threshold=0.05,
+             max_change=1.5, min_change=0., max_dt=max_timestep)
 CFL.add_velocity(u)
 
 # %%
 # Flow properties
-flow = d3.GlobalFlowProperty(solver, cadence=10)
+flow = d3.GlobalFlowProperty(solver, cadence=1)
 flow.add_property(np.sqrt(u@u)/nu, name='Re')
 
 
