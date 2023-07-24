@@ -87,6 +87,8 @@ tau_M2 = dist.Field(name='tau_M2', bases=(xbasis,ybasis))
 tau_u1 = dist.VectorField(coords, name='tau_u1', bases=(xbasis,ybasis))
 tau_u2 = dist.VectorField(coords, name='tau_u2', bases=(xbasis,ybasis))
 
+G_D=(D_0-D_H)/Lz
+G_M=(M_0-M_H)/Lz
 Prandtl = nu/kappa
 # Substitutions
 Ra_D = (D_0-D_H)*Lz**3/(nu*kappa)
