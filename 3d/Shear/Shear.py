@@ -157,7 +157,7 @@ D['g'] += (D_H-D_0)*z # Add linear background
 M.fill_random('g', seed=28, distribution='normal', scale=1e-3) # Random noise
 M['g'] *= z * (Lz - z) # Damp noise at walls
 M['g'] += (M_H-M_0)*z # Add linear background
-ux['g'] += ux_0 + w*z
+u['g'] = (ux_0 + w*z)@ex # Linear shear
 
 # %%
 # Analysis
