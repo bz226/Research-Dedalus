@@ -39,6 +39,7 @@ import os
 from os import listdir
 
 
+# %%
 # Parameters
 Lx, Ly, Lz = 20,20,1
 Nx, Ny, Nz = 640, 640, 32
@@ -47,15 +48,15 @@ Ra_M = 6.9e6
 Prandtl = 0.7
 
 
-M_0 = 0
-M_H = -1
 D_0 = 0
-D_H = -M_H/3
+D_H = 1
+M_0 = 0
+M_H = -3*D_H
 N_s2 = 4*D_H
 f=0.025
 
 dealias = 3/2
-stop_sim_time = 600
+stop_sim_time = 500
 timestepper = d3.RK222
 max_timestep = 0.125
 dtype = np.float64

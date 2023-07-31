@@ -43,14 +43,14 @@ from os import listdir
 Lx, Ly, Lz = 20,20,1
 Nx, Ny, Nz = 640, 640, 32
 
-Ra_M = 6.9e6
+Ra_M = 4.3e5
 Prandtl = 0.7
-
 
 M_0 = 0
 M_H = -1
 D_0 = 0
 D_H = -M_H/3
+
 N_s2 = 4*D_H
 f=0.025
 
@@ -162,10 +162,10 @@ M.fill_random('g', seed=28, distribution='normal', scale=1e-3) # Random noise
 M['g'] *= z * (Lz - z) # Damp noise at walls
 M['g'] += (M_H-M_0)*z # Add linear background
 
-# %%
 # Analysis
 snapshots = solver.evaluator.add_file_handler('snapshots', sim_dt=0.25, max_writes=1)
-snapshots.add_tasks(solver.state, layout='g')
+snapshots.add_task(M, name='moist buoyancy')
+snapshots.add_task(D, name='dry buoyancy')
 snapshots.add_task(d3.Integrate(0.5*u@u,coords),name='total KE')
 
 # %%

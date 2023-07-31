@@ -26,8 +26,8 @@ logger = logging.getLogger(__name__)
 import copy
 import h5py
 import numpy as np
-import re
 import matplotlib
+import re
 
 import matplotlib.pyplot as plt
 from dedalus.extras import plot_tools
@@ -39,31 +39,31 @@ import os
 from os import listdir
 
 
+# %%
 # Parameters
 Lx, Ly, Lz = 20,20,1
 Nx, Ny, Nz = 640, 640, 32
 
-Ra_M = 6.9e6
-Prandtl = 0.7
+nu=0.0025
+kappa=0.003
 
-
-M_0 = 0
-M_H = -1
 D_0 = 0
-D_H = -M_H/3
-N_s2 = 4*D_H
-f=0.025
+D_H = 1
+M_0 = 0
+M_H = -D_H
+f=0.013
+
+N_s2 = 2*D_H
 
 dealias = 3/2
 stop_sim_time = 600
 timestepper = d3.RK222
 max_timestep = 0.125
 dtype = np.float64
-
 # %%
 # Bases
-coords = d3.CartesianCoordinates('x','y', 'z')
-dist = d3.Distributor(coords, dtype=dtype)
+coords = d3.CartesianCoordinates('x','y','z')
+dist = d3.Distributor(coords, dtype=dtype,mesh=(10,10,1))
 xbasis = d3.RealFourier(coords['x'], size=Nx, bounds=(0, Lx), dealias=dealias)
 ybasis = d3.RealFourier(coords['y'], size=Ny, bounds=(0, Ly), dealias=dealias)
 zbasis = d3.ChebyshevT(coords['z'], size=Nz, bounds=(0, Lz), dealias=dealias)
@@ -85,24 +85,21 @@ tau_M2 = dist.Field(name='tau_M2', bases=(xbasis,ybasis))
 tau_u1 = dist.VectorField(coords, name='tau_u1', bases=(xbasis,ybasis))
 tau_u2 = dist.VectorField(coords, name='tau_u2', bases=(xbasis,ybasis))
 
+Prandtl = nu/kappa
 # Substitutions
-kappa = (Ra_M * Prandtl/((M_0-M_H)*Lz**3))**(-1/2)
-nu = (Ra_M / (Prandtl*(M_0-M_H)*Lz**3))**(-1/2)
-print('kappa',kappa)
-print('nu',nu)
-      
-#Kuo_Bretherton Equilibrium
+Ra_D = (D_0-D_H)*Lz**3/(nu*kappa)
+Ra_M = (M_0-M_H)*Lz**3/(nu*kappa)
+print('Ra_D', Ra_D)
+print('Ra_M', Ra_M)
+print('Prandtl', Prandtl)
 
-#Ra_M
-Ra_D = Ra_M*(D_0-D_H)/(M_0-M_H)
 G_D=(D_0-D_H)/Lz
 G_M=(M_0-M_H)/Lz
-print(Ra_D)
 Td=Lz**2/(nu*kappa)**(1/2)
 Tc=(Lz/(M_0-M_H))**(1/2)
 Tr=1/f
 R_0=Tr/Tc
-print('R_0',R_0)
+print(R_0)
 
 x,y,z = dist.local_grids(xbasis,ybasis,zbasis)
 Z['g']=z
@@ -140,12 +137,12 @@ problem.add_equation("dt(D) - kappa*div(grad_D) + lift(tau_D2) - G_D*uz= - u@gra
 problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2)+ CrossProduct(f*ez,u)= - u@grad(u)+ B_op*ez")
 problem.add_equation("M(z=0) = M_0")
 problem.add_equation("D(z=0) = D_0")
+problem.add_equation("M(z=Lz) = M_H")
+problem.add_equation("D(z=Lz) = D_H")
 problem.add_equation("u(z=0)= 0")
 problem.add_equation("uz(z=Lz)= 0")
 problem.add_equation("dz(ux)(z=Lz)=0")
 problem.add_equation("dz(uy)(z=Lz)=0")
-problem.add_equation("M(z=Lz) = M_H")
-problem.add_equation("D(z=Lz) = D_H")
 problem.add_equation("integ(p) = 0") # Pressure gauge
 
 # %%
@@ -165,18 +162,19 @@ M['g'] += (M_H-M_0)*z # Add linear background
 # %%
 # Analysis
 snapshots = solver.evaluator.add_file_handler('snapshots', sim_dt=0.25, max_writes=1)
-snapshots.add_tasks(solver.state, layout='g')
+snapshots.add_task(M, name='moist buoyancy')
+snapshots.add_task(D, name='dry buoyancy')
 snapshots.add_task(d3.Integrate(0.5*u@u,coords),name='total KE')
 
 # %%
 # CFL
-CFL = d3.CFL(solver, initial_dt=0.001, cadence=1, safety=0.5, threshold=0.05,
+CFL = d3.CFL(solver, initial_dt=max_timestep, cadence=10, safety=0.5, threshold=0.05,
              max_change=1.5, min_change=0., max_dt=max_timestep)
 CFL.add_velocity(u)
 
 # %%
 # Flow properties
-flow = d3.GlobalFlowProperty(solver, cadence=1)
+flow = d3.GlobalFlowProperty(solver, cadence=10)
 flow.add_property(np.sqrt(u@u)/nu, name='Re')
 
 
@@ -191,9 +189,9 @@ try:
         if (solver.iteration-1) % 10 == 0:
             max_Re = flow.max('Re')
             logger.info('Iteration=%i, Time=%e, dt=%e, max(Re)=%f' %(solver.iteration, solver.sim_time, timestep, max_Re))
-
 except:
     logger.error('Exception raised, triggering end of main loop.')
     raise
 finally:
     solver.log_stats()
+

@@ -39,6 +39,7 @@ import os
 from os import listdir
 
 
+# %%
 # Parameters
 Lx, Ly, Lz = 20,20,1
 Nx, Ny, Nz = 640, 640, 32
@@ -47,15 +48,15 @@ Ra_M = 6.9e6
 Prandtl = 0.7
 
 
-M_0 = 0
-M_H = -1
 D_0 = 0
-D_H = -M_H/3
+D_H = 1
+M_0 = 0
+M_H = -3*D_H
 N_s2 = 4*D_H
 f=0.025
 
 dealias = 3/2
-stop_sim_time = 600
+stop_sim_time = 500
 timestepper = d3.RK222
 max_timestep = 0.125
 dtype = np.float64
@@ -165,12 +166,15 @@ M['g'] += (M_H-M_0)*z # Add linear background
 # %%
 # Analysis
 snapshots = solver.evaluator.add_file_handler('snapshots', sim_dt=0.25, max_writes=1)
+snapshots.add_task(M, name='moist buoyancy')
+snapshots.add_task(D, name='dry buoyancy')
+snapshots.add_task(u, name='velocity')
+snapshots.add_task(d3.Integrate((abs(M-D+N_s2*Z)+M-D+N_s2*Z)/2,'z'), name='vertical int liquid')
 snapshots.add_tasks(solver.state, layout='g')
-snapshots.add_task(d3.Integrate(0.5*u@u,coords),name='total KE')
 
 # %%
 # CFL
-CFL = d3.CFL(solver, initial_dt=0.001, cadence=1, safety=0.5, threshold=0.05,
+CFL = d3.CFL(solver, initial_dt=0.00001, cadence=1, safety=0.5, threshold=0.05,
              max_change=1.5, min_change=0., max_dt=max_timestep)
 CFL.add_velocity(u)
 
@@ -191,7 +195,6 @@ try:
         if (solver.iteration-1) % 10 == 0:
             max_Re = flow.max('Re')
             logger.info('Iteration=%i, Time=%e, dt=%e, max(Re)=%f' %(solver.iteration, solver.sim_time, timestep, max_Re))
-
 except:
     logger.error('Exception raised, triggering end of main loop.')
     raise
