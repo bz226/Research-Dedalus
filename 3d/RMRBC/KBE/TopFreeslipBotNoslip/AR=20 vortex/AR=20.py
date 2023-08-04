@@ -43,7 +43,7 @@ from os import listdir
 Lx, Ly, Lz = 20,20,1
 Nx, Ny, Nz = 640, 640, 32
 
-Ra_M = 6.9e6
+Ra_M = 4.5e5
 Prandtl = 0.7
 
 
@@ -52,7 +52,7 @@ M_H = -1
 D_0 = 0
 D_H = -M_H/3
 N_s2 = 4*D_H
-f=0.025
+f=0.01
 
 dealias = 3/2
 stop_sim_time = 600
@@ -63,7 +63,7 @@ dtype = np.float64
 # %%
 # Bases
 coords = d3.CartesianCoordinates('x','y', 'z')
-dist = d3.Distributor(coords, dtype=dtype)
+dist = d3.Distributor(coords, dtype=dtype,mesh=(10,10,1))
 xbasis = d3.RealFourier(coords['x'], size=Nx, bounds=(0, Lx), dealias=dealias)
 ybasis = d3.RealFourier(coords['y'], size=Ny, bounds=(0, Ly), dealias=dealias)
 zbasis = d3.ChebyshevT(coords['z'], size=Nz, bounds=(0, Lz), dealias=dealias)
@@ -165,7 +165,8 @@ M['g'] += (M_H-M_0)*z # Add linear background
 # %%
 # Analysis
 snapshots = solver.evaluator.add_file_handler('snapshots', sim_dt=0.25, max_writes=1)
-snapshots.add_tasks(solver.state, layout='g')
+snapshots.add_task(M, name='moist buoyancy')
+snapshots.add_task(D, name='dry buoyancy')
 snapshots.add_task(d3.Integrate(0.5*u@u,coords),name='total KE')
 
 # %%

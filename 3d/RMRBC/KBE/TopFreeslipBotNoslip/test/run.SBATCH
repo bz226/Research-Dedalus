@@ -1,9 +1,9 @@
 #!/bin/bash
 
-#SBATCH --nodes=5
-#SBATCH --tasks-per-node=20
+#SBATCH --nodes=10
+#SBATCH --tasks-per-node=10
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=150GB
+#SBATCH --mem=120GB
 #SBATCH --time=24:00:00
 #SBATCH --job-name='AR=20'
 #SBATCH --mail-type=ALL
