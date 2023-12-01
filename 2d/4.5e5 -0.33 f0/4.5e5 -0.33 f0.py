@@ -177,6 +177,7 @@ snapshots.add_task(d3.Average(D, coords['x']), name='horizontal avg D')
 snapshots.add_task(d3.Average(B_op, coords['x']), name='horizontal avg B')
 snapshots.add_task(d3.Average(lq, coords['x']), name='horizontal avg liquid')
 snapshots.add_task(uz, name='uz')
+snapshots.add_task(d3.Integrate((u@u+uy*uy)/2, coords), name='total KE')
 
 # %%
 # CFL
