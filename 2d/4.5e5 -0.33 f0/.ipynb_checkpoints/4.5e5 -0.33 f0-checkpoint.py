@@ -48,7 +48,6 @@ D_H = 1/3
 M_0 = 0
 M_H = -1
 N_s2=4/3
-f=0.1
 
 Prandtl = 0.7
 dealias = 3/2
@@ -72,6 +71,7 @@ M = dist.Field(name='M', bases=(xbasis,zbasis))
 u = dist.VectorField(coords, name='u', bases=(xbasis,zbasis))
 uy = dist.Field(name='uy', bases=(xbasis,zbasis))
 Z = dist.Field(name='Z', bases=zbasis)
+
 tau_p = dist.Field(name='tau_p')
 tau_B1 = dist.Field(name='tau_B1', bases=xbasis)
 tau_B2 = dist.Field(name='tau_B2', bases=xbasis)
@@ -81,7 +81,7 @@ tau_M1 = dist.Field(name='tau_M1', bases=xbasis)
 tau_M2 = dist.Field(name='tau_M2', bases=xbasis)
 tau_u1 = dist.VectorField(coords,name='tau_u1', bases=xbasis)
 tau_u2 = dist.VectorField(coords,name='tau_u2', bases=xbasis)
-tau_u3 = dist.VectorField(coords,name='tau_u3', bases=xbasis)
+tau_u3 = dist.Field(name='tau_u3', bases=xbasis)
 tau_u4 = dist.Field(name='tau_u4', bases=xbasis)
 
 # Substitutions    
@@ -90,6 +90,11 @@ kappa = (Ra_M * Prandtl/((M_0-M_H)*Lz**3))**(-1/2)
 nu = (Ra_M / (Prandtl*(M_0-M_H)*Lz**3))**(-1/2)
 print('kappa',kappa)
 print('nu',nu)
+Td=Lz**2/(nu*kappa)**(1/2)
+Tc=(Lz/(M_0-M_H))**(1/2)
+Tr=1/f
+R_0=Tr/Tc
+print('R_0',R_0)
 
 
 x,z = dist.local_grids(xbasis,zbasis)
@@ -101,6 +106,9 @@ lift_basis = zbasis.derivative_basis(1)
 lift = lambda A: d3.Lift(A, lift_basis, -1)
 
 B_op = (np.absolute(D - M - N_s2*Z)+ M + D - N_s2*Z)/2
+lq = B_op/2 + np.absolute(B_op)
+
+
 
 Max = lambda A,B: (abs(A-N_s2*Z-B)+A-N_s2*Z+B)/2
 eva = lambda A: A.evaluate()
@@ -118,8 +126,10 @@ dzuz=dz(uz)
 grad_u = d3.grad(u) + ez* lift(tau_u1) # First-order reduction
 grad_ux = grad_u@ex # First-order reduction
 grad_uz = grad_u@ez # First-order reduction
+grad_uy = d3.grad(uy) + ez*lift(tau_u3)# First-order reduction 
 grad_M = d3.grad(M) + ez*lift(tau_M1) # First-order reduction
 grad_D = d3.grad(D) + ez*lift(tau_D1) # First-order reduction
+
 
 # %%
 # Problem
@@ -157,8 +167,15 @@ M['g'] += (M_H-M_0)*z # Add linear background
 
 # %%
 # Analysis
-snapshots = solver.evaluator.add_file_handler('snapshots', sim_dt=0.25, max_writes=50)
+snapshots = solver.evaluator.add_file_handler('snapshots', sim_dt=0.25, max_writes=1)
 snapshots.add_tasks(solver.state,layout='g')
+snapshots.add_task(d3.Average(dz(D),coords['x']),name='temp Nu')
+snapshots.add_task(d3.Average(uy,coords['x']), name='horizontal avg uy')
+snapshots.add_task(d3.Average(M, coords['x']), name='horizontal avg M')
+snapshots.add_task(d3.Average(D, coords['x']), name='horizontal avg D')
+snapshots.add_task(d3.Average(B_op, coords['x']), name='horizontal avg B')
+snapshots.add_task(d3.Average(lq, coords['x']), name='horizontal avg liquid')
+snapshots.add_task(uz, name='uz')
 
 # %%
 # CFL
