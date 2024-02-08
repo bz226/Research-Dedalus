@@ -64,7 +64,6 @@ dist = d3.Distributor(coords, dtype=dtype)
 xbasis = d3.RealFourier(coords['x'], size=Nx, bounds=(0, Lx), dealias=dealias)
 zbasis = d3.ChebyshevT(coords['z'], size=Nz, bounds=(0, Lz), dealias=dealias)
 
-# %%
 # Fields
 p = dist.Field(name='p', bases=(xbasis,zbasis))
 D = dist.Field(name='D', bases=(xbasis,zbasis))
@@ -72,6 +71,8 @@ M = dist.Field(name='M', bases=(xbasis,zbasis))
 u = dist.VectorField(coords, name='u', bases=(xbasis,zbasis))
 uy = dist.Field(name='uy', bases=(xbasis,zbasis))
 Z = dist.Field(name='Z', bases=zbasis)
+T = dist.Field(name='T', bases=(xbasis,zbasis))
+C = dist.Field(name='C', bases=(xbasis,zbasis))
 
 tau_p = dist.Field(name='tau_p')
 tau_B1 = dist.Field(name='tau_B1', bases=xbasis)
@@ -84,6 +85,10 @@ tau_u1 = dist.VectorField(coords,name='tau_u1', bases=xbasis)
 tau_u2 = dist.VectorField(coords,name='tau_u2', bases=xbasis)
 tau_u3 = dist.Field(name='tau_u3', bases=xbasis)
 tau_u4 = dist.Field(name='tau_u4', bases=xbasis)
+tau_T1 = dist.Field(name='tau_t1', bases=xbasis)
+tau_T2 = dist.Field(name='tau_t2', bases=xbasis)
+tau_C1 = dist.Field(name='tau_c1', bases=xbasis)
+tau_C2 = dist.Field(name='tau_c2', bases=xbasis)
 
 # Substitutions    
 #Kuo_Bretherton Equilibrium
@@ -117,6 +122,7 @@ eva = lambda A: A.evaluate()
 dz= lambda A: d3.Differentiate(A, coords['z'])
 dx= lambda A: d3.Differentiate(A, coords['x'])
 
+
 ux=u@ex
 uz=u@ez
 dxux=dx(ux)
@@ -130,19 +136,21 @@ grad_uz = grad_u@ez # First-order reduction
 grad_uy = d3.grad(uy) + ez*lift(tau_u3)# First-order reduction 
 grad_M = d3.grad(M) + ez*lift(tau_M1) # First-order reduction
 grad_D = d3.grad(D) + ez*lift(tau_D1) # First-order reduction
+grad_T = d3.grad(T) + ez*lift(tau_T1)
+grad_C = d3.grad(C) + ez*lift(tau_C1)
 
-
-# %%
 # Problem
 # First-order form: "div(f)" becomes "trace(grad_f)"
 # First-order form: "lap(f)" becomes "div(grad_f)"
-problem = d3.IVP([p, M, D, u, uy, tau_p, tau_M1, tau_M2, tau_D1, tau_D2, tau_u1, tau_u2, tau_u3, tau_u4], namespace=locals())
+problem = d3.IVP([p, M, D, u, uy, T, C, tau_p, tau_M1, tau_M2, tau_D1, tau_D2, tau_u1, tau_u2, tau_u3, tau_u4, tau_T1, tau_T2, tau_C1, tau_C2], namespace=locals())
 problem.add_equation("trace(grad_u) + tau_p= 0")
 problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M)")
 problem.add_equation("dt(D) - kappa*div(grad_D) + lift(tau_D2) = - u@grad(D)")
 problem.add_equation("dt(ux) + dx(p) - nu*div(grad_ux) + lift(tau_u2)@ex = - u@grad(ux)+f*uy")
 problem.add_equation("dt(uz) + dz(p) - nu*div(grad_uz) + lift(tau_u2)@ez = - u@grad(uz) + B_op")
 problem.add_equation("dt(uy) -nu*div(grad_uy) + lift(tau_u4)= -f*ux - u@grad(uy)")
+problem.add_equation("dt(T) - kappa*div(grad_T) + lift(tau_T2) = - u@grad(T)")
+problem.add_equation("dt(C) - kappa*div(grad_C) + lift(tau_C2) = - u@grad(C)+1")
 problem.add_equation("uy(z=0) = 0")
 problem.add_equation("dz(uy)(z=Lz) = 0")
 problem.add_equation("u(z=0) = 0")
@@ -152,6 +160,10 @@ problem.add_equation("M(z=0) = M_0")
 problem.add_equation("D(z=0) = D_0")
 problem.add_equation("M(z=Lz) = M_H")
 problem.add_equation("D(z=Lz) = D_H")
+problem.add_equation("T(z=0) = 1")
+problem.add_equation("T(z=Lz) = 0")
+problem.add_equation("C(z=0) = 0")
+problem.add_equation("dz(C)(z=Lz) = 0")
 problem.add_equation("integ(p) = 0") # Pressure gauge
 
 # %%
@@ -180,7 +192,6 @@ snapshots.add_task(d3.Average(D, coords['x']), name='horizontal avg D')
 snapshots.add_task(d3.Average(B_op, coords['x']), name='horizontal avg B')
 snapshots.add_task(d3.Average(lq, coords['x']), name='horizontal avg liquid')
 snapshots.add_task(uz, name='uz')
-snapshots.add_task(d3.Integrate((u@u+uy*uy)/2, coords), name='total KE')
 
 # %%
 # CFL

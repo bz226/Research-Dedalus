@@ -49,6 +49,7 @@ M_0 = 0
 M_H = -1
 N_s2=4/3
 f=0.1
+Qrad=0.0028
 
 Prandtl = 0.7
 dealias = 3/2
@@ -144,8 +145,8 @@ grad_C = d3.grad(C) + ez*lift(tau_C1)
 # First-order form: "lap(f)" becomes "div(grad_f)"
 problem = d3.IVP([p, M, D, u, uy, T, C, tau_p, tau_M1, tau_M2, tau_D1, tau_D2, tau_u1, tau_u2, tau_u3, tau_u4, tau_T1, tau_T2, tau_C1, tau_C2], namespace=locals())
 problem.add_equation("trace(grad_u) + tau_p= 0")
-problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M)")
-problem.add_equation("dt(D) - kappa*div(grad_D) + lift(tau_D2) = - u@grad(D)")
+problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M)-Qrad/2*np.sin(np.pi*Z/Lz)")
+problem.add_equation("dt(D) - kappa*div(grad_D) + lift(tau_D2) = - u@grad(D)-Qrad*np.sin(np.pi*Z/Lz)")
 problem.add_equation("dt(ux) + dx(p) - nu*div(grad_ux) + lift(tau_u2)@ex = - u@grad(ux)+f*uy")
 problem.add_equation("dt(uz) + dz(p) - nu*div(grad_uz) + lift(tau_u2)@ez = - u@grad(uz) + B_op")
 problem.add_equation("dt(uy) -nu*div(grad_uy) + lift(tau_u4)= -f*ux - u@grad(uy)")
@@ -185,7 +186,8 @@ M['g'] += (M_H-M_0)*z # Add linear background
 # Analysis
 snapshots = solver.evaluator.add_file_handler('snapshots', sim_dt=0.25, max_writes=1)
 snapshots.add_tasks(solver.state,layout='g')
-snapshots.add_task(d3.Average(dz(D),coords['x']),name='temp Nu')
+snapshots.add_task(d3.Average(dz(D),coords['x']),name='Dry derivative')
+snapshots.add_task(d3.Average(dz(M),coords['x']),name='Moist derivative')
 snapshots.add_task(d3.Average(uy,coords['x']), name='horizontal avg uy')
 snapshots.add_task(d3.Average(M, coords['x']), name='horizontal avg M')
 snapshots.add_task(d3.Average(D, coords['x']), name='horizontal avg D')

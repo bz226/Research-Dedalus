@@ -33,7 +33,7 @@ dealias = 3/2
 
 # %%
 folder_dir = "snapshots"
-save_dir= "/home/zb2113/Dedalus-Postanalysis/2D/4.5e5 -0.33 f0.1 with tracer"
+save_dir= "/home/zb2113/Dedalus-Postanalysis/2D/4.5e5 -0.33 f0.1 Q=0.0028"
 
 if not os.path.exists(save_dir):
     os.mkdir(save_dir)

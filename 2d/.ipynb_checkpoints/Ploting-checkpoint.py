@@ -20,9 +20,9 @@ dealias = 3/2
 
 nu = (Ra_M / (Prandtl*(M_0-M_H)*Lz**3))**(-1/2)
 
-load_dir_1='/scratch/zb2113/New/Research-Dedalus/2d/4.5e5 -0.33 f0/snapshots/'
-load_dir_2='/scratch/zb2113/New/Research-Dedalus/2d/RMRBC/4.5e5 -0.33 f0.05/snapshots/'
-load_dir_3='/scratch/zb2113/New/Research-Dedalus/2d/RMRBC/4.5e5 -0.33 f0.1/snapshots/'
+load_dir_1='/scratch/zb2113/New/Research-Dedalus/2d/4.5e5 -0.33 f0/snapshots'
+load_dir_2='/scratch/zb2113/New/Research-Dedalus/2d/RMRBC/4.5e5 -0.33 f0.05/snapshots'
+load_dir_3='/scratch/zb2113/New/Research-Dedalus/2d/RMRBC/4.5e5 -0.33 f0.1/snapshots'
 
 load_dir=[load_dir_1,load_dir_2,load_dir_3]
 label_1='4.5e5 -0.33 f0'
@@ -38,16 +38,12 @@ xt=np.linspace(0,stop_sim_time,10)
 xt= nu*xt/Lz**2
 plt.xticks(xt)
 
-for i in range(0,3):
-    dir=load_dir[i]
-    file_paths = [os.path.join(dir, file) for file in listdir(dir) if os.path.isfile(os.path.join(dir, file)) and file.endswith('.h5')]
-    #sort by the number in the file name
-    file_paths.sort(key=lambda f: int(re.sub('\D', '', f)))
+for i,dir in load_dir:
     totalKE=[]
     totalst=[]
-    for file in file_paths:
+    for file in dir:
         with h5py.File(file, mode='r') as file:
-            KE = file['tasks']['total KE'][:,0,0]
+            KE = file['tasks']['total KE'][:,0,0,0]
             totalKE.append(KE)
             st = file['scales/sim_time'][:]
             totalst.append(st)
@@ -62,4 +58,3 @@ for i in range(0,3):
     plt.legend()
 
 plt.savefig(save_dir_1+'totalKE.png')
-plt.close()
