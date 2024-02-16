@@ -38,7 +38,7 @@ from matplotlib.colors import Normalize
 import os
 from os import listdir
 
-save_dir= "/scratch/zb2113/DedalusData/4e50.33Q=0.0028"
+save_dir= "/scratch/zb2113/DedalusData/1e50.33Q=0.0028"
 
 #if not os.path.exists(save_dir):
 #    os.mkdir(save_dir)
@@ -47,7 +47,7 @@ save_dir= "/scratch/zb2113/DedalusData/4e50.33Q=0.0028"
 # Parameters
 Lx, Lz = 20,1
 Nx, Nz = 640, 32
-Ra_M = 4e5
+Ra_M = 1e5
 D_0 = 0
 D_H = 1/3
 M_0 = 0
