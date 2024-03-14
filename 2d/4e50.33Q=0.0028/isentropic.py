@@ -121,11 +121,11 @@ for file_path in file_paths:
         for z1 in range(Nz):
             for m1 in range(len(Mlist)):
                 mask = M_indices[:, z1] == m1
-                iP[z1, m1, t+n*len(simtime)] += np.sum(mask)
-                iM[z1, m1, t+n*len(simtime)] += np.sum(M_t[:, z1] * mask)
-                iMass[z1, m1, t+n*len(simtime)] += np.sum(uz_t[:, z1] * mask)
-                iTrac[z1, m1, t+n*len(simtime)] += np.sum(T_t[:, z1] * mask)
-                iCl[z1, m1, t+n*len(simtime)] += np.sum(C_t[:, z1] * mask)
+                iP[z1, m1, t+n*len(simtime)] += np.sum(mask)/Msize
+                iM[z1, m1, t+n*len(simtime)] += np.sum(M_t[:, z1] * mask)/Msize
+                iMass[z1, m1, t+n*len(simtime)] += np.sum(uz_t[:, z1] * mask)/Msize
+                iTrac[z1, m1, t+n*len(simtime)] += np.sum(T_t[:, z1] * mask)/Msize
+                iCl[z1, m1, t+n*len(simtime)] += np.sum(C_t[:, z1] * mask)/Msize
 
 
 #time-average
