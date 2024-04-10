@@ -20,7 +20,7 @@ from os import listdir
 # Parameters
 Lx, Lz = 20,1
 Nx, Nz = 640, 32
-Ra_M = 4.5e5
+Ra_M = 4e5
 D_0 = 0
 D_H = 1/3
 M_0 = 0
@@ -32,8 +32,8 @@ Prandtl = 0.7
 dealias = 3/2
 
 # %%
-folder_dir = "snapshots"
-save_dir= "/home/zb2113/Dedalus-Postanalysis/2D/4.5e5 -0.33 f0.1 Q=0.0028"
+folder_dir = "/scratch/zb2113/DedalusData/4e50.33Q=0.0028/snapshots"
+save_dir= "/home/zb2113/Dedalus-Postanalysis/2D/4e50.33Q=0.0028"
 
 if not os.path.exists(save_dir):
     os.mkdir(save_dir)
@@ -45,7 +45,7 @@ print(file_paths)
 
 # %%
 #read coordinates
-with h5py.File('snapshots/snapshots_s1.h5', mode='r') as file:
+with h5py.File(folder_dir+'/snapshots_s1.h5', mode='r') as file:
     print(list(file.keys()))
     scalekeys=list(file['scales'].keys())
     taskkeys=list(file['tasks'].keys())
@@ -61,7 +61,6 @@ with h5py.File('snapshots/snapshots_s1.h5', mode='r') as file:
 
 # %%
 #Implement Isentropic Analysis
-folder_dir = "snapshots"
 
 file_paths = [os.path.join(folder_dir, file) for file in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, file)) and file.endswith('.h5')]
 #sort by the number in the file name
@@ -92,7 +91,7 @@ M_grid, z_grid=np.meshgrid(Mlist, z)
 iP=np.zeros((Nz,len(Mlist),timelist.size))
 iM=np.zeros((Nz,len(Mlist),timelist.size))
 iMass=np.zeros((Nz,len(Mlist),timelist.size))
-iTrac=np.zeros((Nz,len(Mlist),timelist.size))
+
 iCl=np.zeros((Nz,len(Mlist),timelist.size))
 
 n=-1
@@ -124,37 +123,37 @@ for file_path in file_paths:
                 iP[z1, m1, t+n*len(simtime)] += np.sum(mask)/Msize
                 iM[z1, m1, t+n*len(simtime)] += np.sum(M_t[:, z1] * mask)/Msize
                 iMass[z1, m1, t+n*len(simtime)] += np.sum(uz_t[:, z1] * mask)/Msize
-                iTrac[z1, m1, t+n*len(simtime)] += np.sum(T_t[:, z1] * mask)/Msize
                 iCl[z1, m1, t+n*len(simtime)] += np.sum(C_t[:, z1] * mask)/Msize
 
 
 #time-average
+tiny = 1e-10
 iP=np.average(iP,axis=2)/Nx
 iM=np.average(iM,axis=2)/Nx
 iMass=np.average(iMass,axis=2)/Nx
-iTrac=np.average(iTrac, axis=2)/Nx
 iCl=np.average(iCl,axis=2)/Nx
+iClcond=iCl/(iP + tiny)
 
 #Plotting (Incomplete)
-logiPav=np.log(iP)
-plt.contour(M_grid, z_grid, logiPav, colors='k')
-plt.contourf(M_grid, z_grid, logiPav, cmap='RdBu_r')
-plt.colorbar(label='Isendist')
+logiClcond=np.log(iClcond)
+plt.contour(M_grid, z_grid, iClcond, colors='k')
+plt.contourf(M_grid, z_grid, iClcond, cmap='RdBu_r')
+plt.colorbar(label='Conditional Distribution of Clock Tracer')
 plt.xlabel('M/(M_0-M_H)')
 plt.ylabel('z')
 x_start = np.min(M_grid)  
 x_end = np.max(M_grid)   
 y_start = np.max(z_grid)  
 y_end = np.min(z_grid)    
-
+plt.title('Conditional neab of clock tracer')
 plt.plot([x_start, x_end], [y_start, y_end], color='white', linestyle='--', linewidth=2)
-plt.savefig(save_dir+'/isentropic/Isendist.png', dpi=200, bbox_inches='tight')
+plt.savefig(save_dir+'/isentropic/Cond Clock.png', dpi=200, bbox_inches='tight')
 plt.close()
 
 #Plotting (Incomplete)
-logiMav=np.log(iMass)
-plt.contour(M_grid, z_grid, logiMav, colors='k')
-plt.contourf(M_grid, z_grid, logiMav, cmap='RdBu_r')
+#logiMav=np.log(iMass)
+plt.contour(M_grid, z_grid, iMav, colors='k')
+plt.contourf(M_grid, z_grid, iMav, cmap='RdBu_r')
 plt.colorbar(label='Isendist')
 plt.xlabel('M/(M_0-M_H)')
 plt.ylabel('z')
@@ -162,26 +161,26 @@ x_start = np.min(M_grid)
 x_end = np.max(M_grid)   
 y_start = np.max(z_grid)  
 y_end = np.min(z_grid)    
-
+plt.title('isentropic mass flux')
 plt.plot([x_start, x_end], [y_start, y_end], color='white', linestyle='--', linewidth=2)
 plt.savefig(save_dir+'/isentropic/Isendist_Mass.png', dpi=200, bbox_inches='tight')
 plt.close()
 
-#Plotting (Incomplete)
-logiTav=np.log(iTrac)
-plt.contour(M_grid, z_grid, logiTav, colors='k')
-plt.contourf(M_grid, z_grid, logiTav, cmap='RdBu_r')
-plt.colorbar(label='Isendist_T')
-plt.xlabel('M/(M_0-M_H)')
-plt.ylabel('z')
-x_start = np.min(M_grid)  
-x_end = np.max(M_grid)   
-y_start = np.max(z_grid)  
-y_end = np.min(z_grid)    
+# #Plotting (Incomplete)
+# logiTav=np.log(iTrac)
+# plt.contour(M_grid, z_grid, logiTav, colors='k')
+# plt.contourf(M_grid, z_grid, logiTav, cmap='RdBu_r')
+# plt.colorbar(label='Isendist_T')
+# plt.xlabel('M/(M_0-M_H)')
+# plt.ylabel('z')
+# x_start = np.min(M_grid)  
+# x_end = np.max(M_grid)   
+# y_start = np.max(z_grid)  
+# y_end = np.min(z_grid)    
 
-plt.plot([x_start, x_end], [y_start, y_end], color='white', linestyle='--', linewidth=2)
-plt.savefig(save_dir+'/isentropic/Isendist_Trac.png', dpi=200, bbox_inches='tight')
-plt.close()
+# plt.plot([x_start, x_end], [y_start, y_end], color='white', linestyle='--', linewidth=2)
+# plt.savefig(save_dir+'/isentropic/Isendist_Trac.png', dpi=200, bbox_inches='tight')
+# plt.close()
 
 #Plotting (Incomplete)
 logiCav=np.log(iCl)
@@ -202,16 +201,19 @@ plt.close()
 #Isentropic Stream Function
 Psi_M=np.zeros((Nz,len(Mlist)))
 Psi_Mass=np.zeros((Nz,len(Mlist)))
-Psi_T=np.zeros((Nz,len(Mlist)))
 Psi_C=np.zeros((Nz,len(Mlist)))
+Psi_Ccond=np.zeros((Nz,len(Mlist)))
 
 for z1 in range(0,Nz):
     for m1 in range(0,len(Mlist)):
-        for madd in range(0,m1):
-            Psi_M[z1,m1]+=iM[z1,madd]
-            Psi_Mass[z1,m1]+=iMass[z1,madd]
-            Psi_T[z1,m1]+=iTrac[z1,madd]
-            Psi_C[z1,m1]+=iCl[z1,madd]
+        Psi_M[z1,m1+1] = Psi_M[z1,m1] + iM[z1,m1]
+        Psi_Mass[z1,m1+1] = Psi_Mass[z1,m1] + iMass[z1,m1]
+
+#        for madd in range(0,m1):
+#            Psi_M[z1,m1]+=iM[z1,madd]
+#            Psi_Mass[z1,m1]+=iMass[z1,madd]
+#            Psi_C[z1,m1]+=iCl[z1,madd]
+#            Psi_Ccond[z1,m1]+=iClcond[z1,madd]
 
                 
 #Plotting (Incomplete)
@@ -244,10 +246,11 @@ plt.plot([x_start, x_end], [y_start, y_end], color='white', linestyle='--', line
 plt.savefig(save_dir+'/isentropic/Psi_Mass.png', dpi=200, bbox_inches='tight')
 plt.close()
 
+
 #Plotting
-plt.contour(M_grid, z_grid, Psi_T,colors='k')
-plt.contourf(M_grid, z_grid, Psi_T, cmap='RdBu_r')
-plt.colorbar(label='Psi_T')
+plt.contour(M_grid, z_grid, Psi_Ccond,colors='k')
+plt.contourf(M_grid, z_grid, Psi_Ccond, cmap='RdBu_r')
+plt.colorbar(label='Psi_Ccond')
 plt.xlabel('M/(M_0-M_H)')
 plt.ylabel('z')
 x_start = np.min(M_grid)  
@@ -256,8 +259,23 @@ y_start = np.max(z_grid)
 y_end = np.min(z_grid)    
 
 plt.plot([x_start, x_end], [y_start, y_end], color='white', linestyle='--', linewidth=2)
-plt.savefig(save_dir+'/isentropic/Psi_T.png', dpi=200, bbox_inches='tight')
+plt.savefig(save_dir+'/isentropic/Psi_Ccond.png', dpi=200, bbox_inches='tight')
 plt.close()
+
+# #Plotting
+# plt.contour(M_grid, z_grid, Psi_T,colors='k')
+# plt.contourf(M_grid, z_grid, Psi_T, cmap='RdBu_r')
+# plt.colorbar(label='Psi_T')
+# plt.xlabel('M/(M_0-M_H)')
+# plt.ylabel('z')
+# x_start = np.min(M_grid)  
+# x_end = np.max(M_grid)   
+# y_start = np.max(z_grid)  
+# y_end = np.min(z_grid)    
+
+# plt.plot([x_start, x_end], [y_start, y_end], color='white', linestyle='--', linewidth=2)
+# plt.savefig(save_dir+'/isentropic/Psi_T.png', dpi=200, bbox_inches='tight')
+# plt.close()
 
 
 #Plotting
