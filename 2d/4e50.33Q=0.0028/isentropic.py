@@ -104,14 +104,14 @@ for file_path in file_paths:
     with h5py.File(file_path, mode='r') as file:
         M = file['tasks']['M'][:] 
         uz = file['tasks']['uz'][:]
-        T = file['tasks']['T'][:]
+        # T = file['tasks']['T'][:]
         C = file['tasks']['C'][:]
         simtime = np.array(file['scales/sim_time'])
         
     for t in range(simtime.shape[0]):
         M_t = M[t, :, :]  # Extract the data for this time step
         uz_t = uz[t, :, :]
-        T_t= T[t, :, :]
+        # T_t= T[t, :, :]
         C_t = C[t, :, :]
 
         # Digitize M values into bins
@@ -152,8 +152,8 @@ plt.close()
 
 #Plotting (Incomplete)
 #logiMav=np.log(iMass)
-plt.contour(M_grid, z_grid, iMav, colors='k')
-plt.contourf(M_grid, z_grid, iMav, cmap='RdBu_r')
+plt.contour(M_grid, z_grid, iMass, colors='k')
+plt.contourf(M_grid, z_grid, iMass, cmap='RdBu_r')
 plt.colorbar(label='Isendist')
 plt.xlabel('M/(M_0-M_H)')
 plt.ylabel('z')
@@ -204,8 +204,10 @@ Psi_Mass=np.zeros((Nz,len(Mlist)))
 Psi_C=np.zeros((Nz,len(Mlist)))
 Psi_Ccond=np.zeros((Nz,len(Mlist)))
 
+
 for z1 in range(0,Nz):
-    for m1 in range(0,len(Mlist)):
+    Psi_M[z1,0]=iM[z1,0]
+    for m1 in range(0,len(Mlist)-1):
         Psi_M[z1,m1+1] = Psi_M[z1,m1] + iM[z1,m1]
         Psi_Mass[z1,m1+1] = Psi_Mass[z1,m1] + iMass[z1,m1]
 
