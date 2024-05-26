@@ -47,7 +47,7 @@ if not os.path.exists(save_dir):
 # Parameters
 Lx, Lz = 64,1
 Nx, Nz = 4096, 64
-Ra_M = 4e5
+Ra_M = 8e5
 D_0 = 0
 D_H = 1/3
 M_0 = 0

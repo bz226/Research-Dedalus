@@ -53,7 +53,7 @@ D_H = 1/3
 M_0 = 0
 M_H = -1
 N_s2=4/3
-Qrad=0.0069
+Qrad=0.0052
 
 Prandtl = 1
 dealias = 3/2
