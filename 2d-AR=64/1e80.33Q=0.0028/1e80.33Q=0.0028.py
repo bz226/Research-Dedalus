@@ -129,6 +129,10 @@ dxux=dx(ux)
 dzux=dz(ux)
 dxuz=dx(uz)
 dzuz=dz(uz)
+dzu_x = d3.Differentiate(u_x, coords['z'])
+dzq = d3.Differentiate(q, coords['z'])
+dztl = d3.Differentiate(tl, coords['z'])
+dzclock = d3.Differentiate(clock, coords['z'])
 
 grad_u = d3.grad(u) + ez* lift(tau_u1) # First-order reduction
 grad_ux = grad_u@ex # First-order reduction
