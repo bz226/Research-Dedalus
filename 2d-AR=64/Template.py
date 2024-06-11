@@ -106,7 +106,8 @@ kappa = (Ra_M * Prandtl/((M_0-M_H)*Lz**3))**(-1/2)
 nu = (Ra_M / (Prandtl*(M_0-M_H)*Lz**3))**(-1/2)
 print('kappa',kappa)
 print('nu',nu)
-
+print('RaM',Ra_M)
+print('Qrad',Qrad)
 
 
 x,z = dist.local_grids(xbasis,zbasis)
@@ -189,7 +190,7 @@ M['g'] += (M_H-M_0)*z # Add linear background
 
 # %%
 # Analysis
-snapshots = solver.evaluator.add_file_handler('./snapshots', sim_dt=2, max_writes=500)
+snapshots = solver.evaluator.add_file_handler('./snapshots', sim_dt=1, max_writes=500)
 snapshots.add_task(d3.Average(dz(D),coords['x']),name='Dry derivative')
 snapshots.add_task(d3.Average(dz(M),coords['x']),name='Moist derivative')
 snapshots.add_task(-Lz*(2*dz(M)(z=0)-dz(D)(z=0))/(2*(M_0-M_H)-(D_0-D_H)),name='Nusselt Number')

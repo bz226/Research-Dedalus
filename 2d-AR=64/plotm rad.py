@@ -20,7 +20,7 @@ from os import listdir
 
 # Parameters
 Lx, Lz = 64,1
-Nx, Nz = 4096,64
+Nx, Nz = 8196,128
 Ra_M = 4e5
 D_0 = 0
 D_H = 1/3
@@ -57,94 +57,104 @@ Z['g']=z
 Z.change_scales(3/2)
 
 #list
-RaMlist=['1e5','4e5','8e5','1.2e6']
+RaMlist=[1e7]
 D_Hlist=[0.33]
-Qlist=[0.0014,0.0028,0.0052,0.0069]
+Qlist=[0.0014,0.0028,0.0042,0.0056,0.0070]
 #list of dir with name RaM+D_H+'Q='+Q
 save_dirlist=[]
 plot_dirlist=[]
 nu_list=[]
-for Q in Qlist:
-    for D_H in D_Hlist:
-        for RaM in RaMlist:
-            save_dirlist.append("/scratch/zb2113/DedalusData/"+str(RaM)+str(D_H)+'Q='+str(Q))
-            plot_dirlist.append("/home/zb2113/Dedalus-Postanalysis/2D/"+str(RaM)+str(D_H)+'Q='+str(Q))
-            Ra_M=float(RaM)
-            nu = (Ra_M / (Prandtl*(M_0-M_H)*Lz**3))**(-1/2)
-            # nu_list.append(nu)
-
-            #test
-            save_dir="/scratch/zb2113/DedalusData/"+str(RaM)+str(D_H)+'Q='+str(Q)
-            # plot_dir="/home/zb2113/Dedalus-Postanalysis/2D/"+str(RaM)+str(D_H)+'Q='+str(Q)
-            plot_dir="/home/zb2113/Dedalus-Postanalysis/2D/general"
-            folder_dir = save_dir+"/snapshots"
+for RaM in RaMlist:
+    for QRAD in Qlist:
+        save_dirlist.append("/scratch/zb2113/DedalusData/2D/"+'MRBC_2D_RaM_'+"{:.1e}".format(RaM)  +'_Pr_'+"{:.1e}".format(Prandtl) \
++'_QR_'+"{:.1e}".format(QRAD) \
+        +'_DH_'+"{:.1e}".format(D_H) \
+        +  '_Lx_'+"{:.1e}".format(Lx) \
+        +   '_Nz_'+"{:d}".format(Nz))
+        plot_dirlist.append("/home/zb2113/Dedalus-Postanalysis/2D/"+'MRBC_2D_RaM_'+"{:.1e}".format(RaM)  +'_Pr_'+"{:.1e}".format(Prandtl) \
++'_QR_'+"{:.1e}".format(QRAD) \
+        +'_DH_'+"{:.1e}".format(D_H) \
+        +  '_Lx_'+"{:.1e}".format(Lx) \
+        +   '_Nz_'+"{:d}".format(Nz))
+        nu = (Ra_M / (Prandtl*(M_0-M_H)*Lz**3))**(-1/2)
+        # nu_list.append(nu)
         
-            file_paths = [os.path.join(folder_dir, file) for file in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, file)) and file.endswith('.h5')]
-            #sort by the number in the file name
-            file_paths.sort(key=lambda f: int(re.sub('\D', '', f)))
+        #test
+        save_dir="/scratch/zb2113/DedalusData/2D/"+'MRBC_2D_RaM_'+"{:.1e}".format(RaM)  +'_Pr_'+"{:.1e}".format(Prandtl) \
++'_QR_'+"{:.1e}".format(QRAD) \
+        +'_DH_'+"{:.1e}".format(D_H) \
+        +  '_Lx_'+"{:.1e}".format(Lx) \
+        +   '_Nz_'+"{:d}".format(Nz)
+        # plot_dir="/home/zb2113/Dedalus-Postanalysis/2D/"+str(RaM)+str(D_H)+'Q='+str(Q)
+        plot_dir="/home/zb2113/Dedalus-Postanalysis/2D/general"
+        folder_dir = save_dir+"/snapshots"
+    
+        file_paths = [os.path.join(folder_dir, file) for file in listdir(folder_dir) if os.path.isfile(os.path.join(folder_dir, file)) and file.endswith('.h5')]
+        #sort by the number in the file name
+        file_paths.sort(key=lambda f: int(re.sub('\D', '', f)))
+    
+        # #plot the function of total KE
+        # all_tot_ke = []
+        # nu=nu_list[i]
+        # for file in file_paths:
+        #     with h5py.File(file, mode='r') as file:
+        #         tot_ke = file['tasks']['total KE']
+        #         st = file['scales/sim_time']
+        #         simtime = np.array(st)
+        #         for t in range(0, len(simtime)):
+        #             all_tot_ke.append(np.sum(tot_ke[t]))
+        # print(all_tot_ke[:10])
+        # print(max(all_tot_ke))
+    
+        # print(len(all_tot_ke))
+        # figure_x_axis = np.array([(x*nu/(1**2)) for x in range(1, len(all_tot_ke)+1)])
+        # print(len(figure_x_axis))
+        # #create label with RaM, D_H, Q
+        # pltlabel = save_dir.split('/')[-1]
+        # plt.plot(figure_x_axis, np.log(all_tot_ke), label=pltlabel)
         
-            # #plot the function of total KE
-            # all_tot_ke = []
-            # nu=nu_list[i]
-            # for file in file_paths:
-            #     with h5py.File(file, mode='r') as file:
-            #         tot_ke = file['tasks']['total KE']
-            #         st = file['scales/sim_time']
-            #         simtime = np.array(st)
-            #         for t in range(0, len(simtime)):
-            #             all_tot_ke.append(np.sum(tot_ke[t]))
-            # print(all_tot_ke[:10])
-            # print(max(all_tot_ke))
-        
-            # print(len(all_tot_ke))
-            # figure_x_axis = np.array([(x*nu/(1**2)) for x in range(1, len(all_tot_ke)+1)])
-            # print(len(figure_x_axis))
-            # #create label with RaM, D_H, Q
-            # pltlabel = save_dir.split('/')[-1]
-            # plt.plot(figure_x_axis, np.log(all_tot_ke), label=pltlabel)
-            
-            #Plot time-horizontal avg C
-        
-            barC=np.zeros(Nz)
-            count=0
-            for file in file_paths:
-                with h5py.File(file, mode='r') as file:
-                    count=count+1
-                    simtime = np.array(file['scales/sim_time'])
-                    for t in range(0, len(simtime)):
-                        avgC = file['tasks']['horizontal avg C'][t, 0, :]
-                        avgC = np.array(avgC)
-                        
-                    #averaging
-                    avgC = avgC/len(simtime)
-                    barC+=avgC
-        
-            barC = barC/count
-            barC = barC*nu/(1**2) #Normalization
-            z = z.reshape(-1)
-            # Plot the horizontal avg C
-            pltlabel = save_dir.split('/')[-1]
-            plt.plot(barC, z, label=pltlabel)
-        
-            # maxC = max(barC)
-            # plt.axvline(x=maxC, color='black', linestyle='--', label='max C')
-        
-            # # Find the z value corresponding to max C and add a horizontal line
-            # maxC_index = np.argmax(barC)
-            # z_maxC = z[maxC_index]
-            # plt.axhline(y=z_maxC, color='green', linestyle='--', label='z at max C')
-        
-            # Annotate the max C and its corresponding z value
-            # plt.text(maxC, 0, f'max C: {maxC:.2f}', horizontalalignment='right', verticalalignment='bottom')
-            # plt.text(0, z_maxC, f'z: {z_maxC:.2f}', horizontalalignment='left', verticalalignment='bottom')
-        
-    plt.xlabel('C')
-    plt.ylabel('z')
-    plt.title('Qrad=' +str(Q)+'time-Horizontal avg Clock Tracer')
-    plt.legend()
-    plt.savefig(plot_dir + '/'+ 'Qrad=' +str(Q)+'time-Horizontal avg C.png', dpi=200, bbox_inches='tight')
-    plt.show()
-    plt.clf()
+        #Plot time-horizontal avg C
+    
+        barC=np.zeros(Nz)
+        count=0
+        for file in file_paths:
+            with h5py.File(file, mode='r') as file:
+                count=count+1
+                simtime = np.array(file['scales/sim_time'])
+                for t in range(0, len(simtime)):
+                    avgC = file['tasks']['horizontal avg C'][t, 0, :]
+                    avgC = np.array(avgC)
+                    
+                #averaging
+                avgC = avgC/len(simtime)
+                barC+=avgC
+    
+        barC = barC/count
+        barC = barC*nu/(1**2) #Normalization
+        z = z.reshape(-1)
+        # Plot the horizontal avg C
+        pltlabel = save_dir.split('/')[-1]
+        plt.plot(barC, z, label=pltlabel)
+    
+        # maxC = max(barC)
+        # plt.axvline(x=maxC, color='black', linestyle='--', label='max C')
+    
+        # # Find the z value corresponding to max C and add a horizontal line
+        # maxC_index = np.argmax(barC)
+        # z_maxC = z[maxC_index]
+        # plt.axhline(y=z_maxC, color='green', linestyle='--', label='z at max C')
+    
+        # Annotate the max C and its corresponding z value
+        # plt.text(maxC, 0, f'max C: {maxC:.2f}', horizontalalignment='right', verticalalignment='bottom')
+        # plt.text(0, z_maxC, f'z: {z_maxC:.2f}', horizontalalignment='left', verticalalignment='bottom')
+    
+plt.xlabel('C')
+plt.ylabel('z')
+plt.title(str(RaM)+'time-Horizontal avg Clock Tracer')
+plt.legend()
+plt.savefig(plot_dir + '/'+ str(RaM)+'time-Horizontal avg C.png', dpi=200, bbox_inches='tight')
+plt.show()
+plt.clf()
 
 # #plot
 # for i in range(len(save_dirlist)):
