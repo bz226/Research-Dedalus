@@ -167,7 +167,7 @@ problem.add_equation("M(z=0) = M_0")
 problem.add_equation("D(z=0) = D_0")
 problem.add_equation("M(z=Lz) = M_H")
 problem.add_equation("D(z=Lz) = D_H")
-problem.add_equation("T(z=0) = 1")
+problem.add_equation("T(z=0) = 0")
 problem.add_equation("dz(T)(z=Lz) = 0")
 problem.add_equation("C(z=0) = 0")
 problem.add_equation("dz(C)(z=Lz) = 0")
@@ -187,6 +187,7 @@ D['g'] += (D_H-D_0)*z # Add linear background
 M.fill_random('g', seed=28, distribution='normal', scale=1e-3) # Random noise
 M['g'] *= z * (Lz - z) # Damp noise at walls
 M['g'] += (M_H-M_0)*z # Add linear background
+T.fill_random('g', seed=42, distribution='normal', scale=1)
 
 # %%
 # Analysis
@@ -201,6 +202,11 @@ snapshots.add_task(d3.Average(lq, coords['x']), name='horizontal avg liquid')
 snapshots.add_task(d3.Average(T, coords['x']), name='horizontal avg T')
 snapshots.add_task(d3.Average(C, coords['x']), name='horizontal avg C')
 snapshots.add_task(d3.Average(uz, coords['x']), name='horizontal avg uz')
+snapshots.add_task(d3.Average(uz*T, coords['x']), name='horizontal avg vertical T flux')
+snapshots.add_task(d3.Average(uz*C, coords['x']), name='horizontal avg vertical C flux')
+snapshots.add_task(d3.Average(uz*M, coords['x']), name='horizontal avg vertical M flux')
+snapshots.add_task(d3.Average(uz*D, coords['x']), name='horizontal avg vertical D flux')
+snapshots.add_task(d3.Average(uz*lq, coords['x']), name='horizontal avg vertical lq flux')
 snapshots.add_task(d3.Integrate(0.5*u@u,coords),name='total KE')
 # snapshots.add_task(uz, name='uz')
 snapshots.add_task( - kappa * d3.Average(dzlq,'x'),layout='g', name='diffusive flux of water')
@@ -210,6 +216,7 @@ snapshots.add_task( - kappa * d3.Average(dzC,'x'),layout='g', name='diffusive fl
 snapshots.add_task( d3.Average(uz*D,'x') - d3.Average(uz, coords['x'])*d3.Average(D, coords['x']),layout='g', name='Reynolds flux of dry buoyancy')
 snapshots.add_task( d3.Average(uz*M,'x') - d3.Average(uz, coords['x'])*d3.Average(M, coords['x']),layout='g', name='Reynolds flux of moist buoyancy')
 snapshots.add_task( d3.Average(uz*C,'x') - d3.Average(uz, coords['x'])*d3.Average(C, coords['x']),layout='g', name='Reynolds flux of clock tracer')
+snapshots.add_task( d3.Average(uz*T,'x') - d3.Average(uz, coords['x'])*d3.Average(T, coords['x']),layout='g', name='Reynolds flux of tracer')
 
 restart = solver.evaluator.add_file_handler('./restart', sim_dt=500.0, max_writes=1)
 restart.add_tasks(solver.state)
