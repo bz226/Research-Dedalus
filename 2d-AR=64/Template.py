@@ -61,6 +61,7 @@ stop_sim_time = 1500
 timestepper = d3.RK222
 max_timestep = 0.125
 dtype = np.float64
+savefreq = 5
 
 # The code check for the existence of a MRBC2D_param.py and import it. This allows yo update the simulations parameters
 
@@ -168,8 +169,8 @@ problem.add_equation("M(z=0) = M_0")
 problem.add_equation("D(z=0) = D_0")
 problem.add_equation("M(z=Lz) = M_H")
 problem.add_equation("D(z=Lz) = D_H")
-problem.add_equation("T(z=0) = 1")
-problem.add_equation("dz(T)(z=Lz) = 0")
+problem.add_equation("T(z=0) = 0")
+problem.add_equation("T(z=1) = 1")
 problem.add_equation("C(z=0) = 0")
 problem.add_equation("dz(C)(z=Lz) = 0")
 problem.add_equation("integ(p) = 0") # Pressure gauge
@@ -223,6 +224,15 @@ snapshots.add_task( d3.Average(uz*T,'x') - d3.Average(uz, coords['x'])*d3.Averag
 
 restart = solver.evaluator.add_file_handler('./restart', sim_dt=500.0, max_writes=1)
 restart.add_tasks(solver.state)
+
+analysis = solver.evaluator.add_file_handler('./analysis', sim_dt=savefreq, max_writes=1)
+analysis.add_task(D, name='D')
+analysis.add_task(M, name='M')
+analysis.add_task(C, name='C')
+analysis.add_task(T, name='T')
+analysis.add_task(uz, name='uz')
+
+
 
 
 # %%
