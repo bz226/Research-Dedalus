@@ -1,5 +1,3 @@
-
-# %%
 import numpy as np
 import dedalus.public as d3
 from scipy.interpolate import RegularGridInterpolator
@@ -10,25 +8,26 @@ import h5py
 import matplotlib
 import re
 
-save_dir= "/scratch/zb2113/DedalusData/mountain"
 # Parameters
 Lx, Lz = 4,1
-Nx, Nz = 1024, 256
-Ra_M = 1e5
-D_0 = 0
-D_H = 1/3
+Nx, Nz = 512, 128
+Ra_M = 1e8
+# D_0 = 0
+# D_H = 1/3
 M_0 = 1
 M_H = 0
 N_s2=4/3
 Qrad=0.0028
-gamma=1
+gamma=100
 
 Prandtl = 1
 dealias = 3/2
 stop_sim_time = 50
 timestepper = d3.RK222
-max_timestep = min(0.1, 0.25/gamma)
+max_timestep = min(0.125, 0.25/gamma)
 dtype = np.float64
+
+save_dir= "/scratch/zb2113/DedalusData/mountain"
 
 # %%
 # Bases
@@ -73,7 +72,7 @@ print('nu',nu)
 
 x,z = dist.local_grids(xbasis,zbasis)
 
-# Z.change_scales(3/2)
+Z.change_scales(3/2)
 
 
 ex,ez = coords.unit_vector_fields(dist)
@@ -130,6 +129,9 @@ mask = d3.Grid(mask).evaluate()
 #     interpolator = RegularGridInterpolator((x_points, y_points), data_on_grid)
 #     return interpolator([[x, y]])[0]
 
+# kappa = 2.23e-5
+# nu = 1.5e-5
+
 
 # %%
 
@@ -138,7 +140,7 @@ mask = d3.Grid(mask).evaluate()
 # First-order form: "lap(f)" becomes "div(grad_f)"
 problem = d3.IVP([p, M, u, tau_p, tau_M1, tau_M2, tau_u1, tau_u2], namespace=locals())
 problem.add_equation("trace(grad_u) + tau_p= 0")
-problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) - mask*gamma*M")
+problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) - mask*gamma*(M-M_0)")
 problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) = M*ez- u@grad(u) - mask*gamma*u")
 problem.add_equation("u(z=0) = 0")
 problem.add_equation("uz(z=Lz) = 0")
@@ -158,30 +160,32 @@ solver.stop_sim_time = stop_sim_time
 # %%
 # Initial condition
 M.fill_random('g', seed=28, distribution='normal', scale=1e-3) # Random noise
-M.low_pass_filter(scales=0.25)
-Z.change_scales(dealias)
+M['g'] *= z * (Lz - z) # Damp noise at walls
+M['g'] += (M_H-M_0)*z+M_0 # Add linear background
 M.change_scales(dealias)
-M['g'] *= Z['g']* (Lz - Z['g']) # Damp noise at walls
-M['g'] *=1e-3*(1-mask['g']) # Apply mask
-M['g'] += (M_H-M_0)*Z['g'] # Add linear background
+
+M['g'] *=(1-mask['g']) # Apply mask
+
+
 # M.change_scales(1)
 # Z.change_scales(1)
 
 
 # %%
 # Analysis
-snapshots = solver.evaluator.add_file_handler(save_dir+'/snapshots',sim_dt=0.025, max_writes=1)
+snapshots = solver.evaluator.add_file_handler(save_dir+'/snapshots',sim_dt=0.25, max_writes=1)
 snapshots.add_tasks(solver.state,layout='g')
+snapshots.add_task(u@u, layout='g', name='u square')
 
 # %%
 # CFL
-CFL = d3.CFL(solver, initial_dt=max_timestep, cadence=1, safety=0.5, threshold=0.05,
+CFL = d3.CFL(solver, initial_dt=max_timestep, cadence=10, safety=0.5, threshold=0.05,
              max_change=1.1, min_change=0, max_dt=max_timestep)
 CFL.add_velocity(u)
 
 # %%
 # Flow properties
-flow = d3.GlobalFlowProperty(solver, cadence=1)
+flow = d3.GlobalFlowProperty(solver, cadence=10)
 flow.add_property(np.sqrt(u@u)/nu, name='Re')
 
 
@@ -201,8 +205,3 @@ except:
     raise
 finally:
     solver.log_stats()
-
-# %%
-
-
-
