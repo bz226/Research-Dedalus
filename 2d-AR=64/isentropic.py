@@ -31,6 +31,9 @@ Qrad=0.0028
 Prandtl = 1
 dealias = 3/2
 
+if ( os.path.isfile('./MRBC2D_param.py')):
+    from MRBC2D_param import *
+
 # %%
 expname = 'MRBC_2D_RaM_'+"{:.1e}".format(Ra_M)  +'_Pr_'+"{:.1e}".format(Prandtl) \
     +'_QR_'+"{:.1e}".format(Qrad) \
