@@ -31,7 +31,7 @@ Qrad=0.0028
 Prandtl = 1
 dealias = 3/2
 
-if ( os.path.isfile('./MRBC2D_param.py')):
+if ( os.path.isfile('./Isentropic_param.py')):
     from MRBC2D_param import *
 
 # %%
