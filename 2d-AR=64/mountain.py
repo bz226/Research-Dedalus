@@ -11,7 +11,7 @@ import re
 # Parameters
 Lx, Lz = 4,1
 Nx, Nz = 512, 128
-Ra_M = 1e8
+Ra_M = 1e5
 # D_0 = 0
 # D_H = 1/3
 M_0 = 1
@@ -19,6 +19,7 @@ M_H = 0
 N_s2=4/3
 Qrad=0.0028
 gamma=100
+gamma_s=80
 
 Prandtl = 1
 dealias = 3/2
@@ -28,7 +29,6 @@ max_timestep = min(0.125, 0.25/gamma)
 dtype = np.float64
 
 save_dir= "/scratch/zb2113/DedalusData/mountain"
-
 # %%
 # Bases
 coords = d3.CartesianCoordinates('x','z')
@@ -44,6 +44,8 @@ u = dist.VectorField(coords, name='u', bases=(xbasis,zbasis))
 Z = dist.Field(name='Z', bases=zbasis)
 T = dist.Field(name='T', bases=(xbasis,zbasis))
 C = dist.Field(name='C', bases=(xbasis,zbasis))
+time = dist.Field(name='time', bases=(xbasis,zbasis))
+X = dist.Field(name='X', bases=xbasis)
 
 tau_p = dist.Field(name='tau_p')
 tau_B1 = dist.Field(name='tau_B1', bases=xbasis)
@@ -60,6 +62,8 @@ tau_T1 = dist.Field(name='tau_t1', bases=xbasis)
 tau_T2 = dist.Field(name='tau_t2', bases=xbasis)
 tau_C1 = dist.Field(name='tau_c1', bases=xbasis)
 tau_C2 = dist.Field(name='tau_c2', bases=xbasis)
+tau_t1 = dist.Field(name='tau_t1', bases=xbasis)
+tau_t2 = dist.Field(name='tau_t2', bases=xbasis)
 
 # Substitutions    
 #Kuo_Bretherton Equilibrium
@@ -72,8 +76,9 @@ print('nu',nu)
 
 x,z = dist.local_grids(xbasis,zbasis)
 
-Z.change_scales(3/2)
-
+# Z.change_scales(3/2)
+Z['g']=z
+X['g']=x
 
 ex,ez = coords.unit_vector_fields(dist)
 lift_basis = zbasis.derivative_basis(1)
@@ -82,9 +87,10 @@ lift = lambda A: d3.Lift(A, lift_basis, -1)
 B_op = (np.absolute(D - M - N_s2*Z)+ M + D - N_s2*Z)/2
 lq = B_op/2 + np.absolute(B_op)
 
+# F=(max((Lx/10-x)/(Lx/10),0)+max((-Lx+Lx/10+x)/(Lx/10),0))
+F= (Lx/10-X)/(Lx/10)/2 +np.absolute((Lx/10-X)/(Lx/10))/2 + (-Lx+Lx/10+X)/(Lx/10)/2 + np.absolute((-Lx+Lx/10+X)/(Lx/10))/2
 
-
-Max = lambda A,B: (abs(A-N_s2*Z-B)+A-N_s2*Z+B)/2
+max = lambda A,B: (abs(A-N_s2*z-B)+A-N_s2*z+B)/2
 eva = lambda A: A.evaluate()
 
 dz= lambda A: d3.Differentiate(A, coords['z'])
@@ -108,29 +114,28 @@ grad_C = d3.grad(C) + ez*lift(tau_C1)
 
 
 
+
 mask = dist.Field(bases=(xbasis,zbasis))
+sponge = dist.Field(bases=(xbasis,zbasis))
 grid_slices = dist.layouts[-1].slices(mask.domain, dealias)
+#Mountain
 mask_file = 'mask.h5'
 with h5py.File(mask_file) as f:
     logger.info('loading mask from {}'.format(mask_file))
     mask.change_scales(dealias)
     mask['g'] = f['mask'][:,grid_slices[-1]]
 mask = d3.Grid(mask).evaluate()
+#Sponge 
+mask_file = 'mask_sp.h5'
+with h5py.File(mask_file) as f:
+    logger.info('loading mask from {}'.format(mask_file))
+    sponge.change_scales(dealias)
+    sponge['g'] = f['mask'][:,grid_slices[-1]]
+    
 
-# # Example data for interpolation
-# x_points = np.linspace(-1, 1, num=xg)  # Adjusted range to include possible negative and positive values
-# y_points = np.linspace(-1, 1, num=zg)    # Adjusted range similarly
-# data_on_grid = np.random.rand(xg, zg)  # Example data, replace with actual
+sponge = d3.Grid(sponge).evaluate()
 
-# Define the interpolation function using RegularGridInterpolator
-# def interp_smooth(x, y):
-#     x = np.clip(x, x_points.min(), x_points.max())  # Clamping x within the interpolation range
-#     y = np.clip(y, y_points.min(), y_points.max())  # Clamping y similarly
-#     interpolator = RegularGridInterpolator((x_points, y_points), data_on_grid)
-#     return interpolator([[x, y]])[0]
 
-# kappa = 2.23e-5
-# nu = 1.5e-5
 
 
 # %%
@@ -138,16 +143,20 @@ mask = d3.Grid(mask).evaluate()
 # Problem
 # First-order form: "div(f)" becomes "trace(grad_f)"
 # First-order form: "lap(f)" becomes "div(grad_f)"
-problem = d3.IVP([p, M, u, tau_p, tau_M1, tau_M2, tau_u1, tau_u2], namespace=locals())
+problem = d3.IVP([p, M, u, time, tau_p, tau_M1, tau_M2, tau_u1, tau_u2], namespace=locals())
 problem.add_equation("trace(grad_u) + tau_p= 0")
-problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) - mask*gamma*(M-M_0)")
-problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) = M*ez- u@grad(u) - mask*gamma*u")
+problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) - mask*gamma*(M-M_0)  -F*sponge*gamma_s*(M-(Lz-Z)/Lz)")
+problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u- F*sponge*gamma_s*(u-10/1*Z*ex)")
+problem.add_equation("dt(time) = 1 ")
 problem.add_equation("u(z=0) = 0")
 problem.add_equation("uz(z=Lz) = 0")
 problem.add_equation("dz(ux)(z=Lz)=0")
 problem.add_equation("M(z=0) = M_0")
 problem.add_equation("M(z=Lz) = M_H")
-
+# problem.add_equation("dx(time)(z=0) = 0")
+# problem.add_equation("dz(time)(z=0) = 0")
+# problem.add_equation("dx(time)(z=Lz) = 0")
+# problem.add_equation("dz(time)(z=Lz) = 0")
 problem.add_equation("integ(p) = 0") # Pressure gauge
 
 # %%
@@ -165,7 +174,8 @@ M['g'] += (M_H-M_0)*z+M_0 # Add linear background
 M.change_scales(dealias)
 
 M['g'] *=(1-mask['g']) # Apply mask
-
+M['g'] *= (1-sponge['g']) # Apply sponge
+time['g']=0
 
 # M.change_scales(1)
 # Z.change_scales(1)
@@ -173,7 +183,7 @@ M['g'] *=(1-mask['g']) # Apply mask
 
 # %%
 # Analysis
-snapshots = solver.evaluator.add_file_handler(save_dir+'/snapshots',sim_dt=0.25, max_writes=1)
+snapshots = solver.evaluator.add_file_handler(save_dir+'snapshots',sim_dt=0.25, max_writes=1)
 snapshots.add_tasks(solver.state,layout='g')
 snapshots.add_task(u@u, layout='g', name='u square')
 
