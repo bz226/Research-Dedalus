@@ -41,7 +41,7 @@ expname = 'MRBC_2D_RaM_'+"{:.1e}".format(Ra_M)  +'_Pr_'+"{:.1e}".format(Prandtl)
             +  '_Lx_'+"{:.1e}".format(Lx) \
             +   '_Nz_'+"{:d}".format(Nz)
 
-folder_dir = "/scratch/zb2113/DedalusData/2D/"+expname+'/restart'
+folder_dir = "/scratch/zb2113/DedalusData/2D/"+expname+'/analysis'
 save_dir= "/home/zb2113/Dedalus-Postanalysis/2D/"+expname
 
 if not os.path.exists(save_dir):
@@ -54,7 +54,7 @@ print(file_paths)
 
 # %%
 #read coordinates
-with h5py.File(folder_dir+'/restart_s1.h5', mode='r') as file:
+with h5py.File(folder_dir+'/analysis_s1.h5', mode='r') as file:
     print(list(file.keys()))
     scalekeys=list(file['scales'].keys())
     taskkeys=list(file['tasks'].keys())
@@ -112,7 +112,7 @@ for file_path in file_paths:
     n=n+1
     with h5py.File(file_path, mode='r') as file:
         M = file['tasks']['M'][:] 
-        uz = file['tasks']['u'][:][0,:]
+        uz = file['tasks']['uz'][:]
         T = file['tasks']['T'][:]
         C = file['tasks']['C'][:]
         simtime = np.array(file['scales/sim_time'])
@@ -154,9 +154,9 @@ x_start = np.min(M_grid)
 x_end = np.max(M_grid)   
 y_start = np.max(z_grid)  
 y_end = np.min(z_grid)    
-plt.title('Conditional Distribution of clock tracer')
+plt.title(str(Ra_M)+str(Qrad)+'Conditional Distribution of clock tracer')
 plt.plot([x_start, x_end], [y_start, y_end], color='white', linestyle='--', linewidth=2)
-plt.savefig(save_dir+'/isentropic/Cond Clock.png', dpi=200, bbox_inches='tight')
+plt.savefig(save_dir+'/isentropic/'+ str(Ra_M)+str(Qrad)+'Cond Clock.png', dpi=200, bbox_inches='tight')
 plt.close()
 
 #Plotting (Incomplete)
@@ -170,9 +170,9 @@ x_start = np.min(M_grid)
 x_end = np.max(M_grid)   
 y_start = np.max(z_grid)  
 y_end = np.min(z_grid)    
-plt.title('isentropic mass flux')
+plt.title(str(Ra_M)+str(Qrad)+'isentropic mass flux')
 plt.plot([x_start, x_end], [y_start, y_end], color='white', linestyle='--', linewidth=2)
-plt.savefig(save_dir+'/isentropic/Isendist_Mass.png', dpi=200, bbox_inches='tight')
+plt.savefig(save_dir+'/isentropic/'+ str(Ra_M)+str(Qrad)+'Isendist_Mass.png', dpi=200, bbox_inches='tight')
 plt.close()
 
 # #Plotting (Incomplete)
@@ -204,7 +204,7 @@ y_start = np.max(z_grid)
 y_end = np.min(z_grid)    
 
 plt.plot([x_start, x_end], [y_start, y_end], color='white', linestyle='--', linewidth=2)
-plt.savefig(save_dir+'/isentropic/Isendist_Clock.png', dpi=200, bbox_inches='tight')
+plt.savefig(save_dir+'/isentropic/'+ str(Ra_M)+str(Qrad)+'Isendist_Clock.png', dpi=200, bbox_inches='tight')
 plt.close()
 
 #Isentropic Stream Function
@@ -246,7 +246,7 @@ y_start = np.max(z_grid)
 y_end = np.min(z_grid)    
 
 plt.plot([x_start, x_end], [y_start, y_end], color='white', linestyle='--', linewidth=2)
-plt.savefig(save_dir+'/isentropic/Psi_M.png', dpi=200, bbox_inches='tight')
+plt.savefig(save_dir+'/isentropic/'+ str(Ra_M)+str(Qrad)+'Psi_M.png', dpi=200, bbox_inches='tight')
 plt.close()
 
 #Plotting
@@ -261,7 +261,7 @@ y_start = np.max(z_grid)
 y_end = np.min(z_grid)    
 
 plt.plot([x_start, x_end], [y_start, y_end], color='white', linestyle='--', linewidth=2)
-plt.savefig(save_dir+'/isentropic/Psi_Mass.png', dpi=200, bbox_inches='tight')
+plt.savefig(save_dir+'/isentropic/'+ str(Ra_M)+str(Qrad)+'Psi_Mass.png', dpi=200, bbox_inches='tight')
 plt.close()
 
 
@@ -277,7 +277,7 @@ y_start = np.max(z_grid)
 y_end = np.min(z_grid)    
 
 plt.plot([x_start, x_end], [y_start, y_end], color='white', linestyle='--', linewidth=2)
-plt.savefig(save_dir+'/isentropic/Psi_Ccond.png', dpi=200, bbox_inches='tight')
+plt.savefig(save_dir+'/isentropic/'+ str(Ra_M)+str(Qrad)+'Psi_Ccond.png', dpi=200, bbox_inches='tight')
 plt.close()
 
 # #Plotting
@@ -308,5 +308,5 @@ y_start = np.max(z_grid)
 y_end = np.min(z_grid)    
 
 plt.plot([x_start, x_end], [y_start, y_end], color='white', linestyle='--', linewidth=2)
-plt.savefig(save_dir+'/isentropic/Psi_C.png', dpi=200, bbox_inches='tight')
+plt.savefig(save_dir+'/isentropic/'+ str(Ra_M)+str(Qrad)+'Psi_C.png', dpi=200, bbox_inches='tight')
 plt.close()

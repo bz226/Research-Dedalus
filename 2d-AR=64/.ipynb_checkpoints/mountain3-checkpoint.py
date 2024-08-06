@@ -11,11 +11,11 @@ import re
 # Parameters
 Lx, Lz = 4,1
 Nx, Nz = 512, 128
-Ra_M = -1e5
+Ra_M = 1e5
 # D_0 = 0
 # D_H = 1/3
-M_0 = 0
-M_H = 1
+M_0 = 1
+M_H = 0
 N_s2=4/3
 Qrad=0.0028
 gamma=100

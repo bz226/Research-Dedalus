@@ -84,6 +84,8 @@ u = dist.VectorField(coords, name='u', bases=(xbasis,zbasis))
 Z = dist.Field(name='Z', bases=zbasis)
 T = dist.Field(name='T', bases=(xbasis,zbasis))
 C = dist.Field(name='C', bases=(xbasis,zbasis))
+Qr = dist.Field(name='Q', bases=(xbasis,zbasis))
+Nsz = dist.Field(name='Nsz', bases=(xbasis,zbasis))
 
 tau_p = dist.Field(name='tau_p')
 tau_B1 = dist.Field(name='tau_B1', bases=xbasis)
@@ -113,13 +115,14 @@ print('Qrad',Qrad)
 
 x,z = dist.local_grids(xbasis,zbasis)
 Z['g']=z
-Z.change_scales(3/2)
+Qr['g']=np.sin(np.pi*z/Lz)
+Nsz['g']=N_s2*z
 
 ex,ez = coords.unit_vector_fields(dist)
 lift_basis = zbasis.derivative_basis(1)
 lift = lambda A: d3.Lift(A, lift_basis, -1)
 
-B_op = (np.absolute(D - M - N_s2*Z)+ M + D - N_s2*Z)/2
+B_op = (np.absolute(D - M - Nsz)+ M + D - Nsz)/2
 lq = B_op/2 + np.absolute(B_op)
 
 
@@ -157,8 +160,8 @@ grad_C = d3.grad(C) + ez*lift(tau_C1)
 # First-order form: "lap(f)" becomes "div(grad_f)"
 problem = d3.IVP([p, M, D, u, T, C, tau_p, tau_M1, tau_M2, tau_D1, tau_D2, tau_u1, tau_u2, tau_T1, tau_T2, tau_C1, tau_C2], namespace=locals())
 problem.add_equation("trace(grad_u) + tau_p= 0")
-problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M)-Qrad/2*np.sin(np.pi*Z/Lz)")
-problem.add_equation("dt(D) - kappa*div(grad_D) + lift(tau_D2) = - u@grad(D)-Qrad*np.sin(np.pi*Z/Lz)")
+problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M)-Qrad/2*Qr")
+problem.add_equation("dt(D) - kappa*div(grad_D) + lift(tau_D2) = - u@grad(D)-Qrad*Qr")
 problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) = - u@grad(u)+ B_op*ez")
 problem.add_equation("dt(T) - kappa*div(grad_T) + lift(tau_T2) = - u@grad(T)")
 problem.add_equation("dt(C) - kappa*div(grad_C) + lift(tau_C2) = - u@grad(C)+1")

@@ -11,11 +11,11 @@ import re
 # Parameters
 Lx, Lz = 4,1
 Nx, Nz = 512, 128
-Ra_M = -1e5
+Ra_M = 1e5
 # D_0 = 0
 # D_H = 1/3
-M_0 = 0
-M_H = 1
+M_0 = 1
+M_H = 0
 N_s2=4/3
 Qrad=0.0028
 gamma=100
@@ -65,9 +65,6 @@ tau_C1 = dist.Field(name='tau_c1', bases=xbasis)
 tau_C2 = dist.Field(name='tau_c2', bases=xbasis)
 tau_t1 = dist.Field(name='tau_t1', bases=xbasis)
 tau_t2 = dist.Field(name='tau_t2', bases=xbasis)
-F = dist.Field(name='F', bases=(xbasis,zbasis))
-M_s = dist.Field(name='M_s', bases=(xbasis,zbasis))
-u_s = dist.Field(name='u_s', bases=(xbasis,zbasis))
 
 # Substitutions    
 #Kuo_Bretherton Equilibrium
@@ -92,10 +89,9 @@ B_op = (np.absolute(D - M - N_s2*Z)+ M + D - N_s2*Z)/2
 lq = B_op/2 + np.absolute(B_op)
 
 # F=(max((Lx/10-x)/(Lx/10),0)+max((-Lx+Lx/10+x)/(Lx/10),0))
-
-F['g']= (Lx/10-x)/(Lx/10)/2 +np.absolute((Lx/10-x)/(Lx/10))/2 + (-Lx+Lx/10+x)/(Lx/10)/2 + np.absolute((-Lx+Lx/10+x)/(Lx/10))/2
-M_s['g']=z
-u_s['g']=10*z
+F= (Lx/10-X)/(Lx/10)/2 +np.absolute((Lx/10-X)/(Lx/10))/2 + (-Lx+Lx/10+X)/(Lx/10)/2 + np.absolute((-Lx+Lx/10+X)/(Lx/10))/2
+M_s=Z
+u_s=10*Z
 
 max = lambda A,B: (abs(A-N_s2*z-B)+A-N_s2*z+B)/2
 eva = lambda A: A.evaluate()
@@ -201,14 +197,9 @@ snapshots.add_tasks(solver.state,layout='g')
 snapshots.add_task(u@u, layout='g', name='u square')
 snapshots.add_task(u@ez, layout='g', name='uz')
 snapshots.add_task(u@ex, layout='g', name='ux')
+snapshots.add_task(mask, layout='g', name='mask')
+snapshots.add_task(sponge, layout='g', name='sponge')
 snapshots.add_task(F*sponge, layout='g', name='Fsponge')
-
-
-
-maskcheck = solver.evaluator.add_file_handler(save_dir+'/maskcheck',sim_dt=5, max_writes=1)
-maskcheck.add_task(mask, layout='g', name='mask')
-maskcheck.add_task(sponge, layout='g', name='sponge')
-
 
 # %%
 # CFL

@@ -38,7 +38,7 @@ from matplotlib.colors import Normalize
 import os
 from os import listdir
 
-save_dir= "/scratch/zb2113/DedalusData/4e50.33Q=0.0028"
+# save_dir= "/scratch/zb2113/DedalusData/4e50.33Q=0.0028"
 
 #if not os.path.exists(save_dir):
 #    os.mkdir(save_dir)
@@ -61,7 +61,14 @@ stop_sim_time = 1500
 timestepper = d3.RK222
 max_timestep = 0.125
 dtype = np.float64
+savefreq = 5
 
+# The code check for the existence of a MRBC2D_param.py and import it. This allows yo update the simulations parameters
+
+if ( os.path.isfile('./MRBC2D_param.py')):
+    from MRBC2D_param import *
+
+print(Ra_M)
 # %%
 # Bases
 coords = d3.CartesianCoordinates('x','z')
@@ -77,6 +84,8 @@ u = dist.VectorField(coords, name='u', bases=(xbasis,zbasis))
 Z = dist.Field(name='Z', bases=zbasis)
 T = dist.Field(name='T', bases=(xbasis,zbasis))
 C = dist.Field(name='C', bases=(xbasis,zbasis))
+Qr = dist.Field(name='Q', bases=(xbasis,zbasis))
+Nsz = dist.Field(name='Nsz', bases=(xbasis,zbasis))
 
 tau_p = dist.Field(name='tau_p')
 tau_B1 = dist.Field(name='tau_B1', bases=xbasis)
@@ -100,18 +109,20 @@ kappa = (Ra_M * Prandtl/((M_0-M_H)*Lz**3))**(-1/2)
 nu = (Ra_M / (Prandtl*(M_0-M_H)*Lz**3))**(-1/2)
 print('kappa',kappa)
 print('nu',nu)
-
+print('RaM',Ra_M)
+print('Qrad',Qrad)
 
 
 x,z = dist.local_grids(xbasis,zbasis)
 Z['g']=z
-Z.change_scales(3/2)
+Qr['g']=np.sin(np.pi*z/Lz)
+Nsz['g']=N_s2*z
 
 ex,ez = coords.unit_vector_fields(dist)
 lift_basis = zbasis.derivative_basis(1)
 lift = lambda A: d3.Lift(A, lift_basis, -1)
 
-B_op = (np.absolute(D - M - N_s2*Z)+ M + D - N_s2*Z)/2
+B_op = (np.absolute(D - M - Nsz)+ M + D - Nsz)/2
 lq = B_op/2 + np.absolute(B_op)
 
 
@@ -130,6 +141,12 @@ dzux=dz(ux)
 dxuz=dx(uz)
 dzuz=dz(uz)
 
+dzlq = d3.Differentiate(lq, coords['z'])
+dzD = d3.Differentiate(D, coords['z'])
+dzM = d3.Differentiate(M, coords['z'])
+dzC = d3.Differentiate(C, coords['z'])
+dzT = d3.Differentiate(T, coords['z'])
+
 grad_u = d3.grad(u) + ez* lift(tau_u1) # First-order reduction
 grad_ux = grad_u@ex # First-order reduction
 grad_uz = grad_u@ez # First-order reduction
@@ -143,8 +160,8 @@ grad_C = d3.grad(C) + ez*lift(tau_C1)
 # First-order form: "lap(f)" becomes "div(grad_f)"
 problem = d3.IVP([p, M, D, u, T, C, tau_p, tau_M1, tau_M2, tau_D1, tau_D2, tau_u1, tau_u2, tau_T1, tau_T2, tau_C1, tau_C2], namespace=locals())
 problem.add_equation("trace(grad_u) + tau_p= 0")
-problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M)-Qrad/2*np.sin(np.pi*Z/Lz)")
-problem.add_equation("dt(D) - kappa*div(grad_D) + lift(tau_D2) = - u@grad(D)-Qrad*np.sin(np.pi*Z/Lz)")
+problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M)-Qrad/2*Qr")
+problem.add_equation("dt(D) - kappa*div(grad_D) + lift(tau_D2) = - u@grad(D)-Qrad*Qr")
 problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) = - u@grad(u)+ B_op*ez")
 problem.add_equation("dt(T) - kappa*div(grad_T) + lift(tau_T2) = - u@grad(T)")
 problem.add_equation("dt(C) - kappa*div(grad_C) + lift(tau_C2) = - u@grad(C)+1")
@@ -155,8 +172,8 @@ problem.add_equation("M(z=0) = M_0")
 problem.add_equation("D(z=0) = D_0")
 problem.add_equation("M(z=Lz) = M_H")
 problem.add_equation("D(z=Lz) = D_H")
-problem.add_equation("T(z=0) = 1")
-problem.add_equation("T(z=Lz) = 0")
+problem.add_equation("T(z=0) = 0")
+problem.add_equation("T(z=1) = 1")
 problem.add_equation("C(z=0) = 0")
 problem.add_equation("dz(C)(z=Lz) = 0")
 problem.add_equation("integ(p) = 0") # Pressure gauge
@@ -175,11 +192,12 @@ D['g'] += (D_H-D_0)*z # Add linear background
 M.fill_random('g', seed=28, distribution='normal', scale=1e-3) # Random noise
 M['g'] *= z * (Lz - z) # Damp noise at walls
 M['g'] += (M_H-M_0)*z # Add linear background
+# T.fill_random('g', seed=42, distribution='normal', scale=1)
+
 
 # %%
 # Analysis
-snapshots = solver.evaluator.add_file_handler(save_dir+'/snapshots', sim_dt=1, max_writes=1)
-snapshots.add_tasks(solver.state,layout='g')
+snapshots = solver.evaluator.add_file_handler('./snapshots', sim_dt=1, max_writes=500)
 snapshots.add_task(d3.Average(dz(D),coords['x']),name='Dry derivative')
 snapshots.add_task(d3.Average(dz(M),coords['x']),name='Moist derivative')
 snapshots.add_task(-Lz*(2*dz(M)(z=0)-dz(D)(z=0))/(2*(M_0-M_H)-(D_0-D_H)),name='Nusselt Number')
@@ -189,13 +207,41 @@ snapshots.add_task(d3.Average(B_op, coords['x']), name='horizontal avg B')
 snapshots.add_task(d3.Average(lq, coords['x']), name='horizontal avg liquid')
 snapshots.add_task(d3.Average(T, coords['x']), name='horizontal avg T')
 snapshots.add_task(d3.Average(C, coords['x']), name='horizontal avg C')
+snapshots.add_task(d3.Average(uz, coords['x']), name='horizontal avg uz')
+snapshots.add_task(d3.Average(uz*T, coords['x']), name='horizontal avg vertical T flux')
+snapshots.add_task(d3.Average(uz*C, coords['x']), name='horizontal avg vertical C flux')
+snapshots.add_task(d3.Average(uz*M, coords['x']), name='horizontal avg vertical M flux')
+snapshots.add_task(d3.Average(uz*D, coords['x']), name='horizontal avg vertical D flux')
+snapshots.add_task(d3.Average(uz*lq, coords['x']), name='horizontal avg vertical lq flux')
 snapshots.add_task(d3.Integrate(0.5*u@u,coords),name='total KE')
-snapshots.add_task(uz, name='uz')
+# snapshots.add_task(uz, name='uz')
+snapshots.add_task( - kappa * d3.Average(dzlq,'x'),layout='g', name='diffusive flux of water')
+snapshots.add_task( - kappa * d3.Average(dzD,'x'),layout='g', name='diffusive flux of dry buoyancy')
+snapshots.add_task( - kappa * d3.Average(dzM,'x'),layout='g', name='diffusive flux of moist buoyancy')
+snapshots.add_task( - kappa * d3.Average(dzC,'x'),layout='g', name='diffusive flux of clock tracer')
+snapshots.add_task( - kappa * d3.Average(dzT,'x'),layout='g', name='diffusive flux of tracer')
+snapshots.add_task( d3.Average(uz*D,'x') - d3.Average(uz, coords['x'])*d3.Average(D, coords['x']),layout='g', name='Reynolds flux of dry buoyancy')
+snapshots.add_task( d3.Average(uz*M,'x') - d3.Average(uz, coords['x'])*d3.Average(M, coords['x']),layout='g', name='Reynolds flux of moist buoyancy')
+snapshots.add_task( d3.Average(uz*C,'x') - d3.Average(uz, coords['x'])*d3.Average(C, coords['x']),layout='g', name='Reynolds flux of clock tracer')
+snapshots.add_task( d3.Average(uz*T,'x') - d3.Average(uz, coords['x'])*d3.Average(T, coords['x']),layout='g', name='Reynolds flux of tracer')
+
+restart = solver.evaluator.add_file_handler('./restart', sim_dt=500.0, max_writes=1)
+restart.add_tasks(solver.state)
+
+analysis = solver.evaluator.add_file_handler('./analysis', sim_dt=savefreq, max_writes=1)
+analysis.add_task(D, name='D')
+analysis.add_task(M, name='M')
+analysis.add_task(C, name='C')
+analysis.add_task(T, name='T')
+analysis.add_task(uz, name='uz')
+
+
+
 
 # %%
 # CFL
-CFL = d3.CFL(solver, initial_dt=0.1, cadence=10, safety=0.5, threshold=0.05,
-             max_change=1.1, min_change=0, max_dt=max_timestep)
+CFL = d3.CFL(solver, initial_dt=0.1, cadence=1, safety=0.3, threshold=0.05,
+             max_change=1.1, min_change=0.25, max_dt=max_timestep)
 CFL.add_velocity(u)
 
 # %%

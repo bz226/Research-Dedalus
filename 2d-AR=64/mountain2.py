@@ -29,7 +29,7 @@ max_timestep = min(0.125, 0.25/gamma)
 dtype = np.float64
 
 mask_dir= "/home/zb2113/Research-Dedalus/2d-AR=64/masks"
-save_dir= "/scratch/zb2113/DedalusData/mountain"
+save_dir= "/scratch/zb2113/DedalusData/mountain2"
 # %%
 # Bases
 coords = d3.CartesianCoordinates('x','z')
@@ -92,7 +92,6 @@ B_op = (np.absolute(D - M - N_s2*Z)+ M + D - N_s2*Z)/2
 lq = B_op/2 + np.absolute(B_op)
 
 # F=(max((Lx/10-x)/(Lx/10),0)+max((-Lx+Lx/10+x)/(Lx/10),0))
-
 F['g']= (Lx/10-x)/(Lx/10)/2 +np.absolute((Lx/10-x)/(Lx/10))/2 + (-Lx+Lx/10+x)/(Lx/10)/2 + np.absolute((-Lx+Lx/10+x)/(Lx/10))/2
 M_s['g']=z
 u_s['g']=10*z
@@ -201,14 +200,12 @@ snapshots.add_tasks(solver.state,layout='g')
 snapshots.add_task(u@u, layout='g', name='u square')
 snapshots.add_task(u@ez, layout='g', name='uz')
 snapshots.add_task(u@ex, layout='g', name='ux')
-snapshots.add_task(F*sponge, layout='g', name='Fsponge')
-
 
 
 maskcheck = solver.evaluator.add_file_handler(save_dir+'/maskcheck',sim_dt=5, max_writes=1)
 maskcheck.add_task(mask, layout='g', name='mask')
 maskcheck.add_task(sponge, layout='g', name='sponge')
-
+maskcheck.add_task(F*sponge, layout='g', name='Fsponge')
 
 # %%
 # CFL
