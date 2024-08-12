@@ -174,7 +174,9 @@ for batch in range(num_batches):
             Psi_M[z1, m1] = Psi_M[z1, m1-1] + iM_batches[batch, z1, m1-1]
             Psi_C[z1, m1] = Psi_C[z1, m1-1] + iCl_batches[batch, z1, m1-1]
             Psi_Ccond[z1, m1] = Psi_Ccond[z1, m1-1] + iClcond[z1, m1-1]
-        
+
+    Psi_Mass*=Msize
+    
     def plot_and_save(data, title, filename, log=False):
         os.makedirs(f'{save_dir}/isentropic/{filename}', exist_ok=True)
         plt.figure(figsize=(10, 8))
