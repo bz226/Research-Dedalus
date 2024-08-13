@@ -124,7 +124,7 @@ lift_basis = zbasis.derivative_basis(1)
 lift = lambda A: d3.Lift(A, lift_basis, -1)
 
 B_op = (np.absolute(D - M - Nsz)+ M + D - Nsz)/2
-lq = B_op/2 + np.absolute(B_op)
+lq = B_op/2 + np.absolute(B_op)/2
 
 
 

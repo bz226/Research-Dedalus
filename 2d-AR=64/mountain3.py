@@ -11,7 +11,7 @@ import re
 # Parameters
 Lx, Lz = 4,1
 Nx, Nz = 512, 128
-Ra_M = 1e5
+Ra_M = -1e5
 # D_0 = 0
 # D_H = 1/3
 M_0 = 0
@@ -67,7 +67,8 @@ tau_t1 = dist.Field(name='tau_t1', bases=xbasis)
 tau_t2 = dist.Field(name='tau_t2', bases=xbasis)
 F = dist.Field(name='F', bases=(xbasis,zbasis))
 M_s = dist.Field(name='M_s', bases=(xbasis,zbasis))
-u_s = dist.Field(name='u_s', bases=(xbasis,zbasis))
+u_fix = dist.Field(name='u_fix', bases=(xbasis,zbasis))
+u_period = dist.Field(name='u_period', bases=(xbasis,zbasis))
 
 # Substitutions    
 #Kuo_Bretherton Equilibrium
@@ -93,9 +94,13 @@ lq = B_op/2 + np.absolute(B_op)
 
 # F=(max((Lx/10-x)/(Lx/10),0)+max((-Lx+Lx/10+x)/(Lx/10),0))
 
-F['g']= (Lx/10-x)/(Lx/10)/2 +np.absolute((Lx/10-x)/(Lx/10))/2 + (-Lx+Lx/10+x)/(Lx/10)/2 + np.absolute((-Lx+Lx/10+x)/(Lx/10))/2
+# F['g']= (Lx/10-x)/(Lx/10)/2 +np.absolute((Lx/10-x)/(Lx/10))/2 + (-Lx+Lx/10+x)/(Lx/10)/2 + np.absolute((-Lx+Lx/10+x)/(Lx/10))/2 
+F['g']= (Lx/10-x)/(Lx/10)/2 +np.absolute((Lx/10-x)/(Lx/10))/2 + (-Lx+Lx/10+x)/(Lx/10)/2 + np.absolute((-Lx+Lx/10+x)/(Lx/10))/2 + ( np.sign(x-0.4)*np.sign(3.6-x)/2 + np.absolute(np.sign(x-0.4)*np.sign(3.6-x))/0.1/2 )* ( (z-0.9)/0.1/2 + np.absolute(z-0.9)/0.1/2 ) 
+
 M_s['g']=z
-u_s['g']=10*z
+u_fix['g']=10*z
+u_period['g']=5*z
+u_s = u_fix + np.sin(time*2*np.pi/5) * u_period
 
 max = lambda A,B: (abs(A-N_s2*z-B)+A-N_s2*z+B)/2
 eva = lambda A: A.evaluate()

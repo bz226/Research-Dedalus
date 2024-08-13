@@ -67,7 +67,8 @@ tau_t1 = dist.Field(name='tau_t1', bases=xbasis)
 tau_t2 = dist.Field(name='tau_t2', bases=xbasis)
 F = dist.Field(name='F', bases=(xbasis,zbasis))
 M_s = dist.Field(name='M_s', bases=(xbasis,zbasis))
-u_s = dist.Field(name='u_s', bases=(xbasis,zbasis))
+u_fix = dist.Field(name='u_fix', bases=(xbasis,zbasis))
+u_period = dist.Field(name='u_period', bases=(xbasis,zbasis))
 
 # Substitutions    
 #Kuo_Bretherton Equilibrium
@@ -88,14 +89,16 @@ ex,ez = coords.unit_vector_fields(dist)
 lift_basis = zbasis.derivative_basis(1)
 lift = lambda A: d3.Lift(A, lift_basis, -1)
 
-B_op = (np.absolute(D - M - N_s2*Z)+ M + D - N_s2*Z)/2
-lq = B_op/2 + np.absolute(B_op)
+# B_op = (np.absolute(D - M - N_s2*Z)+ M + D - N_s2*Z)/2
+# lq = B_op/2 + np.absolute(B_op)
 
 # F=(max((Lx/10-x)/(Lx/10),0)+max((-Lx+Lx/10+x)/(Lx/10),0))
 
 F['g']= (Lx/10-x)/(Lx/10)/2 +np.absolute((Lx/10-x)/(Lx/10))/2 + (-Lx+Lx/10+x)/(Lx/10)/2 + np.absolute((-Lx+Lx/10+x)/(Lx/10))/2
 M_s['g']=z
-u_s['g']=10*z
+u_fix['g']=10*z
+u_period['g']=5*z
+u_s = u_fix + np.sin(time*2*np.pi/5) * u_period
 
 max = lambda A,B: (abs(A-N_s2*z-B)+A-N_s2*z+B)/2
 eva = lambda A: A.evaluate()
@@ -155,11 +158,11 @@ problem.add_equation("trace(grad_u) + tau_p= 0")
 # problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) - mask*gamma*(M-M_0)  -F*sponge*gamma_s*(M-(Lz-Z)/Lz)")
 # problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) - mask*gamma*(M-M_0)  -sponge*gamma*(M-(Z-Lz)/Lz)")
 # problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) - mask*gamma*(M-M_0)  -sponge*gamma*M")
-problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M)  -F*sponge*gamma_s*(M-M_s)")
+problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M)  - mask*gamma*(M-M_0) -F*sponge*gamma_s*(M-M_s)")
 # problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u- F*sponge*gamma_s*(u-10/1*Z*ex)")
 # problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u- sponge*gamma*(u-10/1*Z*ex)")
 # problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u- sponge*gamma*(u-5/1*Z*ex)")
-problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - F*sponge*gamma_s*(u-u_s*ex)")
+problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u - F*sponge*gamma_s*(u-u_s*ex)")
 problem.add_equation("dt(time) = 1 ")
 problem.add_equation("u(z=0) = 0")
 problem.add_equation("uz(z=Lz) = 0")
@@ -186,7 +189,7 @@ M['g'] *= z * (Lz - z) # Damp noise at walls
 M['g'] += (M_H-M_0)*z+M_0 # Add linear background
 M.change_scales(dealias)
 
-# M['g'] *=(1-mask['g']) # Apply mask
+M['g'] *=(1-mask['g']) # Apply mask
 M['g'] *= (1-sponge['g']) # Apply sponge
 time['g']=0
 
