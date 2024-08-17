@@ -94,12 +94,12 @@ lq = B_op/2 + np.absolute(B_op)
 
 # F=(max((Lx/10-x)/(Lx/10),0)+max((-Lx+Lx/10+x)/(Lx/10),0))
 
-# F['g']= (Lx/10-x)/(Lx/10)/2 +np.absolute((Lx/10-x)/(Lx/10))/2 + (-Lx+Lx/10+x)/(Lx/10)/2 + np.absolute((-Lx+Lx/10+x)/(Lx/10))/2 
-F['g']= (Lx/10-x)/(Lx/10)/2 +np.absolute((Lx/10-x)/(Lx/10))/2 + (-Lx+Lx/10+x)/(Lx/10)/2 + np.absolute((-Lx+Lx/10+x)/(Lx/10))/2 + ( np.sign(x-0.4)*np.sign(3.6-x)/2 + np.absolute(np.sign(x-0.4)*np.sign(3.6-x))/0.1/2 )* ( (z-0.9)/0.1/2 + np.absolute(z-0.9)/0.1/2 ) 
+F['g']= (Lx/10-x)/(Lx/10)/2 +np.absolute((Lx/10-x)/(Lx/10))/2 + (-Lx+Lx/10+x)/(Lx/10)/2 + np.absolute((-Lx+Lx/10+x)/(Lx/10))/2 
+# F['g']= (Lx/10-x)/(Lx/10)/2 +np.absolute((Lx/10-x)/(Lx/10))/2 + (-Lx+Lx/10+x)/(Lx/10)/2 + np.absolute((-Lx+Lx/10+x)/(Lx/10))/2 + ( np.sign(x-0.4)*np.sign(3.6-x)/2 + np.absolute(np.sign(x-0.4)*np.sign(3.6-x))/2 )* ( (z-0.9)/0.1/2 + np.absolute(z-0.9)/0.1/2 ) 
 
 M_s['g']=z
-u_fix['g']=10*z
-u_period['g']=5*z
+u_fix['g']=5*z
+u_period['g']=3*z
 u_s = u_fix + np.sin(time*2*np.pi/5) * u_period
 
 max = lambda A,B: (abs(A-N_s2*z-B)+A-N_s2*z+B)/2

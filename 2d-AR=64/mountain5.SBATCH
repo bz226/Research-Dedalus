@@ -5,11 +5,11 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=32GB
 #SBATCH --time=6:00:00
-#SBATCH --job-name='mountain3'
+#SBATCH --job-name='mountain5'
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=zb2113@nyu.edu
-#SBATCH --output='mountain3.out'
+#SBATCH --output='mountain5.out'
 
 module purge
 
-srun /scratch/work/public/singularity/run-dedalus-3.0.0a0.bash python 'mountain3.py'
+srun /scratch/work/public/singularity/run-dedalus-3.0.0a0.bash python 'mountain5.py'

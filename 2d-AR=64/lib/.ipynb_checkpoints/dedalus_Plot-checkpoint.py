@@ -153,7 +153,7 @@ class Plot:
         #         plt.savefig(os.path.join(output_dir, f'{task_name}_{n:04d}.png'), dpi=200, bbox_inches='tight')
         #         plt.close()
 
-    def animate(self, task_name, output_file=None, fps=10, use_existing_pics=True, output_type='gif'):
+    def animate(self, task_name, output_dir=None, fps=10, use_existing_pics=True, output_type='gif'):
         """
         Create an animation for a specific task.
 
@@ -164,8 +164,11 @@ class Plot:
             use_existing_pics (bool, optional): Use existing pictures if available. Defaults to True.
             output_type (str, optional): Type of output file ('gif' or 'mp4'). Defaults to 'gif'.
         """
-        if output_file is None:
+        if output_dir is None:
             output_file = os.path.join(self.save_dir, f'{task_name}_animation.{output_type}')
+            
+        else:
+            output_file = os.path.join(output_dir, f'{task_name}_animation.{output_type}')
 
 
         pics_folder = os.path.join(self.save_dir, task_name)

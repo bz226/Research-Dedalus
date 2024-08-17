@@ -11,7 +11,7 @@ import re
 # Parameters
 Lx, Lz = 4,1
 Nx, Nz = 512, 128
-Ra_M = -1e5
+Ra_M = -1e4
 # D_0 = 0
 # D_H = 1/3
 M_0 = 0
@@ -19,7 +19,7 @@ M_H = 1
 N_s2=4/3
 Qrad=0.0028
 gamma=100
-gamma_s=1
+gamma_s=10
 
 Prandtl = 1
 dealias = 3/2
@@ -29,7 +29,7 @@ max_timestep = min(0.125, 0.25/gamma)
 dtype = np.float64
 
 mask_dir= "/home/zb2113/Research-Dedalus/2d-AR=64/masks"
-save_dir= "/scratch/zb2113/DedalusData/mountain2"
+save_dir= "/scratch/zb2113/DedalusData/mountain5"
 # %%
 # Bases
 coords = d3.CartesianCoordinates('x','z')
@@ -89,15 +89,16 @@ ex,ez = coords.unit_vector_fields(dist)
 lift_basis = zbasis.derivative_basis(1)
 lift = lambda A: d3.Lift(A, lift_basis, -1)
 
-B_op = (np.absolute(D - M - N_s2*Z)+ M + D - N_s2*Z)/2
-lq = B_op/2 + np.absolute(B_op)
+# B_op = (np.absolute(D - M - N_s2*Z)+ M + D - N_s2*Z)/2
+# lq = B_op/2 + np.absolute(B_op)
 
 # F=(max((Lx/10-x)/(Lx/10),0)+max((-Lx+Lx/10+x)/(Lx/10),0))
+
 F['g']= (Lx/10-x)/(Lx/10)/2 +np.absolute((Lx/10-x)/(Lx/10))/2 + (-Lx+Lx/10+x)/(Lx/10)/2 + np.absolute((-Lx+Lx/10+x)/(Lx/10))/2
 M_s['g']=z
-u_fix['g']=10* ( ( np.sign(0.9-z)/2 + np.absolute(np.sign(0.9-z))/2 ) * z/0.9 + ( np.sign(z-0.9)/2 + np.absolute(np.sign(z-0.9))/2 ) * (-10*z + 10) )
-u_period['g']=5*( ( np.sign(0.9-z)/2 + np.absolute(np.sign(0.9-z))/2 ) * z/0.9 + ( np.sign(z-0.9)/2 + np.absolute(np.sign(z-0.9))/2 ) * (-10*z + 10) )
-u_s = u_fix + np.sin(time*2*np.pi/5) * u_period
+u_fix['g']=10*z
+u_period['g']=5*z
+u_s = u_fix
 
 max = lambda A,B: (abs(A-N_s2*z-B)+A-N_s2*z+B)/2
 eva = lambda A: A.evaluate()
@@ -127,13 +128,13 @@ grad_C = d3.grad(C) + ez*lift(tau_C1)
 mask = dist.Field(bases=(xbasis,zbasis))
 sponge = dist.Field(bases=(xbasis,zbasis))
 grid_slices = dist.layouts[-1].slices(mask.domain, dealias)
-#Mountain
-mask_file = mask_dir+'/mask.h5'
-with h5py.File(mask_file) as f:
-    logger.info('loading mask from {}'.format(mask_file))
-    mask.change_scales(dealias)
-    mask['g'] = f['mask'][:,grid_slices[-1]]
-mask = d3.Grid(mask).evaluate()
+# #Mountain
+# mask_file = mask_dir+'/mask.h5'
+# with h5py.File(mask_file) as f:
+#     logger.info('loading mask from {}'.format(mask_file))
+#     mask.change_scales(dealias)
+#     mask['g'] = f['mask'][:,grid_slices[-1]]
+# mask = d3.Grid(mask).evaluate()
 #Sponge 
 mask_file = mask_dir+'/mask_sp.h5'
 with h5py.File(mask_file) as f:
@@ -157,7 +158,7 @@ problem.add_equation("trace(grad_u) + tau_p= 0")
 # problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) - mask*gamma*(M-M_0)  -F*sponge*gamma_s*(M-(Lz-Z)/Lz)")
 # problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) - mask*gamma*(M-M_0)  -sponge*gamma*(M-(Z-Lz)/Lz)")
 # problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) - mask*gamma*(M-M_0)  -sponge*gamma*M")
-problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M)  -F*sponge*gamma_s*(M-M_s)")
+problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) -F*sponge*gamma_s*(M-M_s)")
 # problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u- F*sponge*gamma_s*(u-10/1*Z*ex)")
 # problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u- sponge*gamma*(u-10/1*Z*ex)")
 # problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u- sponge*gamma*(u-5/1*Z*ex)")
@@ -165,7 +166,7 @@ problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = -
 problem.add_equation("dt(time) = 1 ")
 problem.add_equation("u(z=0) = 0")
 problem.add_equation("uz(z=Lz) = 0")
-problem.add_equation("ux(z=Lz)=0")
+problem.add_equation("dz(ux)(z=Lz)=0")
 problem.add_equation("M(z=0) = M_0")
 problem.add_equation("M(z=Lz) = M_H")
 # problem.add_equation("dx(time)(z=0) = 0")
@@ -203,12 +204,14 @@ snapshots.add_tasks(solver.state,layout='g')
 snapshots.add_task(u@u, layout='g', name='u square')
 snapshots.add_task(u@ez, layout='g', name='uz')
 snapshots.add_task(u@ex, layout='g', name='ux')
+snapshots.add_task(F*sponge, layout='g', name='Fsponge')
+
 
 
 maskcheck = solver.evaluator.add_file_handler(save_dir+'/maskcheck',sim_dt=5, max_writes=1)
-maskcheck.add_task(mask, layout='g', name='mask')
+# maskcheck.add_task(mask, layout='g', name='mask')
 maskcheck.add_task(sponge, layout='g', name='sponge')
-maskcheck.add_task(F*sponge, layout='g', name='Fsponge')
+
 
 # %%
 # CFL
