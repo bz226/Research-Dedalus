@@ -236,7 +236,10 @@ if analysison == True:
     analysis.add_task(C, name='C')
     analysis.add_task(T, name='T')
     analysis.add_task(uz, name='uz')
-
+    analysis.add_task(uz*C, name='C flux')
+    analysis.add_task(uz*T, name='T flux')
+    analysis.add_task(d3.Average(C, coords['x']), name='horizontal avg C')
+    analysis.add_task(d3.Average(uz*C, coords['x']), name='horizontal avg C flux')
 
 
 

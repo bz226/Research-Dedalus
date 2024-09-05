@@ -9,8 +9,8 @@ import matplotlib
 import re
 
 # Parameters
-Lx, Lz = 4,1
-Nx, Nz = 512, 128
+Lx, Lz = 1,4
+Nx, Nz = 128, 512
 Ra_M = -1e5
 # D_0 = 0
 # D_H = 1/3
@@ -89,14 +89,15 @@ ex,ez = coords.unit_vector_fields(dist)
 lift_basis = zbasis.derivative_basis(1)
 lift = lambda A: d3.Lift(A, lift_basis, -1)
 
-B_op = (np.absolute(D - M - N_s2*Z)+ M + D - N_s2*Z)/2
-lq = B_op/2 + np.absolute(B_op)
+# B_op = (np.absolute(D - M - N_s2*Z)+ M + D - N_s2*Z)/2
+# lq = B_op/2 + np.absolute(B_op)
 
 # F=(max((Lx/10-x)/(Lx/10),0)+max((-Lx+Lx/10+x)/(Lx/10),0))
+
 F['g']= (Lx/10-x)/(Lx/10)/2 +np.absolute((Lx/10-x)/(Lx/10))/2 + (-Lx+Lx/10+x)/(Lx/10)/2 + np.absolute((-Lx+Lx/10+x)/(Lx/10))/2
-M_s['g']=z
-u_fix['g']=10* ( ( np.sign(0.9-z)/2 + np.absolute(np.sign(0.9-z))/2 ) * z/0.9 + ( np.sign(z-0.9)/2 + np.absolute(np.sign(z-0.9))/2 ) * (-10*z + 10) )
-u_period['g']=5*( ( np.sign(0.9-z)/2 + np.absolute(np.sign(0.9-z))/2 ) * z/0.9 + ( np.sign(z-0.9)/2 + np.absolute(np.sign(z-0.9))/2 ) * (-10*z + 10) )
+M_s['g']=z/Lz
+u_fix['g']=z/Lz
+u_period['g']=3/4*z/Lz
 u_s = u_fix + np.sin(time*2*np.pi/5) * u_period
 
 max = lambda A,B: (abs(A-N_s2*z-B)+A-N_s2*z+B)/2
@@ -165,7 +166,7 @@ problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = -
 problem.add_equation("dt(time) = 1 ")
 problem.add_equation("u(z=0) = 0")
 problem.add_equation("uz(z=Lz) = 0")
-problem.add_equation("ux(z=Lz)=0")
+problem.add_equation("dz(ux)(z=Lz)=0")
 problem.add_equation("M(z=0) = M_0")
 problem.add_equation("M(z=Lz) = M_H")
 # problem.add_equation("dx(time)(z=0) = 0")
@@ -185,7 +186,7 @@ solver.stop_sim_time = stop_sim_time
 # Initial condition
 M.fill_random('g', seed=28, distribution='normal', scale=1e-3) # Random noise
 M['g'] *= z * (Lz - z) # Damp noise at walls
-M['g'] += (M_H-M_0)*z+M_0 # Add linear background
+M['g'] += (M_H-M_0)*z/Lz+M_0 # Add linear background
 M.change_scales(dealias)
 
 # M['g'] *=(1-mask['g']) # Apply mask
@@ -203,12 +204,14 @@ snapshots.add_tasks(solver.state,layout='g')
 snapshots.add_task(u@u, layout='g', name='u square')
 snapshots.add_task(u@ez, layout='g', name='uz')
 snapshots.add_task(u@ex, layout='g', name='ux')
+snapshots.add_task(F*sponge, layout='g', name='Fsponge')
+
 
 
 maskcheck = solver.evaluator.add_file_handler(save_dir+'/maskcheck',sim_dt=5, max_writes=1)
 maskcheck.add_task(mask, layout='g', name='mask')
 maskcheck.add_task(sponge, layout='g', name='sponge')
-maskcheck.add_task(F*sponge, layout='g', name='Fsponge')
+
 
 # %%
 # CFL

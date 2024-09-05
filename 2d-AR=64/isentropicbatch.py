@@ -110,6 +110,9 @@ iP_batches = np.zeros((num_batches, Nz, len(Mlist)))
 iM_batches = np.zeros((num_batches, Nz, len(Mlist)))
 iMass_batches = np.zeros((num_batches, Nz, len(Mlist)))
 iCl_batches = np.zeros((num_batches, Nz, len(Mlist)))
+iCf_batches = np.zeros((num_batches, Nz, len(Mlist)))
+iCbar_batches = np.zeros((num_batches, Nz))
+
 
 # Precompute the bin edges for M
 bin_edges = np.linspace(M_H, M_0, num=len(Mlist)+1)
@@ -123,35 +126,43 @@ for batch in range(num_batches):
     iM = np.zeros((Nz, len(Mlist), batch_size))
     iMass = np.zeros((Nz, len(Mlist), batch_size))
     iCl = np.zeros((Nz, len(Mlist), batch_size))
+    iCf = np.zeros((Nz, len(Mlist), batch_size))
+    iCbar = np.zeros((Nz, batch_size))
     
     for file_idx, file_path in enumerate(file_paths[start_idx:end_idx]):
         with h5py.File(file_path, mode='r') as file:
             M = file['tasks']['M'][:] 
             uz = file['tasks']['uz'][:]
             C = file['tasks']['C'][:]
+            Cf = file['tasks']['C flux'][:]
+            Cbar = file['tasks']['horizontal avg C flux'][:]
             simtime = np.array(file['scales/sim_time'])
         
         for t in range(simtime.shape[0]):
             M_t = M[t, :, :]
             uz_t = uz[t, :, :]
             C_t = C[t, :, :]
+            Cf_t = Cf[t, :, :]
+            Cbar_t=Cbar[t,:,:]
 
             M_indices = np.digitize(M_t, bin_edges) - 1
 
             for z1 in range(Nz):
+                iCbar[z1, file_idx] += Cbar_t[0,z1]
                 for m1 in range(len(Mlist)):
                     mask = M_indices[:, z1] == m1
                     iP[z1, m1, file_idx] += np.sum(mask)/Msize
                     iM[z1, m1, file_idx] += np.sum(M_t[:, z1] * mask)/Msize
                     iMass[z1, m1, file_idx] += np.sum(uz_t[:, z1] * mask)/Msize
                     iCl[z1, m1, file_idx] += np.sum(C_t[:, z1] * mask)/Msize
-
+                    iCf[z1, m1, file_idx] += np.sum(C_t[:, z1] * mask)/Msize
     # Average over the batch
     iP_batches[batch] = np.average(iP, axis=2)/Nx
     iM_batches[batch] = np.average(iM, axis=2)/Nx
     iMass_batches[batch] = np.average(iMass, axis=2)/Nx
     iCl_batches[batch] = np.average(iCl, axis=2)/Nx
-
+    iCf_batches[batch] = np.average(iCl, axis=2)/Nx
+    iCbar_batches[batch] = np.average(iCbar, axis=1)
     
 # Plotting time evolution
 for batch in range(num_batches):
@@ -163,19 +174,50 @@ for batch in range(num_batches):
     Psi_M = np.zeros((Nz, len(Mlist)))
     Psi_C = np.zeros((Nz, len(Mlist)))
     Psi_Ccond = np.zeros((Nz, len(Mlist)))
+    Mp = np.zeros((Nz, len(Mlist)))
+    Mn = np.zeros((Nz, len(Mlist)))
+    Cp = np.zeros((Nz, len(Mlist)))
+    Cn = np.zeros((Nz, len(Mlist)))
+
     
     for z1 in range(Nz):
         Psi_Mass[z1, 0] = iMass_batches[batch, z1, 0]
         Psi_M[z1, 0] = iM_batches[batch, z1, 0]
         Psi_C[z1, 0] = iCl_batches[batch, z1, 0]
         Psi_Ccond[z1, 0] = iClcond[z1, 0]
+        Mp[z1,0] = np.max(iMass_batches[batch, z1, 0], 0)
+        Mn[z1,0] = np.min(iMass_batches[batch, z1, 0], 0)
+        Cp[z1,0] = np.max(np.sign(iMass_batches[batch, z1, 0]), 0)*iCf_batches[batch, z1, 0]
+        Cn[z1,0] = np.absolute(np.min(np.sign(iMass_batches[batch, z1, 0]), 0))*iCf_batches[batch, z1, 0]
         for m1 in range(1, len(Mlist)):
             Psi_Mass[z1, m1] = Psi_Mass[z1, m1-1] + iMass_batches[batch, z1, m1-1]
             Psi_M[z1, m1] = Psi_M[z1, m1-1] + iM_batches[batch, z1, m1-1]
             Psi_C[z1, m1] = Psi_C[z1, m1-1] + iCl_batches[batch, z1, m1-1]
             Psi_Ccond[z1, m1] = Psi_Ccond[z1, m1-1] + iClcond[z1, m1-1]
+            Mp[z1,m1] = Mp[z1,m1-1] + np.max(iMass_batches[batch, z1, m1-1], 0)
+            Mn[z1,m1] = Mn[z1,m1-1] + np.min(iMass_batches[batch, z1, m1-1], 0)
+            Cp[z1,m1] = Cp[z1,m1-1] + np.max(np.sign(iMass_batches[batch, z1, m1-1]), 0)*iCf_batches[batch, z1, m1-1]
+            Cn[z1,m1] = Cn[z1,m1-1] + np.absolute(np.min(np.sign(iMass_batches[batch, z1, m1-1]), 0))*iCf_batches[batch, z1, m1-1]
 
     Psi_Mass*=Msize
+    Mn*=Msize
+    Mp*=Msize
+    Cn*=Msize
+    Cp*=Msize
+
+    Mn=Mn[:,-1]
+    Mp=Mp[:,-1]
+    Cp=Cp[:,-1]
+    Cn=Cn[:,-1]
+    # Cp = Cp/Mp
+    # Cn = Cn/Mn
+    FCp = Cp- Mp*iCbar_batches[batch]
+    FCn = Cn- Mn*iCbar_batches[batch]
+
+    if np.any(Mp < 0):
+        print(f"Negative Mp found in batch {batch}")
+        print("Indices of negative values:", np.where(Mp < 0))
+        print("Minimum value:", np.min(Mp))
     
     def plot_and_save(data, title, filename, log=False):
         os.makedirs(f'{save_dir}/isentropic/{filename}', exist_ok=True)
@@ -202,6 +244,47 @@ for batch in range(num_batches):
     plot_and_save(Psi_Ccond, 'Psi_Ccond', 'Psi_Ccond')
     plot_and_save(Psi_C, 'Psi_C', 'Psi_C')
 
+    os.makedirs(f'{save_dir}/isentropic/CpCn', exist_ok=True)
+    plt.figure(figsize=(10, 8))
+    plt.plot(Cp,z,label='Cp')
+    plt.plot(Cn,z,label='Cn')
+    plt.ylabel('z')
+    plt.xlabel('Cp and Cn')
+    plt.title(f'Cp Cn - Batch {batch+1}')
+    plt.legend()
+    plt.savefig(f'{save_dir}/isentropic/CpCn/CpCn_batch_{batch+1}.png', dpi=200, bbox_inches='tight')
+    plt.close()
+
+    os.makedirs(f'{save_dir}/isentropic/FCpFCn', exist_ok=True)
+    plt.figure(figsize=(10, 8))
+    plt.plot(FCp,z,label='FCp')
+    plt.plot(FCn,z,label='FCn')
+    plt.ylabel('z')
+    plt.xlabel('FCp and FCn')
+    plt.title(f'FCp FCn - Batch {batch+1}')
+    plt.legend()
+    plt.savefig(f'{save_dir}/isentropic/FCpFCn/FCpFCn_batch_{batch+1}.png', dpi=200, bbox_inches='tight')
+    plt.close()
+
+    os.makedirs(f'{save_dir}/isentropic/Mp', exist_ok=True)
+    plt.figure(figsize=(10, 8))
+    plt.plot(Mp,z,label='Mp')
+    plt.ylabel('z')
+    plt.xlabel('Mp')
+    plt.title(f'Mp - Batch {batch+1}')
+    plt.legend()
+    plt.savefig(f'{save_dir}/isentropic/Mp/Mp_batch_{batch+1}.png', dpi=200, bbox_inches='tight')
+    plt.close()
+
+    # os.makedirs(f'{save_dir}/isentropic/Cn', exist_ok=True)
+    # plt.figure(figsize=(10, 8))
+
+    # plt.xlabel('z')
+    # plt.ylabel('Cn')
+    # plt.title(f'Cn - Batch {batch+1}')
+    # plt.savefig(f'{save_dir}/isentropic/Cn/Cn_batch_{batch+1}.png', dpi=200, bbox_inches='tight')
+    # plt.close()
+    
 
 
     
@@ -212,7 +295,9 @@ plot_types = [
     ('Psi_M', 'Psi_M', 'Psi_M', False),
     ('Psi_Mass', 'Psi_Mass', 'Psi_Mass', False),
     ('Psi_Ccond', 'Psi_Ccond', 'Psi_Ccond', False),
-    ('Psi_C', 'Psi_C', 'Psi_C', False)
+    ('Psi_C', 'Psi_C', 'Psi_C', False),
+    ('CpCn','Cp and Cn','CpCn',False),
+
 ]
 def create_animation_from_plots(filename, task_folder):
     # Get all png files in the task folder
@@ -243,63 +328,3 @@ for plot_type, title, filename, log in plot_types:
     os.makedirs(f'{save_dir}/isentropic/{task_folder}', exist_ok=True)
     create_animation_from_plots(filename, task_folder)
 
-
-# def create_animation(plot_type, title, filename, log=False):
-#     fig, ax = plt.subplots(figsize=(10, 8))
-    
-#     tiny = 1e-10
-#     iClcond = iCl_avg / (iP_avg + tiny)
-    
-#     # Calculate isentropic streamfunctions
-#     Psi_Mass = np.zeros((Nz, len(Mlist)))
-#     Psi_M = np.zeros((Nz, len(Mlist)))
-#     Psi_C = np.zeros((Nz, len(Mlist)))
-#     Psi_Ccond = np.zeros((Nz, len(Mlist)))
-    
-#     for z1 in range(Nz):
-#         Psi_Mass[z1, 0] = iMass_avg[z1, 0]
-#         Psi_M[z1, 0] = iM_avg[z1, 0]
-#         Psi_C[z1, 0] = iCl_avg[z1, 0]
-#         Psi_Ccond[z1, 0] = iClcond[z1, 0]
-#         for m1 in range(1, len(Mlist)):
-#             Psi_Mass[z1, m1] = Psi_Mass[z1, m1-1] + iMass_avg[z1, m1-1]
-#             Psi_M[z1, m1] = Psi_M[z1, m1-1] + iM_avg[z1, m1-1]
-#             Psi_C[z1, m1] = Psi_C[z1, m1-1] + iCl_avg[z1, m1-1]
-#             Psi_Ccond[z1, m1] = Psi_Ccond[z1, m1-1] + iClcond[z1, m1-1]
-    
-#     data = eval(plot_type)
-#     if log:
-#         data = np.log(data)
-    
-#     # Create contour plot and colorbar only once
-#     cont = ax.contourf(M_grid, z_grid, data, cmap='RdBu_r')
-#     fig.colorbar(cont, ax=ax, label=title)
-    
-#     def animate(frame):
-#         ax.clear()
-        
-#         # Recreate the plot without making a new colorbar
-#         ax.contour(M_grid, z_grid, data, colors='k')
-#         ax.contourf(M_grid, z_grid, data, cmap='RdBu_r')
-#         ax.set_xlabel('M/(M_0-M_H)')
-#         ax.set_ylabel('z')
-#         ax.set_title(f'{title} - Frame {frame+1}')
-#         x_start, x_end = np.min(M_grid), np.max(M_grid)
-#         y_start, y_end = np.max(z_grid), np.min(z_grid)
-#         ax.plot([x_start, x_end], [y_start, y_end], color='white', linestyle='--', linewidth=2)
-    
-#     anim = animation.FuncAnimation(fig, animate, frames=20, repeat=True)  # 20 frames for animation
-    
-#     # Save as GIF
-#     anim.save(f'{save_dir}/isentropic/{filename}.gif', writer='pillow', fps=2)
-#     plt.close(fig)
-
-# for plot_type, title, filename, log in plot_types:
-#     try:
-#         plot_and_save()
-#         create_animation(plot_type, title, filename, log)
-#         print(f"Animation for {filename} created successfully.")
-#     except Exception as e:
-#         print(f"Error creating animation for {filename}: {str(e)}")
-
-# print("Animation process completed.")
