@@ -25,8 +25,8 @@ Nx, Nz = 8192, 128
 Ra_M = 1e6
 D_0 = 0
 D_H = 1/3
-M_0 = 0
-M_H = -1
+M_0 = 0.01
+M_H = -1.1
 N_s2=4/3
 Qrad=0.0028
 
@@ -112,9 +112,12 @@ iMass_batches = np.zeros((num_batches, Nz, len(Mlist)))
 iCl_batches = np.zeros((num_batches, Nz, len(Mlist)))
 iCf_batches = np.zeros((num_batches, Nz, len(Mlist)))
 iCbar_batches = np.zeros((num_batches, Nz))
-
+iCfbar_batches = np.zeros((num_batches, Nz))
 
 # Precompute the bin edges for M
+
+#Preparation of bins and lists
+Msize=(M_0-M_H)/100
 bin_edges = np.linspace(M_H, M_0, num=len(Mlist)+1)
 
 # Process data in batches
@@ -128,6 +131,7 @@ for batch in range(num_batches):
     iCl = np.zeros((Nz, len(Mlist), batch_size))
     iCf = np.zeros((Nz, len(Mlist), batch_size))
     iCbar = np.zeros((Nz, batch_size))
+    iCfbar = np.zeros((Nz, batch_size))
     
     for file_idx, file_path in enumerate(file_paths[start_idx:end_idx]):
         with h5py.File(file_path, mode='r') as file:
@@ -135,7 +139,8 @@ for batch in range(num_batches):
             uz = file['tasks']['uz'][:]
             C = file['tasks']['C'][:]
             Cf = file['tasks']['C flux'][:]
-            Cbar = file['tasks']['horizontal avg C flux'][:]
+            Cbar = file['tasks']['horizontal avg C'][:]
+            Cfbar = file['tasks']['horizontal avg C flux'][:]
             simtime = np.array(file['scales/sim_time'])
         
         for t in range(simtime.shape[0]):
@@ -144,25 +149,28 @@ for batch in range(num_batches):
             C_t = C[t, :, :]
             Cf_t = Cf[t, :, :]
             Cbar_t=Cbar[t,:,:]
+            Cfbar_t=Cfbar[t,:,:]
 
             M_indices = np.digitize(M_t, bin_edges) - 1
 
             for z1 in range(Nz):
                 iCbar[z1, file_idx] += Cbar_t[0,z1]
+                iCfbar[z1, file_idx] += Cfbar_t[0,z1]
                 for m1 in range(len(Mlist)):
                     mask = M_indices[:, z1] == m1
                     iP[z1, m1, file_idx] += np.sum(mask)/Msize
                     iM[z1, m1, file_idx] += np.sum(M_t[:, z1] * mask)/Msize
                     iMass[z1, m1, file_idx] += np.sum(uz_t[:, z1] * mask)/Msize
                     iCl[z1, m1, file_idx] += np.sum(C_t[:, z1] * mask)/Msize
-                    iCf[z1, m1, file_idx] += np.sum(C_t[:, z1] * mask)/Msize
+                    iCf[z1, m1, file_idx] += np.sum(Cf_t[:, z1] * mask)/Msize
     # Average over the batch
     iP_batches[batch] = np.average(iP, axis=2)/Nx
     iM_batches[batch] = np.average(iM, axis=2)/Nx
     iMass_batches[batch] = np.average(iMass, axis=2)/Nx
     iCl_batches[batch] = np.average(iCl, axis=2)/Nx
-    iCf_batches[batch] = np.average(iCl, axis=2)/Nx
+    iCf_batches[batch] = np.average(iCf, axis=2)/Nx
     iCbar_batches[batch] = np.average(iCbar, axis=1)
+    iCfbar_batches[batch] = np.average(iCfbar, axis=1)
     
 # Plotting time evolution
 for batch in range(num_batches):
@@ -185,19 +193,19 @@ for batch in range(num_batches):
         Psi_M[z1, 0] = iM_batches[batch, z1, 0]
         Psi_C[z1, 0] = iCl_batches[batch, z1, 0]
         Psi_Ccond[z1, 0] = iClcond[z1, 0]
-        Mp[z1,0] = np.max(iMass_batches[batch, z1, 0], 0)
-        Mn[z1,0] = np.min(iMass_batches[batch, z1, 0], 0)
-        Cp[z1,0] = np.max(np.sign(iMass_batches[batch, z1, 0]), 0)*iCf_batches[batch, z1, 0]
-        Cn[z1,0] = np.absolute(np.min(np.sign(iMass_batches[batch, z1, 0]), 0))*iCf_batches[batch, z1, 0]
+        Mp[z1,0] = np.maximum(iMass_batches[batch, z1, 0], 0)
+        Mn[z1,0] = np.minimum(iMass_batches[batch, z1, 0], 0)
+        Cp[z1,0] = np.maximum(np.sign(iMass_batches[batch, z1, 0]), 0)*iCf_batches[batch, z1, 0]
+        Cn[z1,0] = np.absolute(np.minimum(np.sign(iMass_batches[batch, z1, 0]), 0))*iCf_batches[batch, z1, 0]
         for m1 in range(1, len(Mlist)):
-            Psi_Mass[z1, m1] = Psi_Mass[z1, m1-1] + iMass_batches[batch, z1, m1-1]
-            Psi_M[z1, m1] = Psi_M[z1, m1-1] + iM_batches[batch, z1, m1-1]
-            Psi_C[z1, m1] = Psi_C[z1, m1-1] + iCl_batches[batch, z1, m1-1]
-            Psi_Ccond[z1, m1] = Psi_Ccond[z1, m1-1] + iClcond[z1, m1-1]
-            Mp[z1,m1] = Mp[z1,m1-1] + np.max(iMass_batches[batch, z1, m1-1], 0)
-            Mn[z1,m1] = Mn[z1,m1-1] + np.min(iMass_batches[batch, z1, m1-1], 0)
-            Cp[z1,m1] = Cp[z1,m1-1] + np.max(np.sign(iMass_batches[batch, z1, m1-1]), 0)*iCf_batches[batch, z1, m1-1]
-            Cn[z1,m1] = Cn[z1,m1-1] + np.absolute(np.min(np.sign(iMass_batches[batch, z1, m1-1]), 0))*iCf_batches[batch, z1, m1-1]
+            Psi_Mass[z1, m1] = Psi_Mass[z1, m1-1] + iMass_batches[batch, z1, m1]
+            Psi_M[z1, m1] = Psi_M[z1, m1-1] + iM_batches[batch, z1, m1]
+            Psi_C[z1, m1] = Psi_C[z1, m1-1] + iCl_batches[batch, z1, m1]
+            Psi_Ccond[z1, m1] = Psi_Ccond[z1, m1-1] + iClcond[z1, m1]
+            Mp[z1,m1] = Mp[z1,m1-1] + np.maximum(iMass_batches[batch, z1, m1], 0)
+            Mn[z1,m1] = Mn[z1,m1-1] + np.minimum(iMass_batches[batch, z1, m1], 0)
+            Cp[z1,m1] = Cp[z1,m1-1] + np.maximum(np.sign(iMass_batches[batch, z1, m1]), 0)*iCf_batches[batch, z1, m1]
+            Cn[z1,m1] = Cn[z1,m1-1] + np.absolute(np.minimum(np.sign(iMass_batches[batch, z1, m1]), 0))*iCf_batches[batch, z1, m1]
 
     Psi_Mass*=Msize
     Mn*=Msize
@@ -211,9 +219,16 @@ for batch in range(num_batches):
     Cn=Cn[:,-1]
     # Cp = Cp/Mp
     # Cn = Cn/Mn
-    Cp = Cp- Mp*iCbar_batches[batch]
-    Cn = Cn- Mn*iCbar_batches[batch]
-    
+    FCp = Cp- Mp*iCbar_batches[batch]
+    FCn = Cn- Mn*iCbar_batches[batch]
+
+    Cp = FCp / ( 1e-10 + Mp)
+    Cn = FCn / ( 1e-10 + Mn)
+
+    if np.any(Mp < 0):
+        print(f"Negative Mp found in batch {batch}")
+        print("Indices of negative values:", np.where(Mp < 0))
+        print("Minimum value:", np.min(Mp))
     
     def plot_and_save(data, title, filename, log=False):
         os.makedirs(f'{save_dir}/isentropic/{filename}', exist_ok=True)
@@ -242,13 +257,60 @@ for batch in range(num_batches):
 
     os.makedirs(f'{save_dir}/isentropic/CpCn', exist_ok=True)
     plt.figure(figsize=(10, 8))
-    plt.plot(Cp.T,z.T,label='Cp')
-    plt.plot(Cn.T,z.T,label='Cn')
+    plt.plot(Cp,z,label='Cp')
+    plt.plot(Cn,z,label='Cn')
+    plt.plot(Cp+Cn,z,label='Cp+Cn')
+    plt.plot(iCbar_batches[batch],z,label='Cbar')
     plt.ylabel('z')
     plt.xlabel('Cp and Cn')
+    plt.xlim(0,400)
     plt.title(f'Cp Cn - Batch {batch+1}')
     plt.legend()
     plt.savefig(f'{save_dir}/isentropic/CpCn/CpCn_batch_{batch+1}.png', dpi=200, bbox_inches='tight')
+    plt.close()
+
+    os.makedirs(f'{save_dir}/isentropic/FCpFCn', exist_ok=True)
+    plt.figure(figsize=(10, 8))
+    plt.plot(FCp,z,label='FCp')
+    plt.plot(FCn,z,label='FCn')
+    plt.plot(FCp+FCn,z,label='FCp+FCn')
+    plt.plot(iCfbar_batches[batch],z,label='C flux bar')
+    plt.ylabel('z')
+    plt.xlabel('FCp and FCn')
+    plt.title(f'FCp FCn - Batch {batch+1}')
+    plt.legend()
+    plt.savefig(f'{save_dir}/isentropic/FCpFCn/FCpFCn_batch_{batch+1}.png', dpi=200, bbox_inches='tight')
+    plt.close()
+
+    os.makedirs(f'{save_dir}/isentropic/Mp', exist_ok=True)
+    plt.figure(figsize=(10, 8))
+    plt.plot(Mp,z,label='Mp')
+    plt.plot(Mn,z,label='Mn')
+    plt.ylabel('z')
+    plt.xlabel('MpMn')
+    plt.title(f'Mp - Batch {batch+1}')
+    plt.legend()
+    plt.savefig(f'{save_dir}/isentropic/Mp/Mp_batch_{batch+1}.png', dpi=200, bbox_inches='tight')
+    plt.close()
+
+    os.makedirs(f'{save_dir}/isentropic/Rey1', exist_ok=True)
+    plt.figure(figsize=(10, 8))
+    plt.plot(Cp-Cn,z,label='Rey1')
+    plt.ylabel('z')
+    plt.xlabel('Rey1')
+    plt.title(f'Rey1 - Batch {batch+1}')
+    plt.legend()
+    plt.savefig(f'{save_dir}/isentropic/Rey1/Rey1_batch_{batch+1}.png', dpi=200, bbox_inches='tight')
+    plt.close()
+    
+    os.makedirs(f'{save_dir}/isentropic/Rey2', exist_ok=True)
+    plt.figure(figsize=(10, 8))
+    plt.plot(FCp-FCn,z,label='Rey2')
+    plt.ylabel('z')
+    plt.xlabel('Rey2')
+    plt.title(f'Rey2 - Batch {batch+1}')
+    plt.legend()
+    plt.savefig(f'{save_dir}/isentropic/Rey2/Rey2_batch_{batch+1}.png', dpi=200, bbox_inches='tight')
     plt.close()
 
     # os.makedirs(f'{save_dir}/isentropic/Cn', exist_ok=True)

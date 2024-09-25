@@ -9,8 +9,8 @@ import matplotlib
 import re
 
 # Parameters
-Lx, Lz = 1,4
-Nx, Nz = 128, 512
+Lx, Lz = 1,1
+Nx, Nz = 512, 512
 Ra_M = -1e5
 # D_0 = 0
 # D_H = 1/3
@@ -96,9 +96,10 @@ lift = lambda A: d3.Lift(A, lift_basis, -1)
 
 F['g']= (Lx/10-x)/(Lx/10)/2 +np.absolute((Lx/10-x)/(Lx/10))/2 + (-Lx+Lx/10+x)/(Lx/10)/2 + np.absolute((-Lx+Lx/10+x)/(Lx/10))/2
 M_s['g']=z/Lz
-u_fix['g']=z/Lz
-u_period['g']=3/4*z/Lz
-u_s = u_fix + np.sin(time*2*np.pi/5) * u_period
+u_fix['g']=0.001*np.sin(2*np.pi*z/Lz)
+u_period['g']=3*z/Lz
+# u_s = u_fix + np.sin(time*2*np.pi/5) * u_period
+u_s = u_fix
 
 max = lambda A,B: (abs(A-N_s2*z-B)+A-N_s2*z+B)/2
 eva = lambda A: A.evaluate()
@@ -158,11 +159,11 @@ problem.add_equation("trace(grad_u) + tau_p= 0")
 # problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) - mask*gamma*(M-M_0)  -F*sponge*gamma_s*(M-(Lz-Z)/Lz)")
 # problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) - mask*gamma*(M-M_0)  -sponge*gamma*(M-(Z-Lz)/Lz)")
 # problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) - mask*gamma*(M-M_0)  -sponge*gamma*M")
-problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M)  -F*sponge*gamma_s*(M-M_s)")
+problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M)")
 # problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u- F*sponge*gamma_s*(u-10/1*Z*ex)")
 # problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u- sponge*gamma*(u-10/1*Z*ex)")
 # problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u- sponge*gamma*(u-5/1*Z*ex)")
-problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - F*sponge*gamma_s*(u-u_s*ex)")
+problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u)")
 problem.add_equation("dt(time) = 1 ")
 problem.add_equation("u(z=0) = 0")
 problem.add_equation("uz(z=Lz) = 0")
@@ -189,8 +190,8 @@ M['g'] *= z * (Lz - z) # Damp noise at walls
 M['g'] += (M_H-M_0)*z/Lz+M_0 # Add linear background
 M.change_scales(dealias)
 
-# M['g'] *=(1-mask['g']) # Apply mask
-M['g'] *= (1-sponge['g']) # Apply sponge
+M['g'] *=(1-mask['g']) # Apply mask
+# M['g'] *= (1-sponge['g']) # Apply sponge
 time['g']=0
 
 # M.change_scales(1)
@@ -205,6 +206,11 @@ snapshots.add_task(u@u, layout='g', name='u square')
 snapshots.add_task(u@ez, layout='g', name='uz')
 snapshots.add_task(u@ex, layout='g', name='ux')
 snapshots.add_task(F*sponge, layout='g', name='Fsponge')
+snapshots.add_task(dz(M), name='dzM')
+snapshots.add_task(dx(uz), name='dxuz')
+snapshots.add_task(dx(M), name='dxM')
+snapshots.add_task(dz(dz(M)), name='dzdzM')
+snapshots.add_task(dx(dx(M)), name='dxdxM')
 
 
 
