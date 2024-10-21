@@ -10,8 +10,8 @@ import re
 
 # Parameters
 Lx, Lz = 1,1
-Nx, Nz = 512, 512
-Ra_M = -1e5
+Nx, Nz = 1024,1024
+Ra_M = -1e10
 # D_0 = 0
 # D_H = 1/3
 M_0 = 0
@@ -136,15 +136,15 @@ with h5py.File(mask_file) as f:
     mask.change_scales(dealias)
     mask['g'] = f['mask'][:,grid_slices[-1]]
 mask = d3.Grid(mask).evaluate()
-#Sponge 
-mask_file = mask_dir+'/mask_sp.h5'
-with h5py.File(mask_file) as f:
-    logger.info('loading mask from {}'.format(mask_file))
-    sponge.change_scales(dealias)
-    sponge['g'] = f['mask'][:,grid_slices[-1]]
+# #Sponge 
+# mask_file = mask_dir+'/mask_sp.h5'
+# with h5py.File(mask_file) as f:
+#     logger.info('loading mask from {}'.format(mask_file))
+#     sponge.change_scales(dealias)
+#     sponge['g'] = f['mask'][:,grid_slices[-1]]
     
 
-sponge = d3.Grid(sponge).evaluate()
+# sponge = d3.Grid(sponge).evaluate()
 
 
 
@@ -159,11 +159,11 @@ problem.add_equation("trace(grad_u) + tau_p= 0")
 # problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) - mask*gamma*(M-M_0)  -F*sponge*gamma_s*(M-(Lz-Z)/Lz)")
 # problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) - mask*gamma*(M-M_0)  -sponge*gamma*(M-(Z-Lz)/Lz)")
 # problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) - mask*gamma*(M-M_0)  -sponge*gamma*M")
-problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M)")
+problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M)- mask*gamma*(M-M_0)")
 # problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u- F*sponge*gamma_s*(u-10/1*Z*ex)")
 # problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u- sponge*gamma*(u-10/1*Z*ex)")
 # problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u- sponge*gamma*(u-5/1*Z*ex)")
-problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u)")
+problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u")
 problem.add_equation("dt(time) = 1 ")
 problem.add_equation("u(z=0) = 0")
 problem.add_equation("uz(z=Lz) = 0")
@@ -185,8 +185,8 @@ solver.stop_sim_time = stop_sim_time
 
 # %%
 # Initial condition
-M.fill_random('g', seed=28, distribution='normal', scale=1e-3) # Random noise
-M['g'] *= z * (Lz - z) # Damp noise at walls
+# M.fill_random('g', seed=28, distribution='normal', scale=1e-3) # Random noise
+# M['g'] *= z * (Lz - z) # Damp noise at walls
 M['g'] += (M_H-M_0)*z/Lz+M_0 # Add linear background
 M.change_scales(dealias)
 

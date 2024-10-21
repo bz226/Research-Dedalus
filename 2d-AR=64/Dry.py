@@ -38,7 +38,7 @@ from matplotlib.colors import Normalize
 import os
 from os import listdir
 
-# save_dir= "/scratch/zb2113/DedalusData/4e50.33Q=0.0028"
+save_dir= "/scratch/zb2113/DedalusData/2D/Dry"
 
 #if not os.path.exists(save_dir):
 #    os.mkdir(save_dir)
@@ -46,18 +46,18 @@ from os import listdir
 # %%
 # Parameters
 Lx, Lz = 64,1
-Nx, Nz = 4096, 64
-Ra_M = 4e5
+Nx, Nz = 8192, 128
+Ra_M = 1e6
 D_0 = 0
 D_H = 1/3
 M_0 = 0
 M_H = -1
 N_s2=4/3
-Qrad=0.0028
+Qrad=0
 
 Prandtl = 1
 dealias = 3/2
-stop_sim_time = 1500
+stop_sim_time = 1000
 timestepper = d3.RK222
 max_timestep = 0.125
 dtype = np.float64
@@ -66,8 +66,8 @@ savefreq = 5
 
 # The code check for the existence of a MRBC2D_param.py and import it. This allows yo update the simulations parameters
 
-if ( os.path.isfile('./MRBC2D_param.py')):
-    from MRBC2D_param import *
+# if ( os.path.isfile('./MRBC2D_param.py')):
+#     from MRBC2D_param import *
 
 print(Ra_M)
 # %%
@@ -163,7 +163,7 @@ problem = d3.IVP([p, M, D, u, T, C, tau_p, tau_M1, tau_M2, tau_D1, tau_D2, tau_u
 problem.add_equation("trace(grad_u) + tau_p= 0")
 problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M)-Qrad/2*Qr")
 problem.add_equation("dt(D) - kappa*div(grad_D) + lift(tau_D2) = - u@grad(D)-Qrad*Qr")
-problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) = - u@grad(u)+ B_op*ez")
+problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) = - u@grad(u)+ M*ez")
 problem.add_equation("dt(T) - kappa*div(grad_T) + lift(tau_T2) = - u@grad(T)")
 problem.add_equation("dt(C) - kappa*div(grad_C) + lift(tau_C2) = - u@grad(C)+1")
 problem.add_equation("u(z=0) = 0")
@@ -189,16 +189,16 @@ solver.stop_sim_time = stop_sim_time
 # Initial condition
 D.fill_random('g', seed=42, distribution='normal', scale=1e-3) # Random noise
 D['g'] *= z * (Lz - z) # Damp noise at walls
-D['g'] += (D_H-D_0)*z # Add linear background
+D['g'] += (D_H-D_0)*z+D_0 # Add linear background
 M.fill_random('g', seed=28, distribution='normal', scale=1e-3) # Random noise
 M['g'] *= z * (Lz - z) # Damp noise at walls
-M['g'] += (M_H-M_0)*z # Add linear background
+M['g'] += (M_H-M_0)*z +M_0 # Add linear background
 # T.fill_random('g', seed=42, distribution='normal', scale=1)
 
 
 # %%
 # Analysis
-snapshots = solver.evaluator.add_file_handler('./snapshots', sim_dt=1, max_writes=500)
+snapshots = solver.evaluator.add_file_handler(save_dir+'/snapshots', sim_dt=1, max_writes=500)
 snapshots.add_task(d3.Average(dz(D),coords['x']),name='Dry derivative')
 snapshots.add_task(d3.Average(dz(M),coords['x']),name='Moist derivative')
 snapshots.add_task(-Lz*(2*dz(M)(z=0)-dz(D)(z=0))/(2*(M_0-M_H)-(D_0-D_H)),name='Nusselt Number')
@@ -209,7 +209,6 @@ snapshots.add_task(d3.Average(lq, coords['x']), name='horizontal avg liquid')
 snapshots.add_task(d3.Average(T, coords['x']), name='horizontal avg T')
 snapshots.add_task(d3.Average(C, coords['x']), name='horizontal avg C')
 snapshots.add_task(d3.Average(uz, coords['x']), name='horizontal avg uz')
-snapshots.add_task(d3.Average(uz*B_op, coords['x']), name='horizontal avg vertical B flux')
 snapshots.add_task(d3.Average(uz*T, coords['x']), name='horizontal avg vertical T flux')
 snapshots.add_task(d3.Average(uz*C, coords['x']), name='horizontal avg vertical C flux')
 snapshots.add_task(d3.Average(uz*M, coords['x']), name='horizontal avg vertical M flux')
@@ -227,20 +226,17 @@ snapshots.add_task( d3.Average(uz*M,'x') - d3.Average(uz, coords['x'])*d3.Averag
 snapshots.add_task( d3.Average(uz*C,'x') - d3.Average(uz, coords['x'])*d3.Average(C, coords['x']),layout='g', name='Reynolds flux of clock tracer')
 snapshots.add_task( d3.Average(uz*T,'x') - d3.Average(uz, coords['x'])*d3.Average(T, coords['x']),layout='g', name='Reynolds flux of tracer')
 
-restart = solver.evaluator.add_file_handler('./restart', sim_dt=500.0, max_writes=1)
+restart = solver.evaluator.add_file_handler(save_dir+'/restart', sim_dt=500.0, max_writes=1)
 restart.add_tasks(solver.state)
 
 if analysison == True:   
-    analysis = solver.evaluator.add_file_handler('./analysis', sim_dt=savefreq, max_writes=1)
+    analysis = solver.evaluator.add_file_handler(save_dir+'/analysis', sim_dt=savefreq, max_writes=1)
     analysis.add_task(D, name='D')
     analysis.add_task(M, name='M')
     analysis.add_task(C, name='C')
     analysis.add_task(T, name='T')
-    analysis.add_task(B_op, name='B')
     analysis.add_task(uz, name='uz')
     analysis.add_task(uz*C, name='C flux')
-    analysis.add_task(uz*B_op, name='B flux')
-    analysis.add_task(uz*D, name='D flux')
     analysis.add_task(uz*T, name='T flux')
     analysis.add_task(d3.Average(C, coords['x']), name='horizontal avg C')
     analysis.add_task(d3.Average(uz*C, coords['x']), name='horizontal avg C flux')

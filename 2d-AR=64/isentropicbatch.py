@@ -25,7 +25,7 @@ Nx, Nz = 8192, 128
 Ra_M = 1e6
 D_0 = 0
 D_H = 1/3
-M_0 = 0.01
+M_0 = 0.1
 M_H = -1.1
 N_s2=4/3
 Qrad=0.0028
@@ -81,6 +81,9 @@ print(file_paths)
 
 if not os.path.exists(save_dir+'/isentropic'):
     os.mkdir(save_dir+'/isentropic')
+
+M_0 = 0.1
+M_H = -1.1
 
 #Preparation of bins and lists
 Msize=(M_0-M_H)/100
@@ -246,14 +249,31 @@ for batch in range(num_batches):
         plt.plot([x_start, x_end], [y_start, y_end], color='white', linestyle='--', linewidth=2)
         plt.savefig(f'{save_dir}/isentropic/{filename}/{filename}_batch_{batch+1}.png', dpi=200, bbox_inches='tight')
         plt.close()
-    
+
+
     plot_and_save(iClcond, 'Conditional Distribution of Clock Tracer', 'Cond_Clock')
+
+    os.makedirs(f'{save_dir}/isentropic/Cond_Clockwithline', exist_ok=True)
+    plt.figure(figsize=(10, 8))
+    tb = plt.contour(M_grid, z_grid, Psi_Mass, colors='black')
+    tc = plt.contourf(M_grid, z_grid, iClcond, cmap='RdBu_r')
+    plt.clabel(tb, inline=True, fontsize=10)
+    plt.colorbar(tc,label="Cond_Clock")
+    plt.xlabel('M/(M_0-M_H)')
+    plt.ylabel('z')
+    plt.title(f'Conditional Distribution of Clock Tracer - Batch {batch+1}')
+    x_start, x_end = np.min(M_grid), np.max(M_grid)
+    y_start, y_end = np.max(z_grid), np.min(z_grid)
+    # plt.plot([x_start, x_end], [y_start, y_end], color='white', linestyle='--', linewidth=2)
+    plt.savefig(f'{save_dir}/isentropic/Cond_Clockwithline/Cond_Clock_batch_{batch+1}.png', dpi=200, bbox_inches='tight')
+    plt.close()
+    
     plot_and_save(iMass_batches[batch], 'Isentropic Mass Flux', 'Isendist_Mass')
     plot_and_save(iCl_batches[batch], 'Isendist_C', 'Isendist_Clock', log=True)
     plot_and_save(Psi_M, 'Psi_M', 'Psi_M')
     plot_and_save(Psi_Mass, 'Psi_Mass', 'Psi_Mass')
-    plot_and_save(Psi_Ccond, 'Psi_Ccond', 'Psi_Ccond')
-    plot_and_save(Psi_C, 'Psi_C', 'Psi_C')
+    # plot_and_save(Psi_Ccond, 'Psi_Ccond', 'Psi_Ccond')
+    # plot_and_save(Psi_C, 'Psi_C', 'Psi_C')
 
     os.makedirs(f'{save_dir}/isentropic/CpCn', exist_ok=True)
     plt.figure(figsize=(10, 8))
