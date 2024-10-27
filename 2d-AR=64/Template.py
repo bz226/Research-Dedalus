@@ -47,12 +47,14 @@ from os import listdir
 # Parameters
 Lx, Lz = 64,1
 Nx, Nz = 4096, 64
-Ra_M = 4e5
+# Ra_M = 4e5
+kappa = 1e-4
 D_0 = 0
 D_H = 1/3
 M_0 = 0
 M_H = -1
-N_s2=4/3
+deltaM=0
+N_s2=1
 Qrad=0.0028
 
 Prandtl = 1
@@ -69,7 +71,8 @@ savefreq = 5
 if ( os.path.isfile('./MRBC2D_param.py')):
     from MRBC2D_param import *
 
-print(Ra_M)
+M_H=M_H+deltaM
+
 # %%
 # Bases
 coords = d3.CartesianCoordinates('x','z')
@@ -106,11 +109,11 @@ tau_C2 = dist.Field(name='tau_c2', bases=xbasis)
 
 # Substitutions    
 #Kuo_Bretherton Equilibrium
-kappa = (Ra_M * Prandtl/((M_0-M_H)*Lz**3))**(-1/2)
-nu = (Ra_M / (Prandtl*(M_0-M_H)*Lz**3))**(-1/2)
+# kappa = (Ra_M * Prandtl/((M_0-M_H)*Lz**3))**(-1/2)
+# nu = (Ra_M / (Prandtl*(M_0-M_H)*Lz**3))**(-1/2)
+nu = kappa *Prandtl
 print('kappa',kappa)
 print('nu',nu)
-print('RaM',Ra_M)
 print('Qrad',Qrad)
 
 
