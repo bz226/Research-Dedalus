@@ -9,9 +9,9 @@ import matplotlib
 import re
 
 # Parameters
-Lx, Lz = 1,1
-Nx, Nz = 256, 256
-Ra_M = -1e7
+Lx, Lz = 2,1
+Nx, Nz = 512, 256
+Ra_M = -1e10
 # D_0 = 0
 # D_H = 1/3
 M_0 = 0
@@ -96,7 +96,8 @@ lift = lambda A: d3.Lift(A, lift_basis, -1)
 
 F['g']= (Lx/10-x)/(Lx/10)/2 +np.absolute((Lx/10-x)/(Lx/10))/2 + (-Lx+Lx/10+x)/(Lx/10)/2 + np.absolute((-Lx+Lx/10+x)/(Lx/10))/2 + ( np.sign(x-Lx/10)*np.sign(Lx-Lx/10-x)/2 + np.absolute(np.sign(x-Lx/10)*np.sign(Lx-Lx/10-x))/2 )* ( (z-Lz+Lz/10)/(Lz/10)/2 + np.absolute(z-Lz+Lz/10)/(Lz/10)/2 ) 
 M_s['g']=z*(M_H-M_0)
-u_fix['g']=0.001*np.sin(2*np.pi*z/Lz)
+# u_fix['g']=0.001*np.sin(2*np.pi*z/Lz)
+u_fix['g']=0.0002
 u_period['g']=5*z
 u_s = u_fix
 
@@ -158,13 +159,14 @@ problem.add_equation("trace(grad_u) + tau_p= 0")
 # problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) - mask*gamma*(M-M_0)  -F*sponge*gamma_s*(M-(Lz-Z)/Lz)")
 # problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) - mask*gamma*(M-M_0)  -sponge*gamma*(M-(Z-Lz)/Lz)")
 # problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) - mask*gamma*(M-M_0)  -sponge*gamma*M")
-problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M)  - mask*gamma*(M-M_0) -sponge*gamma_s*(M-M_s)")
+problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M)  -sponge*gamma_s*(M-M_s)")
 # problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u- F*sponge*gamma_s*(u-10/1*Z*ex)")
 # problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u- sponge*gamma*(u-10/1*Z*ex)")
 # problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u- sponge*gamma*(u-5/1*Z*ex)")
 problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u - sponge*gamma_s*(u-u_s*ex)")
 problem.add_equation("dt(time) = 1 ")
-problem.add_equation("u(z=0) = 0")
+problem.add_equation("uz(z=0) = 0")
+problem.add_equation("dz(ux)(z=0)=0")
 problem.add_equation("uz(z=Lz) = 0")
 problem.add_equation("dz(ux)(z=Lz)=0")
 problem.add_equation("M(z=0) = M_0")
@@ -204,6 +206,7 @@ snapshots.add_tasks(solver.state,layout='g')
 snapshots.add_task(u@u, layout='g', name='u square')
 snapshots.add_task(u@ez, layout='g', name='uz')
 snapshots.add_task(u@ex, layout='g', name='ux')
+snapshots.add_task(u@ex-u_s, layout='g', name='u_diff')
 snapshots.add_task(F*sponge, layout='g', name='Fsponge')
 
 

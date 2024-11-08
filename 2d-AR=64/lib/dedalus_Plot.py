@@ -12,7 +12,7 @@ import moviepy
 class Plot:
     def __init__(self, save_dir=None, handler="snapshots", dimension=2):
         if save_dir is None:
-            save_dir = os.getcwd()  # Use current directory as default
+            save_dir = os.getcwd()
         self.save_dir = save_dir
         self.handler = handler
         self.folder_dir = os.path.join(save_dir, handler)
@@ -22,10 +22,12 @@ class Plot:
         self.z = None
         self.scalekeys = None
         self.taskkeys = None
-        self.dimension = dimension  # Manually set dimension
+        self.dimension = dimension
         self.sim_time = None
         self.get_grid_data()
         self.get_sim_time()
+        # Cache for loaded data
+        self._data_cache = {}
 
     def sort_files_in_directory(self):
         file_paths = [
@@ -67,91 +69,105 @@ class Plot:
                 st = file['scales/sim_time']
                 self.sim_time.extend(np.array(st))
 
-    def get_global_minmax(self, task_name): #Can be included in load_data
-        global_min = float('inf')
-        global_max = float('-inf')
-        data = self.load_data(task_name)
-        global_min = min(global_min, np.min(data))
-        print(global_min)
-        global_max = max(global_max, np.max(data))
-        print(global_max)
-        # for file_path in self.file_paths:
-        #     data = self.load_data(task_name)
-        #     global_min = min(global_min, np.min(data))
-        #     global_max = max(global_max, np.max(data))
-        return global_min, global_max
-    
     def load_data(self, task_name):
-        # with h5py.File(self.file_paths[0], 'r') as file:
-        #     data = file['tasks'][task_name][:]
-        data=[]
+        """
+        Load data with caching mechanism to prevent multiple loads of the same data.
+        """
+        # Check if data is already in cache
+        if task_name in self._data_cache:
+            return self._data_cache[task_name]
+
+        # Load data if not in cache
+        data = []
         for file_path in self.file_paths:
             with h5py.File(file_path, 'r') as file:
                 task = file['tasks'][task_name][:]
-                # print(task.shape)
                 data.append(task)
-                # np.concatenate((data,task), axis=0)
+        
         data = np.concatenate(data, axis=0)
-        # print(data.shape)
+        # Store in cache
+        self._data_cache[task_name] = data
         return data
 
-    def plot_all_snapshots(self, task_name, output_dir=None, cmap='RdBu_r', vmin=None, vmax=None, levelnum=10, figure_size=(10, 8), concentration=1.0):
-        #concentration parameter not functional
+    def clear_cache(self):
         """
-        Plot snapshots for a specific task.
+        Clear the data cache to free memory when needed.
+        """
+        self._data_cache.clear()
 
-        Args:
-            task_name (str): Name of the task to plot.
-            output_dir (str, optional): Directory to save plots. Defaults to None.
-            cmap (str, optional): Colormap to use. Defaults to 'RdBu_r'.
-            vmin (float, optional): Minimum value for colormap. Defaults to None.
-            vmax (float, optional): Maximum value for colormap. Defaults to None.
-            figure_size (tuple, optional): Size of the figure. Defaults to (10, 8).
+    def plot_all_snapshots(self, task_name, output_dir=None, cmap='RdBu_r', vmin=None, vmax=None, 
+                          levelnum=10, figure_size=(10, 8), concentration=1.0):
         """
+        Optimized version of plot_all_snapshots with:
+        - Single data load with caching
+        - Figure reuse
+        - Proper memory management
+        - Efficient min/max calculation
+        """
+        # Setup output directory
         if output_dir is None:
             output_dir = os.path.join(self.save_dir, task_name)
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
-            
-        if not os.path.exists(os.path.join(output_dir,task_name)):
-            os.makedirs(os.path.join(output_dir,task_name))
+        os.makedirs(os.path.join(output_dir, task_name), exist_ok=True)
+        output_dir = os.path.join(output_dir, task_name)
 
-        output_dir=os.path.join(output_dir,task_name)
+        # Load data once and cache it
+        print("Loading data...")
+        data = self.load_data(task_name)
         
+        # Calculate global min/max efficiently
         if vmin is None or vmax is None:
-            global_min, global_max = self.get_global_minmax(task_name)
+            print("Calculating global min/max...")
+            global_min = np.min(data)
+            global_max = np.max(data)
             vmin = global_min if vmin is None else vmin
             vmax = global_max if vmax is None else vmax
         
-        levels=self.nonlinear_space(a=vmin, b=vmax, n=levelnum, concentration=concentration)
-        for t in range(len(self.sim_time)):
-            data = self.load_data(task_name)
-            plt.figure(figsize=figure_size)
-            plt.contourf(self.x, self.z, data[t].T, cmap=cmap, levels=levels)
-            plt.colorbar(label=task_name)
-            plt.xlabel('x')
-            plt.ylabel('z')
-            plt.title(f"{task_name}, t = {self.sim_time[t]:.2f}")
-            
-            plt.savefig(os.path.join(output_dir, f'{task_name}_{t:04d}.png'), dpi=200, bbox_inches='tight')
-            plt.close()
+        # Calculate levels once
+        levels = self.nonlinear_space(a=vmin, b=vmax, n=levelnum, concentration=concentration)
         
-        # n = 0
+        # Create figure and axes once
+        print("Creating figure...")
+        fig, ax = plt.subplots(figsize=figure_size)
         
-        # for file_path in zip(self.file_paths, self.sim_time):
-        #     data = self.load_data(file_path, task_name)
+        # Create a progress counter
+        total_frames = len(self.sim_time)
+        
+        # Process all snapshots
+        print(f"Processing {total_frames} snapshots...")
+        for t in range(total_frames):
+            # Clear previous plot content but keep the figure
+            ax.clear()
             
-        #     for t in range(len(self.sim_time)):
-        #         plt.figure(figsize=figure_size)
-        #         plt.contourf(self.x, self.z, data[n].T, cmap=cmap, vmin=vmin, vmax=vmax)
-        #         plt.colorbar(label=task_name)
-        #         plt.xlabel('x')
-        #         plt.ylabel('z')
-        #         plt.title(f"{task_name}, t = {self.sim_time[n]:.2f}")
-                
-        #         n += 1
-        #         plt.savefig(os.path.join(output_dir, f'{task_name}_{n:04d}.png'), dpi=200, bbox_inches='tight')
-        #         plt.close()
+            # Create new contour plot
+            cont = ax.contourf(self.x, self.z, data[t].T, 
+                             cmap=cmap, 
+                             levels=levels)
+            
+            # Add colorbar (only on first iteration)
+            if t == 0:
+                plt.colorbar(cont, label=task_name)
+            
+            # Set labels and title
+            ax.set_xlabel('x')
+            ax.set_ylabel('z')
+            ax.set_title(f"{task_name}, t = {self.sim_time[t]:.2f}")
+            
+            # Save the current frame
+            plt.savefig(os.path.join(output_dir, f'{task_name}_{t:04d}.png'), 
+                       dpi=200, 
+                       bbox_inches='tight')
+            
+            # Clean up contour collections to free memory
+            for coll in cont.collections:
+                coll.remove()
+            
+            # Print progress
+            if (t + 1) % 10 == 0:
+                print(f"Progress: {t + 1}/{total_frames} frames processed")
+        
+        # Clean up
+        plt.close(fig)
+        print("Finished processing all snapshots!")
 
     def animate(self, task_name, output_dir=None, fps=10, use_existing_pics=True, output_type='gif'):
         """
@@ -250,7 +266,6 @@ class Plot:
         anim.save(output_file, writer=writer)
         plt.close(fig)
         print(f"Animation saved as {output_file}")
-
         
     @staticmethod
     def nonlinear_space(a, b, n, concentration=0.5):
