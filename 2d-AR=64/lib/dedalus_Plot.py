@@ -202,26 +202,49 @@ class Plot:
     def create_animation_from_pics(self, pic_files, output_file, fps, output_type):
         """
         Create animation from existing picture files.
-
+    
         Args:
             pic_files (list): List of picture file paths.
             output_file (str): Path to save the animation.
             fps (int): Frames per second.
             output_type (str): Type of output file ('gif' or 'mp4').
         """
-        images = [Image.open(f) for f in pic_files]
-        
+        # Use PIL for GIF
         if output_type.lower() == 'gif':
-            images[0].save(output_file, save_all=True, append_images=images[1:], 
-                           duration=1000/fps, loop=0)
+            # Open first image to get size
+            first_image = Image.open(pic_files[0])
+            # Ensure all images have the same mode as the first
+            images = []
+            for pic_file in pic_files:
+                img = Image.open(pic_file)
+                if img.mode != first_image.mode:
+                    img = img.convert(first_image.mode)
+                images.append(img)
             
+            # Save GIF with original quality
+            first_image.save(
+                output_file,
+                save_all=True,
+                append_images=images[1:],
+                duration=int(1000/fps),  # duration in milliseconds
+                loop=0,
+                quality=95  # high quality
+            )
+        
+        # Use moviepy for MP4
         elif output_type.lower() == 'mp4':
             import moviepy.editor as mpy
+            
+            # Create clip with specific codec and quality settings
             clip = mpy.ImageSequenceClip(pic_files, fps=fps)
-            clip.write_videofile(output_file)
+            clip.write_videofile(output_file, 
+                               codec='libx264',
+                               bitrate='16M',  # high bitrate for better quality
+                               preset='slower'  # slower encoding = better compression
+                               )
         else:
             raise ValueError("Output type must be either 'gif' or 'mp4'")
-
+    
         print(f"Animation saved as {output_file}")
 
     def create_animation_from_data(self, task_name, output_file, fps, output_type):

@@ -9,9 +9,9 @@ import matplotlib
 import re
 
 # Parameters
-Lx, Lz = 1,1
-Nx, Nz = 1024,1024
-Ra_M = -1e10
+Lx, Lz = 2,1
+Nx, Nz = 1024,512
+Ra_M = -1e12
 # D_0 = 0
 # D_H = 1/3
 M_0 = 0
@@ -23,7 +23,7 @@ gamma_s=1
 
 Prandtl = 1
 dealias = 3/2
-stop_sim_time = 50
+stop_sim_time = 500
 timestepper = d3.RK222
 max_timestep = min(0.125, 0.25/gamma)
 dtype = np.float64
@@ -96,7 +96,7 @@ lift = lambda A: d3.Lift(A, lift_basis, -1)
 
 F['g']= (Lx/10-x)/(Lx/10)/2 +np.absolute((Lx/10-x)/(Lx/10))/2 + (-Lx+Lx/10+x)/(Lx/10)/2 + np.absolute((-Lx+Lx/10+x)/(Lx/10))/2
 M_s['g']=z/Lz
-u_fix['g']=0.001*np.sin(2*np.pi*z/Lz)
+u_fix['g']=0.02
 u_period['g']=3*z/Lz
 # u_s = u_fix + np.sin(time*2*np.pi/5) * u_period
 u_s = u_fix
@@ -136,15 +136,15 @@ with h5py.File(mask_file) as f:
     mask.change_scales(dealias)
     mask['g'] = f['mask'][:,grid_slices[-1]]
 mask = d3.Grid(mask).evaluate()
-# #Sponge 
-# mask_file = mask_dir+'/mask_sp.h5'
-# with h5py.File(mask_file) as f:
-#     logger.info('loading mask from {}'.format(mask_file))
-#     sponge.change_scales(dealias)
-#     sponge['g'] = f['mask'][:,grid_slices[-1]]
+#Sponge 
+mask_file = mask_dir+'/mask_sp.h5'
+with h5py.File(mask_file) as f:
+    logger.info('loading mask from {}'.format(mask_file))
+    sponge.change_scales(dealias)
+    sponge['g'] = f['mask'][:,grid_slices[-1]]
     
 
-# sponge = d3.Grid(sponge).evaluate()
+sponge = d3.Grid(sponge).evaluate()
 
 
 
@@ -159,13 +159,14 @@ problem.add_equation("trace(grad_u) + tau_p= 0")
 # problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) - mask*gamma*(M-M_0)  -F*sponge*gamma_s*(M-(Lz-Z)/Lz)")
 # problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) - mask*gamma*(M-M_0)  -sponge*gamma*(M-(Z-Lz)/Lz)")
 # problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M) - mask*gamma*(M-M_0)  -sponge*gamma*M")
-problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M)- mask*gamma*(M-M_0)")
+problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M)- sponge*gamma_s*(M-M_s)")
 # problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u- F*sponge*gamma_s*(u-10/1*Z*ex)")
 # problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u- sponge*gamma*(u-10/1*Z*ex)")
 # problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u- sponge*gamma*(u-5/1*Z*ex)")
-problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u")
+problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) -M*ez = - u@grad(u) - mask*gamma*u- sponge*gamma_s*(u-u_s*ex)")
 problem.add_equation("dt(time) = 1 ")
-problem.add_equation("u(z=0) = 0")
+problem.add_equation("uz(z=0) = 0")
+problem.add_equation("dz(ux)(z=0)=0")
 problem.add_equation("uz(z=Lz) = 0")
 problem.add_equation("dz(ux)(z=Lz)=0")
 problem.add_equation("M(z=0) = M_0")
@@ -200,7 +201,7 @@ time['g']=0
 
 # %%
 # Analysis
-snapshots = solver.evaluator.add_file_handler(save_dir+'/snapshots',sim_dt=0.25, max_writes=1)
+snapshots = solver.evaluator.add_file_handler(save_dir+'/snapshots',sim_dt=5, max_writes=1)
 snapshots.add_tasks(solver.state,layout='g')
 snapshots.add_task(u@u, layout='g', name='u square')
 snapshots.add_task(u@ez, layout='g', name='uz')
@@ -214,7 +215,7 @@ snapshots.add_task(dx(dx(M)), name='dxdxM')
 
 
 
-maskcheck = solver.evaluator.add_file_handler(save_dir+'/maskcheck',sim_dt=5, max_writes=1)
+maskcheck = solver.evaluator.add_file_handler(save_dir+'/maskcheck',sim_dt=100, max_writes=1)
 maskcheck.add_task(mask, layout='g', name='mask')
 maskcheck.add_task(sponge, layout='g', name='sponge')
 

@@ -9,8 +9,8 @@ import matplotlib
 import re
 
 # Parameters
-Lx, Lz = 4,1
-Nx, Nz = 512, 128
+Lx, Lz = 2,1
+Nx, Nz = 1024, 512
 Ra_M = -1e4
 # D_0 = 0
 # D_H = 1/3
