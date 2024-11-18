@@ -199,6 +199,7 @@ class Plot:
             print("Generating new animation from data")
             self.create_animation_from_data(task_name, output_file, fps, output_type)
 
+
     def create_animation_from_pics(self, pic_files, output_file, fps, output_type):
         images = [Image.open(f) for f in pic_files]
         
@@ -212,22 +213,6 @@ class Plot:
         else:
             raise ValueError("Output type must be either 'gif' or 'mp4'")
 
-        print(f"Animation saved as {output_file}")
-        
-        # Use moviepy for MP4
-        elif output_type.lower() == 'mp4':
-            import moviepy.editor as mpy
-            
-            # Create clip with specific codec and quality settings
-            clip = mpy.ImageSequenceClip(pic_files, fps=fps)
-            clip.write_videofile(output_file, 
-                               codec='libx264',
-                               bitrate='16M',  # high bitrate for better quality
-                               preset='slower'  # slower encoding = better compression
-                               )
-        else:
-            raise ValueError("Output type must be either 'gif' or 'mp4'")
-    
         print(f"Animation saved as {output_file}")
 
     def create_animation_from_data(self, task_name, output_file, fps, output_type):
