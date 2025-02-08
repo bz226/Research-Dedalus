@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import glob
 from PIL import Image
-import moviepy
+import moviepy.editor  # renamed from moviepy
 
 class Plot:
     def __init__(self, save_dir=None, handler="snapshots", dimension=2):
@@ -39,34 +39,37 @@ class Plot:
         return file_paths
 
     def get_grid_data(self):
+        # Get grid information from the last file (assumes grid is constant in time)
         file = self.file_paths[-1]
-        with h5py.File(file, mode='r') as file:
-            print(list(file.keys()))
-            self.scalekeys = list(file['scales'].keys())
-            self.taskkeys = list(file['tasks'].keys())
+        with h5py.File(file, mode='r') as file_obj:
+            # Print keys for debugging purposes
+            print("File keys:", list(file_obj.keys()))
+            self.scalekeys = list(file_obj['scales'].keys())
+            self.taskkeys = list(file_obj['tasks'].keys())
             print("Scale keys:", self.scalekeys)
             print("Task keys:", self.taskkeys)
             
             if self.dimension == 2:
+                # We assume the last two keys correspond to x and z
                 xhash = self.scalekeys[-2]
                 zhash = self.scalekeys[-1]
-                self.x = np.array(file['scales'][xhash])
-                self.z = np.array(file['scales'][zhash])
+                self.x = np.array(file_obj['scales'][xhash])
+                self.z = np.array(file_obj['scales'][zhash])
             elif self.dimension == 3:
                 xhash = self.scalekeys[-3]
                 yhash = self.scalekeys[-2]
                 zhash = self.scalekeys[-1]
-                self.x = np.array(file['scales'][xhash])
-                self.y = np.array(file['scales'][yhash])
-                self.z = np.array(file['scales'][zhash])
+                self.x = np.array(file_obj['scales'][xhash])
+                self.y = np.array(file_obj['scales'][yhash])
+                self.z = np.array(file_obj['scales'][zhash])
             else:
                 raise ValueError("Unsupported number of dimensions. Please use 2 or 3.")
 
     def get_sim_time(self):
         self.sim_time = []
         for file_path in self.file_paths:
-            with h5py.File(file_path, mode='r') as file:
-                st = file['scales/sim_time']
+            with h5py.File(file_path, mode='r') as file_obj:
+                st = file_obj['scales/sim_time']
                 self.sim_time.extend(np.array(st))
 
     def load_data(self, task_name):
@@ -80,8 +83,8 @@ class Plot:
         # Load data if not in cache
         data = []
         for file_path in self.file_paths:
-            with h5py.File(file_path, 'r') as file:
-                task = file['tasks'][task_name][:]
+            with h5py.File(file_path, 'r') as file_obj:
+                task = file_obj['tasks'][task_name][:]
                 data.append(task)
         
         data = np.concatenate(data, axis=0)
@@ -95,8 +98,23 @@ class Plot:
         """
         self._data_cache.clear()
 
+    def nonlinear_space(self, a, b, n, concentration=1.0):
+        """
+        Return n levels between a and b with non-linear spacing.
+        If concentration == 1.0 the spacing is linear.
+        For concentration != 1.0, the spacing is modified by raising a linear
+        space to the given power.
+        """
+        linear = np.linspace(0, 1, n)
+        if concentration != 1.0:
+            nonlinear = linear ** concentration
+        else:
+            nonlinear = linear
+        levels = a + (b - a) * nonlinear
+        return levels
+
     def plot_all_snapshots(self, task_name, output_dir=None, cmap='RdBu_r', vmin=None, vmax=None, 
-                          levelnum=10, figure_size=(10, 8), concentration=1.0):
+                             levelnum=10, figure_size=(10, 8), concentration=1.0):
         """
         Optimized version of plot_all_snapshots with:
         - Single data load with caching
@@ -140,8 +158,8 @@ class Plot:
             
             # Create new contour plot
             cont = ax.contourf(self.x, self.z, data[t].T, 
-                             cmap=cmap, 
-                             levels=levels)
+                                 cmap=cmap, 
+                                 levels=levels)
             
             # Add colorbar (only on first iteration)
             if t == 0:
@@ -154,8 +172,8 @@ class Plot:
             
             # Save the current frame
             plt.savefig(os.path.join(output_dir, f'{task_name}_{t:04d}.png'), 
-                       dpi=200, 
-                       bbox_inches='tight')
+                        dpi=200, 
+                        bbox_inches='tight')
             
             # Clean up contour collections to free memory
             for coll in cont.collections:
@@ -175,21 +193,15 @@ class Plot:
 
         Args:
             task_name (str): Name of the task to animate.
-            output_file (str, optional): Path to save the animation. Defaults to None.
-            fps (int, optional): Frames per second. Defaults to 10.
-            use_existing_pics (bool, optional): Use existing pictures if available. Defaults to True.
             output_type (str, optional): Type of output file ('gif' or 'mp4'). Defaults to 'gif'.
         """
         if output_dir is None:
             output_file = os.path.join(self.save_dir, f'{task_name}_animation.{output_type}')
             pics_folder = os.path.join(self.save_dir, task_name)
-            
         else:
             output_file = os.path.join(output_dir, f'{task_name}_animation.{output_type}')
             pics_folder = os.path.join(output_dir, task_name)
 
-
-        
         existing_pics = sorted(glob.glob(os.path.join(pics_folder, f'{task_name}_*.png')))
 
         if use_existing_pics and existing_pics:
@@ -199,7 +211,6 @@ class Plot:
             print("Generating new animation from data")
             self.create_animation_from_data(task_name, output_file, fps, output_type)
 
-
     def create_animation_from_pics(self, pic_files, output_file, fps, output_type):
         images = [Image.open(f) for f in pic_files]
         
@@ -207,8 +218,7 @@ class Plot:
             images[0].save(output_file, save_all=True, append_images=images[1:], 
                            duration=1000/fps, loop=0)
         elif output_type.lower() == 'mp4':
-            import moviepy.editor as mpy
-            clip = mpy.ImageSequenceClip(pic_files, fps=fps)
+            clip = moviepy.editor.ImageSequenceClip(pic_files, fps=fps)
             clip.write_videofile(output_file)
         else:
             raise ValueError("Output type must be either 'gif' or 'mp4'")
@@ -226,11 +236,12 @@ class Plot:
             output_type (str): Type of output file ('gif' or 'mp4').
         """
         data = self.load_data(task_name)
-        # print(data.shape)
-
         fig, ax = plt.subplots(figsize=(10, 8))
 
-        vmin, vmax = self.get_global_minmax(task_name)
+        vmin, vmax = self.get_global_minmax(task_name) if hasattr(self, 'get_global_minmax') else (None, None)
+        # If get_global_minmax is not defined, calculate from data:
+        if vmin is None or vmax is None:
+            vmin, vmax = np.min(data), np.max(data)
         
         im = ax.imshow(data[0].T, cmap='RdBu_r', aspect='auto', origin='lower', 
                        vmin=vmin, vmax=vmax, extent=[self.x[0], self.x[-1], self.z[0], self.z[-1]])
@@ -257,6 +268,99 @@ class Plot:
         anim.save(output_file, writer=writer)
         plt.close(fig)
         print(f"Animation saved as {output_file}")
+
+    def plot_integrated_snapshots(self, task_name, save_dirs, output_dir=None, cmap='RdBu_r', 
+                                  vmin=None, vmax=None, levelnum=10, figure_size=(15, 8), 
+                                  concentration=1.0, ncols=None):
+        """
+        Create an integrated figure from multiple simulation directories.
+        Each directory (in save_dirs) is assumed to have its own simulation data.
+        For each time step, a figure is created with one subplot per simulation and
+        a single shared colorbar.
+        
+        Args:
+            task_name (str): The task name to plot.
+            save_dirs (list of str): List of directories where simulation data are stored.
+            output_dir (str, optional): Where to save the integrated snapshots.
+            cmap (str, optional): Colormap to use.
+            vmin, vmax (float, optional): Color scale limits; if None, computed from data.
+            levelnum (int, optional): Number of contour levels.
+            figure_size (tuple, optional): Figure size.
+            concentration (float, optional): Parameter for nonlinear spacing of levels.
+            ncols (int, optional): Number of subplot columns. If None, defaults to min(number of simulations, 3).
+        """
+        # Create a Plot instance for each save directory.
+        plots = []
+        for sd in save_dirs:
+            p = Plot(save_dir=sd, handler=self.handler, dimension=self.dimension)
+            plots.append(p)
+        num_plots = len(plots)
+        
+        # Setup output directory
+        if output_dir is None:
+            # Save integrated figures in a subfolder of self.save_dir
+            output_dir = os.path.join(self.save_dir, f'{task_name}_integrated')
+        else:
+            output_dir = os.path.join(output_dir, f'{task_name}_integrated')
+        os.makedirs(output_dir, exist_ok=True)
+        
+        # Load the data for each simulation.
+        data_list = []
+        for p in plots:
+            data = p.load_data(task_name)
+            data_list.append(data)
+        
+        # Assume that all simulations have the same number of frames.
+        total_frames = len(plots[0].sim_time)
+        for p in plots:
+            if len(p.sim_time) != total_frames:
+                print("Warning: Not all simulations have the same number of frames. Using the minimum available.")
+                total_frames = min(total_frames, len(p.sim_time))
+        
+        # Determine global vmin and vmax across all simulations if not provided.
+        if vmin is None or vmax is None:
+            all_min = min(np.min(d[:total_frames]) for d in data_list)
+            all_max = max(np.max(d[:total_frames]) for d in data_list)
+            vmin = all_min if vmin is None else vmin
+            vmax = all_max if vmax is None else vmax
+        
+        # Calculate contour levels (used for contourf plots)
+        levels = self.nonlinear_space(a=vmin, b=vmax, n=levelnum, concentration=concentration)
+        
+        # Determine subplot grid arrangement:
+        if ncols is None:
+            ncols = min(num_plots, 3)  # use at most 3 columns by default
+        nrows = int(np.ceil(num_plots / ncols))
+        
+        # Loop over each time snapshot
+        for t in range(total_frames):
+            fig, axes = plt.subplots(nrows, ncols, figsize=figure_size, squeeze=False)
+            axes_flat = axes.flatten()
+            # Plot each simulation in its own subplot.
+            for i, p in enumerate(plots):
+                ax = axes_flat[i]
+                # For a 2D case, plot with contourf using the grid (p.x, p.z)
+                cont = ax.contourf(p.x, p.z, data_list[i][t].T, cmap=cmap, levels=levels)
+                ax.set_xlabel('x')
+                ax.set_ylabel('z')
+                # Title uses the base name of the save directory and the simulation time.
+                ax.set_title(f"{os.path.basename(p.save_dir)}, t = {p.sim_time[t]:.2f}")
+            # Turn off any unused subplots
+            for j in range(num_plots, len(axes_flat)):
+                axes_flat[j].axis('off')
+            # Add a single colorbar for the entire figure.
+            cbar = fig.colorbar(cont, ax=axes, orientation='vertical', fraction=0.02, pad=0.04)
+            cbar.set_label(task_name)
+            # Optionally add an overall title.
+            fig.suptitle(f"{task_name} Integrated Snapshots, t = {plots[0].sim_time[t]:.2f}")
+            # Save the figure.
+            filename = os.path.join(output_dir, f'{task_name}_integrated_{t:04d}.png')
+            plt.savefig(filename, dpi=200, bbox_inches='tight')
+            plt.close(fig)
+            if (t + 1) % 10 == 0:
+                print(f"Processed {t + 1}/{total_frames} integrated frames.")
+        print("Finished processing all integrated snapshots!")
+
         
     @staticmethod
     def nonlinear_space(a, b, n, concentration=0.5):

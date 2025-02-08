@@ -192,7 +192,8 @@ M['g'] += (M_H-M_0)*z/Lz+M_0 # Add linear background
 M.change_scales(dealias)
 
 M['g'] *=(1-mask['g']) # Apply mask
-# M['g'] *= (1-sponge['g']) # Apply sponge
+u['g'] += sponge['g']*u_s*ex # Apply sponge
+
 time['g']=0
 
 # M.change_scales(1)
