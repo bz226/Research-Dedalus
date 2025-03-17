@@ -169,7 +169,7 @@ class Plot:
             ax.set_xlabel('x')
             ax.set_ylabel('z')
             ax.set_title(f"{task_name}, t = {self.sim_time[t]:.2f}")
-            if scaling = True:
+            if scaling:
                 plt.xlim(xmin,xmax)
                 plt.ylim(ymin,ymax)
             # Save the current frame
