@@ -114,7 +114,7 @@ class Plot:
         return levels
 
     def plot_all_snapshots(self, task_name, output_dir=None, cmap='RdBu_r', vmin=None, vmax=None, 
-                             levelnum=10, figure_size=(10, 8), concentration=1.0):
+                             levelnum=10, figure_size=(10, 8), concentration=1.0,scaling=False,xmin=0, xmax=0,ymin=0,ymax=0):
         """
         Optimized version of plot_all_snapshots with:
         - Single data load with caching
@@ -169,7 +169,9 @@ class Plot:
             ax.set_xlabel('x')
             ax.set_ylabel('z')
             ax.set_title(f"{task_name}, t = {self.sim_time[t]:.2f}")
-            
+            if scaling = True:
+                plt.xlim(xmin,xmax)
+                plt.ylim(ymin,ymax)
             # Save the current frame
             plt.savefig(os.path.join(output_dir, f'{task_name}_{t:04d}.png'), 
                         dpi=200, 
