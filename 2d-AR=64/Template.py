@@ -88,6 +88,8 @@ u = dist.VectorField(coords, name='u', bases=(xbasis,zbasis))
 Z = dist.Field(name='Z', bases=zbasis)
 T = dist.Field(name='T', bases=(xbasis,zbasis))
 C = dist.Field(name='C', bases=(xbasis,zbasis))
+X = dist.Field(name='X', bases=(xbasis,zbasis))
+Y = dist.Field(name='Y', bases=(xbasis,zbasis))
 Qr = dist.Field(name='Q', bases=(xbasis,zbasis))
 Nsz = dist.Field(name='Nsz', bases=(xbasis,zbasis))
 
@@ -106,7 +108,10 @@ tau_T1 = dist.Field(name='tau_t1', bases=xbasis)
 tau_T2 = dist.Field(name='tau_t2', bases=xbasis)
 tau_C1 = dist.Field(name='tau_c1', bases=xbasis)
 tau_C2 = dist.Field(name='tau_c2', bases=xbasis)
-
+tau_X1 = dist.Field(name='tau_x1', bases=xbasis)
+tau_X2 = dist.Field(name='tau_x2', bases=xbasis)
+tau_Y1 = dist.Field(name='tau_y1', bases=xbasis)
+tau_Y2 = dist.Field(name='tau_y2', bases=xbasis)
 # Substitutions    
 #Kuo_Bretherton Equilibrium
 # kappa = (Ra_M * Prandtl/((M_0-M_H)*Lz**3))**(-1/2)
@@ -158,17 +163,21 @@ grad_M = d3.grad(M) + ez*lift(tau_M1) # First-order reduction
 grad_D = d3.grad(D) + ez*lift(tau_D1) # First-order reduction
 grad_T = d3.grad(T) + ez*lift(tau_T1)
 grad_C = d3.grad(C) + ez*lift(tau_C1)
+grad_X = d3.grad(X) + ez*lift(tau_X1)
+grad_Y = d3.grad(Y) + ez*lift(tau_Y1)
 
 # Problem
 # First-order form: "div(f)" becomes "trace(grad_f)"
 # First-order form: "lap(f)" becomes "div(grad_f)"
-problem = d3.IVP([p, M, D, u, T, C, tau_p, tau_M1, tau_M2, tau_D1, tau_D2, tau_u1, tau_u2, tau_T1, tau_T2, tau_C1, tau_C2], namespace=locals())
+problem = d3.IVP([p, M, D, u, T, C, X, Y, tau_p, tau_M1, tau_M2, tau_D1, tau_D2, tau_u1, tau_u2, tau_T1, tau_T2, tau_C1, tau_C2, tau_X1, tau_X2, tau_Y1, tau_Y2], namespace=locals())
 problem.add_equation("trace(grad_u) + tau_p= 0")
 problem.add_equation("dt(M) - kappa*div(grad_M) + lift(tau_M2) = - u@grad(M)-Qrad/2*Qr")
 problem.add_equation("dt(D) - kappa*div(grad_D) + lift(tau_D2) = - u@grad(D)-Qrad*Qr")
 problem.add_equation("dt(u) - nu*div(grad_u) + grad(p)  + lift(tau_u2) = - u@grad(u)+ B_op*ez")
 problem.add_equation("dt(T) - kappa*div(grad_T) + lift(tau_T2) = - u@grad(T)+1")
 problem.add_equation("dt(C) - kappa*div(grad_C) + lift(tau_C2) = - u@grad(C)+1")
+problem.add_equation("dt(X) - kappa*div(grad_X) + lift(tau_X2) = - u@grad(X)")
+problem.add_equation("dt(Y) - kappa*div(grad_Y) + lift(tau_Y2) = - u@grad(Y)+Qr")
 problem.add_equation("u(z=0) = 0")
 problem.add_equation("uz(z=Lz) = 0")
 problem.add_equation("dz(ux)(z=Lz)=0")
@@ -180,6 +189,11 @@ problem.add_equation("dz(T)(z=0) = 0")
 problem.add_equation("T(z=1) = 0")
 problem.add_equation("C(z=0) = 0")
 problem.add_equation("dz(C)(z=Lz) = 0")
+problem.add_equation("X(z=0) = 0")
+problem.add_equation("X(z=1) = 1")
+problem.add_equation("Y(z=0) = 0")
+problem.add_equation("Y(z=1) = 0")
+
 problem.add_equation("integ(p) = 0") # Pressure gauge
 
 # %%
@@ -211,6 +225,9 @@ snapshots.add_task(d3.Average(B_op, coords['x']), name='horizontal avg B')
 snapshots.add_task(d3.Average(lq, coords['x']), name='horizontal avg liquid')
 snapshots.add_task(d3.Average(T, coords['x']), name='horizontal avg T')
 snapshots.add_task(d3.Average(C, coords['x']), name='horizontal avg C')
+snapshots.add_task(d3.Average(X, coords['x']), name='horizontal avg X')
+snapshots.add_task(d3.Average(Y, coords['x']), name='horizontal avg Y')
+snapshots.add_task(d3.Average(X*(M_H-M_0)-1/2*Qrad*Y, coords['x']), name='horizontal avg G')
 snapshots.add_task(d3.Average(uz, coords['x']), name='horizontal avg uz')
 snapshots.add_task(d3.Average(uz*B_op, coords['x']), name='horizontal avg vertical B flux')
 snapshots.add_task(d3.Average(uz*T, coords['x']), name='horizontal avg vertical T flux')
@@ -239,7 +256,10 @@ if analysison == True:
     analysis.add_task(M, name='M')
     analysis.add_task(C, name='C')
     analysis.add_task(T, name='T')
+    analysis.add_task(X, name='X')
+    analysis.add_task(Y, name='Y')
     analysis.add_task(B_op, name='B')
+    analysis.add_task(X*(M_H-M_0)-1/2*Qrad*Y, name='G')
     analysis.add_task(uz, name='uz')
     analysis.add_task(uz*C, name='C flux')
     analysis.add_task(uz*B_op, name='B flux')
